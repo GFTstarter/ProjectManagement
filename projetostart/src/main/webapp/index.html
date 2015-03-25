@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="ProjetoStartApp">
+	<head>
+		<title>Management Support Project</title>
+		
+		<!-- Bootstrap -->
+		<link href="css/bootstrap-2.3.2.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive-2.3.2.css" rel="stylesheet">
+		
+		<!-- Kendo UI -->
+		<link type="text/css" rel="stylesheet" href="http://cdn.kendostatic.com/2014.1.416/styles/kendo.common.min.css"/>
+	    <link type="text/css" rel="stylesheet" href="http://cdn.kendostatic.com/2014.1.416/styles/kendo.default.min.css"/>
+	    
+	    <!-- JQuery UI -->
+	    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+		  		
+		<style>
+			#header {
+				height: 180px;
+				width:  100%;
+			}
+		</style>		
+	</head>
+	<body>
+	
+		<div class="container">
+			<div id="header">
+				<img alt="logoGft" src="img/newlogo.jpg" class="img-responsive" style="float:right; clear:both; width: 450px; margin-top: 35px;">
+			</div>
+		</div>
+				
+		<div class="container">
+			<div class="alert alert-error" ng-show="error">{{error}}</div>
+			<div ng-view></div>		
+		</div>
+	   	
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+	    <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+	    <script type="text/javascript" src="https://code.angularjs.org/1.2.9/angular.min.js"></script>
+	    <script type="text/javascript" src="https://code.angularjs.org/1.2.9/angular-resource.min.js"></script>
+	    <script src="https://code.angularjs.org/1.2.9/angular-route.min.js"></script>
+	    <script type="text/javascript" src="http://cdn.kendostatic.com/2014.1.416/js/kendo.all.min.js"></script>
+	    <script type="text/javascript" src="http://kendo-labs.github.io/angular-kendo/angular-kendo.js"></script>
+		<script src="lib/bootstrap.js"></script>
+		<script src="js/interceptor.js"></script>
+		<script src="js/application.js"></script>
+		<script src="js/authentication.js"></script>
+		<script src="js/router.js"></script>
+		<script src="js/controller/LoginController.js"></script>
+		<script src="js/controller/HomeController.js"></script>
+		<script src="js/controller/ProjectController.js"></script>
+		<script src="js/service/LoginService.js"></script>
+		<script src="js/service/HomeService.js"></script>
+		<script src="js/service/ProjectService.js"></script>
+		
+	</body>
+</html>

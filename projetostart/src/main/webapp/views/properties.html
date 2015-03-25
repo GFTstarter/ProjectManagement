@@ -1,0 +1,229 @@
+<style>
+	.gridProperties {
+		width: 850px;
+		float:right;
+		clear:both;
+		
+	}
+</style>
+
+<div class="row-fluid" ng-controller="PropertiesController">	
+	<fieldset>
+		<legend>Properties...</legend>
+		
+	    <ul kendo-panel-bar k-options="panelBarOptions" style="display: inline-block; min-width: 250px;"
+	        k-on-select="onSelect(kendoEvent)">	        
+          	<li id="project">
+			    <span class="k-link k-state-selected">Project</span>
+		 	</li>
+			<li id="people">
+			    People
+		 	</li>
+		 	<li id="calendar">
+			    Calendar
+		 	</li>
+		 	<li id="profile">
+			    Profile
+		 	</li>	
+        </ul>
+			
+   		<div id="gridProjects" kendo-grid k-data-source="gridProjects" k-selectable="'inline'"
+			 k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	  		 k-filterable="true" k-sortable="true" k-resizable = "true" k-editable = "'incell'"
+           	 class="gridProperties" k-toolbar="['save','cancel']"
+           	 k-columns= '[{ field: "projectCode", title: "CODE"},
+		    			  { field: "name", title: "NAME"},
+		    			  { field: "startDate", title: "START DATE"},
+		    			  { field: "endDate", title: "END DATE"},
+		    			  { command: ["update"], title: "", width: "110px"}]'>
+		</div>
+
+		<div id="gridPeoples" kendo-grid k-data-source="gridPeopleView" 
+      		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+		  	 k-filterable="true" k-editable="'incell'" k-sortable="true" k-resizable = "true"
+             class="gridProperties" k-toolbar="['save','cancel']"            
+             k-columns='[{ "field": "resource", "title": "NAME"},
+			    		 { "field": "concept", "title": "CONCEPT"},
+			    		 { "field": "entity", "title": "LEGAL ENTITY"},
+			    		 { "field": "location", "title": "CITY"},
+		    			  { command: ["update"], title: "", width: "110px"}]'
+			style="display:none;">
+		</div>
+			
+		<div id="gridCalendar" kendo-grid k-data-source="gridCalendar" 
+      		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+		  	 k-filterable="true" k-editable="'incell'" k-sortable="true"
+             k-resizable = "true" class="gridProperties" k-toolbar="['save','cancel']"           	            
+		  	 k-columns='[{ "field": "description", "title": "DESCRIPTION"},
+			    		 { "field": "date", "title": "DATE"},
+			    		 { "field": "hours", "title": "HOURS" },
+			    		 { "field": "weekDay", "title": "WEEK DAY" },
+			    		 {"field": "location", "title": "CITY"},
+			    		 { command: ["update"], title: "", width: "110px" }]'
+		  	style="display:none;">
+		</div>
+
+		<div id="gridProfile" 
+			 kendo-grid k-data-source="gridProfileView" 
+      		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+		  	 k-filterable="true" k-editable="'incell'" k-sortable="true"
+             k-resizable="true" class="gridProperties" k-toolbar="['save','cancel']"           	            
+		  	 k-columns='[{ "field": "concept", "title": "CONCEPT"},
+			    		 { "field": "blpCost", "title": "BLP COST"},
+			    		 { "field": "blpCostSimulation", "title": "BLP SIMULATION" },
+			    		 { "field": "entity", "title": "LEGAL ENTITY" },
+			    		 { command: ["update"], title: "", width: "110px" }]'
+            style="display:none;">
+		</div>		
+	</fieldset>
+</div>	
+
+
+<script>
+
+function PropertiesController ($scope, $location) {
+
+	$scope.onSelect = function(e) {  
+    	
+		var id = $(e.item).attr('id'); //PEGA O ID DO ITEM CLICLADO
+	    	
+		if (id == 'project') {
+			
+			$("#gridProjects").css("display", "");
+			$("#gridPeoples").css("display", "none");
+			$("#gridCalendar").css("display", "none");
+			$("#gridProfile").css("display", "none");
+	    		
+    		$scope.gridProjects = new kendo.data.DataSource({ 
+    			autoSync: true, 
+    			batch: false,
+           		page: 1,
+        		pageSize: 10,
+				transport: {
+					read: {
+						url: "rest/project",
+						contentType: "application/json; charset=utf-8",
+						dataType: "json"
+					}, 	
+					 	           
+					update: {
+						url: "rest/project",
+						contentType: "application/json; charset=utf-8",
+						type: "PUT",
+						dataType: "json"
+					},
+				},
+      		   	 
+				schema: {
+					model: {id: "idProject"},
+					type: "json"
+				},
+				
+       		});
+    	}
+	
+    	if (id == 'people') {
+    		
+    		$("#gridProjects").css("display", "none");
+    		$("#gridPeoples").css("display", "");
+    		$("#gridCalendar").css("display", "none");
+    		$("#gridProfile").css("display", "none"); 
+    		
+    		$scope.gridPeopleView = new kendo.data.DataSource({ 
+    			AutoSync: true,
+        		page: 1,
+        		pageSize: 10,
+        		transport: {
+                   	read: {         	   
+                	   url: "rest/people",
+                	   contentType: "application/json; charset=utf-8",
+                       dataType: "json"
+                   	},
+                   	
+                   	update: {         	   
+                 	   url: "rest/resource",
+                 	   contentType: "application/json; charset=utf-8",
+                       dataType: "json",
+                       type: "PUT"
+                    },
+        		},
+        		
+        		schema: {
+    		   	    model: {id: "idResource"},
+        			type: "json"
+    		   	},
+    		   	
+       	   });
+       } 
+	    	
+		
+    	if (id == 'calendar') {
+    		
+    		$("#gridProjects").css("display", "none");
+    		$("#gridPeoples").css("display", "none");
+    		$("#gridCalendar").css("display", "");
+    		$("#gridProfile").css("display", "none");
+    		    		
+    		$scope.gridCalendar = new kendo.data.DataSource({ 
+    			autoSync: true,
+        		page: 1,
+        		pageSize: 10,
+        		transport: {
+       		      read: {         	   
+					url: "rest/calendar",
+					contentType: "application/json; charset=utf-8",
+					dataType: "json"
+       		      },
+       		      
+	 	          update: {
+	        	      url: "rest/calendar",
+	        	      type: "PUT",
+	        	      contentType: "application/json; charset=utf-8",
+	        	      dataType: "json" 
+	 	           },
+        		}, 
+        		
+        		schema: {
+    		   	    model: { id: "idHoliday"},
+    		   	    type: "json"
+        		},
+        	});
+    		
+    	}
+	
+    	if (id == 'profile') {
+    		
+    		$("#gridProjects").css("display", "none");
+    		$("#gridPeoples").css("display", "none");
+    		$("#gridCalendar").css("display", "none");
+    		$("#gridProfile").css("display", "");
+    		
+    		$scope.gridProfileView = new kendo.data.DataSource({ 
+    			AutoSync: true,
+    			page: 1,
+    			pageSize: 10,
+    		   	transport: {
+    		    	read: {         	   
+    		    	   url: "rest/profile",
+    		    	   contentType: "application/json; charset=utf-8",
+    		           dataType: "json"
+    		       	}, 
+    		       	
+    		        update: {
+	 	        	      url: "rest/conceptByLegalEntity",
+	 	        	      type: "PUT",
+	 	        	      contentType: "application/json; charset=utf-8",
+	 	        	      dataType: "json" 
+	 	           },
+    		   	}, 
+    		
+    			 schema: {
+     		   	    model: { id: "idConceptLegalEntity"},
+     		   	    type: "json"
+     		   	},     		   	
+    		}); 
+    	} 
+    	    	
+  	};
+}
+</script>

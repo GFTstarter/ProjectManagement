@@ -1,0 +1,28 @@
+<div class="container" ng-show="user">
+	<div id="content" style="margin-bottom: 10px;">	
+		<div class="muted" style="float:right;">
+			<i class="icon-user"></i> Username: <span class="label label-info">{{user.name}}</span> | <a ng-click="logout()">Logout</a>
+		</div>	
+					
+		<button class="btn btn-primary" ng-click="addProj.open().center()" kendo-tooltip k-content="'Click here to add a new project!'" k-position="'top'">Add <i class="icon-plus icon-white"></i></button>
+		<div kendo-window="addProj" k-title="'Add Project'" k-visible="false" k-content="{ url: 'views/addProject.html' }" k-modal="'true'"></div>
+				
+		<select kendo-combo-box k-placeholder="'Choose Project'" ng-model="selectedProject"
+				k-data-source="projects" k-data-value-field="'idProject'" k-data-text-field="'name'"
+				k-change="onChange" name="cmbProject" id="cmbProject">
+       	</select>				        	        	        
+	</div>
+</div>
+
+<div id="tabstrip" kendo-tab-strip k-content-urls="[null, 'views/planning.html', 'views/upload.html', 'views/properties.html']">
+  <ul>
+       <li><i class="icon-signal"></i> Dashboard</li>
+       <li><i class="icon-list-alt"></i> Planning</li>
+       <li class="k-state-active"><i class="icon-upload"></i> Upload</li>
+       <li><i class="icon-wrench"></i> Properties</li>
+   </ul>
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+</div>

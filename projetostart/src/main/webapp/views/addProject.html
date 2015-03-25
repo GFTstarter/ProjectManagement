@@ -1,0 +1,48 @@
+<div id="content" ng-controller="ProjectController">
+	<fieldset>
+		<legend>Add New Project</legend>
+		
+		<form class="form-horizontal" data-role="validator" name="addProjectForm" id="addProjectForm" ng-submit="submitProjectForm(addProjectForm.$valid)" kendo-validator novalidate>		
+			<div class="control-group">		
+				<label class="control-label" for="idProject">Project ID:</label>		
+				<div class="controls">		
+					<input  type="text" name="idProject" ng-model="project.projectCode" class="input-large"
+							placeholder="Project ID" required validationMessage="Inform your project ID"			
+							tabindex="-1" />							
+					&nbsp;<span class="k-invalid-msg" data-for="idProject"></span>
+				</div>
+			</div>			
+			<div class="control-group">		
+				<label class="control-label" for="name">Project Name:</label>		
+				<div class="controls">		
+					<input  type="text" name="name" ng-model="project.name" class="input-large" 
+							placeholder="Project Name" required validationMessage="Inform your project name" />							
+					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
+				</div>
+			</div>
+			<div class="control-group" >	
+				<label class="control-label" for="startDate">Start Date</label>
+				<div class="controls">
+		            <input	kendo-date-picker k-format="'yyyy-MM-dd'" name="startDate" data-type="date" 
+		            		ng-model="project.startDate" placeholder="YYYY-MM-DD" required />		            		   
+		            &nbsp;<span class="k-invalid-msg" data-for="startDate"></span>
+				</div>
+			</div>
+			<div class="control-group">	
+				<label class="control-label" for="endDate">End Date</label>
+				<div class="controls">
+		            <input  kendo-date-picker k-format="'yyyy-MM-dd'" name="endDate" data-type="date"
+		            		ng-model="project.endDate" placeholder="YYYY-MM-DD" required />		            		   
+		            &nbsp;<span class="k-invalid-msg" data-for="endDate"></span>		            
+				</div>
+			</div>
+			
+			<input type="hidden" name="idUser" ng-model="project.idUser" ng-init="init()" />
+					
+			<div style="float:right">								
+				<button name="reset"  id="btnReset" type="reset"  class="btn">Reset <i class="icon-refresh"></i></button>
+				<button name="submit" id="btnAddProject" type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="addProjectForm.$invalid">Submit <i class="icon-ok-sign icon-white"></i></button>
+			</div>							
+		</form>		
+	</fieldset>
+</div>

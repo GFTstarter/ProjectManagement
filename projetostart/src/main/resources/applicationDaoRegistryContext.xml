@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:ctx="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+			
+		<bean id="activitySheetDao" class="br.com.gft.managementSupport.dao.ActivitySheetDaoJpa"/>
+		<bean id="baselineDao" class="br.com.gft.managementSupport.dao.BaselineDaoJpa"/>
+		<bean id="conceptBylegalEntityDao" class="br.com.gft.managementSupport.dao.ConceptByLegalEntityDaoJpa"/>
+		<bean id="conceptDao" class="br.com.gft.managementSupport.dao.ConceptDaoJpa"/>
+		<bean id="holidayDao" class="br.com.gft.managementSupport.dao.HolidayDaoJpa"/>
+		<bean id="baselineByResourceDao" class="br.com.gft.managementSupport.dao.BaselineByResourceDaoJpa"/>
+		<bean id="legalEntityDao" class="br.com.gft.managementSupport.dao.LegalEntityDaoJpa"/>
+		<bean id="locationDao" class="br.com.gft.managementSupport.dao.LocationDaoJpa"/>
+		<bean id="projectDao" class="br.com.gft.managementSupport.dao.ProjectDaoJpa"/>
+		<bean id="resourceDao" class="br.com.gft.managementSupport.dao.ResourceDaoJpa"/>
+		<bean id="roleDao" class="br.com.gft.managementSupport.dao.RoleDaoJpa"/>			
+		<bean id="userDao" class="br.com.gft.managementSupport.dao.UserDaoJpa"/>		
+		
+		<bean id="planningDao" class="br.com.gft.managementSupport.rowMapper.PlanningDaoRowMapper">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+		
+		<bean id="peopleDao" class="br.com.gft.managementSupport.rowMapper.PeopleDaoRowMapper">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+		
+		<bean id="profileDao" class="br.com.gft.managementSupport.rowMapper.ProfileDaoRowMapper">
+			<property name="dataSource" ref="dataSource" />
+		</bean>	
+		
+		<bean id="calendarDao" class="br.com.gft.managementSupport.rowMapper.CalendarDaoRowMapper">
+			<property name="dataSource" ref="dataSource" />
+		</bean>	
+		
+					
+			
+</beans>

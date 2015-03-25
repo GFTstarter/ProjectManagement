@@ -1,0 +1,163 @@
+<div class="row-fluid">						
+	<fieldset>
+		<legend>Upload files...</legend>
+		
+		<span id="notification" style="display:none;"></span>
+		<script id="successTemplate" type="text/x-kendo-template">
+        	<div class="upload-success">
+            	<h3>#= message #</h3>
+            </div>
+        </script>
+        
+        <script id="errorTemplate" type="text/x-kendo-template">
+        	<div class="upload-failed">
+                <h3>#= message #</h3>
+			</div>
+        </script>
+           			
+           							
+		<div ng-controller="myUploadControl">				
+			<div class="row-fluid thumbnail inner-border">
+				<div class="control-group">
+					<label for="uploadHoliday"><i class="icon-calendar"></i> <strong>Holidays</strong></label>
+					<div class="controls">					
+						<input kendo-upload name="file" type="file" id="uploadHoliday"
+						       k-multiple="false" accept=".csv" tabindex="1"
+						       k-async="{ saveUrl: 'rest/uploadHoliday/readHoliday', autoUpload: false }"						       
+						       k-success="onSuccess" k-error="onError" k-upload="onUpload" />
+					</div>			
+				</div>
+			</div>		
+			<br/>		
+			<div class="row-fluid thumbnail inner-border">
+				<div class="control-group">
+					<label for="uploadBaseline"><i class="icon-list"></i> <strong>Baseline</strong></label>
+					<div class="controls">						
+						<input kendo-upload name="file" type="file" id="uploadBaseline"
+						       k-multiple="false" accept=".csv" tabindex="2"
+						       k-async="{ saveUrl: 'rest/uploadBaseline/readBaseline', autoUpload: false }"						       
+						       k-success="onSuccess" k-error="onError" k-upload="onUpload" />
+					</div>	
+				</div>       					
+			</div>		
+			<br/>		
+			<div class="row-fluid thumbnail inner-border">
+				<div class="control-group">
+					<label for="uploadActivity"><i class="icon-tasks"></i> <strong>Activity</strong></label>
+					<div class="controls">					
+						<input kendo-upload name="file" type="file" id="uploadActivity"
+						       k-multiple="false" accept=".csv" tabindex="3"
+						       k-async="{ saveUrl: 'rest/uploadActivity/readActivity', autoUpload: false }"						       
+						       k-success="onSuccess" k-error="onError" k-upload="onUpload" />	
+					</div>			
+				</div>
+			</div>			
+		</div>		
+		<br/>
+	</fieldset>	
+</div>
+      
+                  
+<script> 
+
+	// Upload events
+	function myUploadControl($scope) {
+		
+		$scope.onSuccess = function (e) {
+		    notification.show({
+		        message: e.response.status
+		    }, "upload-success");
+		};
+		
+		$scope.onError = function (e) {
+			notification.show({
+				message: e.XMLHttpRequest.responseText
+			}, "error");
+		};
+		
+		$scope.onUpload = function(e) {
+			if(confirm("Confirm the changes? All the data will be updated!")){				
+				return true;
+			} else {
+				e.preventDefault();
+			}				
+		}	
+	}
+	
+	
+	// Upload notification
+	var notification = $("#notification").kendoNotification({
+	    position: {
+	        pinned: true,
+	        top: 220,
+	        right: 30
+	    },
+	    autoHideAfter: 1500,
+	    stacking: "down",
+	    templates: [{            
+	        type: "upload-success",
+	        template: $("#successTemplate").html()
+	    }, {
+	    	type: "error",
+	    	template: $("#errorTemplate").html()
+	    }]	
+	}).data("kendoNotification");
+	
+</script>
+
+<style>
+
+	/* Success notification template */
+	.k-notification-upload-success.k-group {
+	    background: rgba(0%,60%,0%,.7);
+	    color: #fff;
+	}
+	
+	.upload-success {
+	    width: 240px;
+	    height: 100px;
+	    padding: 0 30px;
+	    line-height: 100px;
+	}
+	
+	.upload-success h3 {
+	    font-size: 1.7em;
+	    font-weight: normal;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+	
+	.upload-success img {
+	    display: inline-block;
+	    vertical-align: middle;
+	    margin-right: 10px;
+	}
+	
+	
+	/* Error notification template */
+    .k-notification-error.k-group {
+        background: rgba(100%,0%,0%,.7);
+        color: #ffffff;
+    }
+    
+    .upload-failed {
+        width: 240px;
+	    height: 100px;
+	    padding: 0 30px;
+	    line-height: 100px;
+    }
+    
+    .upload-failed h3 {
+        font-size: 1.7em;
+	    font-weight: normal;
+	    display: inline-block;
+	    vertical-align: middle;
+    }
+    
+    .upload-failed img {
+       display: inline-block;
+	    vertical-align: middle;
+	    margin-right: 10px;
+    }	
+    
+</style>

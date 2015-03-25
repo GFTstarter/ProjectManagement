@@ -1,0 +1,72 @@
+<html>
+<script type="text/javascript" src="js/planning.js"></script>
+<div class="row-fluid">	
+	<legend>Planning...</legend>
+	<div id="example">
+         <div id="vertical">
+             <div id="top-pane">
+                 <div id="horizontal" style="height: 100%; width: 100%;">
+                     <div id="left-pane">
+                         <div class="pane-content">
+                             <h3>CREATE</h3>
+                             <dl>
+                             	<dt>Name: </dt>
+                             	<dd><input type="text" id="create-name"></dd>
+                             	<dt>Description: </dt>
+                             	<dd><textarea rows="5" cols="20" id="create-description"></textarea></dd>
+                             	<dd><button id="create-weapon">Create</button></dd>
+                             </dl>
+                         </div>
+                     </div>
+                     <div id="grid">
+				<table id="weapons">
+					<tr>
+						<th data-field="name">Nome</th>
+						<th data-field="description">Description</th>
+					</tr>
+				</table>
+			</div>
+                     <div id="right-pane">
+                         <div class="pane-content">
+                             <h3>EDIT</h3>
+	                             <dl>
+	                             	<dt>Name: </dt>
+	                             	<dd><input type="text" id="change-name"></dd>
+	                             	<dt>Description: </dt>
+	                             	<dd><textarea rows="5" cols="20" id="create-description"></textarea></dd>
+	                             	<dd><span><button id="change-weapon">Update</button>
+	                             	<button id="delete-weapon">Delete</button></span></dd>
+	                             </dl>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+    	</div>
+	</div>
+</div>
+
+</html>
+
+<style scoped>
+#vertical {
+	height: 380px;
+	width: 700px;
+	margin: 0 auto;
+}
+
+#middle-pane {
+	background-color: rgba(60, 70, 80, 0.10);
+}
+
+#bottom-pane {
+	background-color: rgba(60, 70, 80, 0.15);
+}
+
+#left-pane, #center-pane, #right-pane {
+	background-color: rgba(60, 70, 80, 0.05);
+}
+
+.pane-content {
+	padding: 0 10px;
+}
+</style>

@@ -1,0 +1,44 @@
+<style>
+ 	#content { 
+ 		width: 500px; 
+ 		margin: 0 auto; 
+ 		float:none 
+ 	} 
+</style>
+	
+<div id="content">
+	<div class="well">
+		<div class="row-fluid">
+			<form name="loginForm" ng-submit="submitLoginForm(loginForm.$valid)" kendo-validator novalidate>				
+				<fieldset>
+					<legend>Login</legend>			
+			    	<div class="control-group">
+			    		<label class="control-label" for="username">Username:</label>
+						<div class="controls">
+							<input type="email" name="username" ng-model="username" 
+								   class="input-large" placeholder="ex: myemail@gft.com" 
+								   required validationMessage="Inform your username" 
+								   data-email-msg="Username format is not valid" 
+								   autofocus tabindex="1" />
+							&nbsp;<span class="k-invalid-msg" data-for="username"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="password">Password:</label>
+						<div class="controls">
+							<input type="password" name="password" ng-model="password" 
+								   class="input-large" placeholder="password" 
+								   required validationMessage="Inform your password" 
+								   tabindex="2" />
+							&nbsp;<span class="k-invalid-msg" data-for="password"></span>
+						</div>
+					</div>
+					<div> 
+						<button name="reset"  id="btnReset" type="reset"  class="btn" tabindex="4" style="width:90px;margin-left:40px">Reset <i class="icon-refresh"></i></button>
+						<button name="submit" id="btnLogar" type="submit" class="btn btn-primary" ng-click="login()" tabindex="3" style="width:90px">Enter <i class="icon-user icon-white"></i></button>
+					</div>
+				</fieldset>
+			</form>
+		</div>		
+	</div>
+</div>
