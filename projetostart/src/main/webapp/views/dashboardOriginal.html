@@ -1,0 +1,150 @@
+<Div id="chart" style="width: 1000px; altura: 2000px"></div>
+
+<br>
+
+
+
+<table id="grid1">
+
+    <colgroup>
+        <col style="width:30px" />
+        <col style="width:30px" />
+        <col />
+    </colgroup>
+    <thead>
+        <tr>
+            <th data-field="k">K</th>
+            <th data-field="costrate">Cost Rate</th>
+            <th data-field="blphours">BLP Hours</th>
+            <th data-field="blptotalcost">BLP Total Cost</th>
+            <th data-field="eachours">EAC Hours</th>
+            <th data-field="eaccost">EAC Cost</th>
+            <th data-field="costdiff">Cost Diff</th>
+            <th data-field="coststatus">Cost Status</th>
+            <th data-field="verificar"></th>
+            <th data-field="" data-template="<a href='mailto:#= email #'>#= email #</a>"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>email@domain.com</td>
+        </tr>
+    </tbody>
+
+
+<br>
+
+
+<table id="grid2">
+    <colgroup>
+        <col style="width:30px" />
+        <col style="width:30px" />
+        <col />
+    </colgroup>
+    <thead>
+        <tr>
+            <th data-field="blp">BLP</th>
+            <th data-field="eac">EAC</th>
+            <th data-field="diff">Diff</th>
+            <th data-field="eac">EAC</th>
+            <th data-field="notes">Notes</th>
+            <th data-field="" data-template="<a href='mailto:#= email #'>#= email #</a>"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<br>
+<br>
+<button type="button" id="refreshButton" style="float:right"">Refresh</button>
+
+<script>
+$("#chart").kendoChart({
+    title: {
+        text: ""
+    },
+    legend: {
+        position: "top"
+    },
+    seriesDefaults: {
+        type: "scatterLine"
+    },
+    
+    
+    
+    series: [{
+        name: "BLP",
+        data: [[1000,  10], [1500, 19], [2000, 30]]
+
+    }, {
+        name: "Forecast",
+        data: [[1000,  50], [1500, 65], [2000, 80]],
+        yAxis: "torque"
+    }],
+    xAxis: {
+        title: "Engine rpm"
+    },
+    yAxis: [{
+        labels: {
+            format: ""
+        }
+    }, {
+        name: "torque",
+        labels: {
+            format: ""
+        }
+    }]
+});
+
+
+var people = [ { firstName: "John",
+                 lastName: "Smith",
+                 email: "" },
+               { firstName: "Jane",
+                 lastName: "Smith",
+                 email: "" },
+               { firstName: "Josh",
+                 lastName: "Davis",
+                 email: "" },
+               { firstName: "Cindy",
+                 lastName: "Jones",
+                 email: "" } ];
+
+ $("#grid1").kendoGrid({
+     dataSource: people
+ });
+ 
+ var people = [ { firstName: "John",
+     lastName: "Smith",
+     email: "" },
+   { firstName: "Jane",
+     lastName: "Smith",
+     email: "" },
+   { firstName: "Josh",
+     lastName: "Davis",
+     email: "" },
+   { firstName: "Cindy",
+     lastName: "Jones",
+     email: "" } ];
+
+$("#grid2").kendoGrid({
+dataSource: people
+});
+
+$(function(){
+    $("#refreshButton").kendoButton()
+
+});
+ 
+ </script>
+

@@ -41,15 +41,42 @@
 		<div id="gridPeoples" kendo-grid k-data-source="gridPeopleView" 
       		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 		  	 k-filterable="true" k-editable="'incell'" k-sortable="true" k-resizable = "true"
-             class="gridProperties" k-toolbar="['save','cancel']"            
-             k-columns='[{ "field": "resource", "title": "NAME"},
-			    		 { "field": "concept", "title": "CONCEPT"},
-			    		 { "field": "entity", "title": "LEGAL ENTITY"},
-			    		 { "field": "location", "title": "CITY"},
-		    			  { command: ["update"], title: "", width: "110px"}]'
-			style="display:none;">
-		</div>
+             class="gridProperties" k-toolbar="['save','cancel']"           
+             k-columns='[
+				{ "field": "resource", "title": "NAME"},
+				{ "field": "concept", "title": "CONCEPT"},
+				{ "field": "entity", "title": "LEGAL ENTITY"},
+				{ "field": "location", "title": "CITY"},
+				{ "command": ["update"], "title": "", "width": "110px"},
+				{
+					"command": "", 
+					"title": "Absence", 
+					"width": "60px",
+					"template": "<button class=\"btn\" ng-click=\"addAbsence.open().center()\" kendo-tooltip k-content=\"Click here to add a new absence!\" k-position=\"top\"><i class=\"icon-calendar\"></i></button>"
+				},
+				
+				{
+					"command": "", 
+					"title": "Travel", 
+					"width": "60px",
+					"template": "<button class=\"btn\" ng-click=\"addTravel.open().center()\" kendo-tooltip k-content=\"Click here to add a new travel!\" k-position=\"top\"><i class=\"k-icon k-i-calendar\"></i></button>"
+				}]'
+				
 			
+				
+				
+		style="display:none;">
+		</div>
+
+		<div kendo-window="addAbsence" k-title="'Add Absence'" k-visible="false" k-content="{ url: 'views/addAbsence.html' }" k-modal="'true'"></div>
+			
+		<div kendo-window="addTravel" k-title="'Add Travel'" k-visible="false" k-content="{ url: 'views/addTravel.html' }" k-modal="'true'"></div>
+			
+
+			
+			
+			
+					
 		<div id="gridCalendar" kendo-grid k-data-source="gridCalendar" 
       		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 		  	 k-filterable="true" k-editable="'incell'" k-sortable="true"
@@ -81,11 +108,12 @@
 
 <script>
 
+
 function PropertiesController ($scope, $location) {
 
 	$scope.onSelect = function(e) {  
     	
-		var id = $(e.item).attr('id'); //PEGA O ID DO ITEM CLICLADO
+		var id = $(e.item).attr('id');
 	    	
 		if (id == 'project') {
 			
@@ -115,8 +143,7 @@ function PropertiesController ($scope, $location) {
 				},
       		   	 
 				schema: {
-					model: {id: "idProject"},
-					type: "json"
+					model: {id: "idProject"}
 				},
 				
        		});
@@ -149,8 +176,7 @@ function PropertiesController ($scope, $location) {
         		},
         		
         		schema: {
-    		   	    model: {id: "idResource"},
-        			type: "json"
+    		   	    model: {id: "idResource"}
     		   	},
     		   	
        	   });
