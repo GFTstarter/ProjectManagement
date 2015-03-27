@@ -34,8 +34,7 @@
            	 k-columns= '[{ field: "projectCode", title: "CODE"},
 		    			  { field: "name", title: "NAME"},
 		    			  { field: "startDate", title: "START DATE"},
-		    			  { field: "endDate", title: "END DATE"},
-		    			  { command: ["update"], title: "", width: "110px"}]'>
+		    			  { field: "endDate", title: "END DATE"}]'>
 		</div>
 
 		<div id="gridPeoples" kendo-grid k-data-source="gridPeopleView" 
@@ -47,7 +46,6 @@
 				{ "field": "concept", "title": "CONCEPT"},
 				{ "field": "entity", "title": "LEGAL ENTITY"},
 				{ "field": "location", "title": "CITY"},
-				{ "command": ["update"], "title": "", "width": "110px"},
 				{
 					"command": "", 
 					"title": "Absence", 
@@ -59,7 +57,7 @@
 					"command": "", 
 					"title": "Travel", 
 					"width": "60px",
-					"template": "<button class=\"btn\" ng-click=\"addTravel.open().center()\" kendo-tooltip k-content=\"Click here to add a new travel!\" k-position=\"top\"><i class=\"k-icon k-i-calendar\"></i></button>"
+					"template": "<button class=\"btn\" ng-click=\"addTravel.open().center()\" kendo-tooltip k-content=\"Click here to add a new travel!\" k-position=\"top\"><i class=\"icon-plane\"></i></button>"
 				}]'
 				
 			
@@ -85,8 +83,7 @@
 			    		 { "field": "date", "title": "DATE"},
 			    		 { "field": "hours", "title": "HOURS" },
 			    		 { "field": "weekDay", "title": "WEEK DAY" },
-			    		 {"field": "location", "title": "CITY"},
-			    		 { command: ["update"], title: "", width: "110px" }]'
+			    		 {"field": "location", "title": "CITY"}]'
 		  	style="display:none;">
 		</div>
 
@@ -98,8 +95,7 @@
 		  	 k-columns='[{ "field": "concept", "title": "CONCEPT"},
 			    		 { "field": "blpCost", "title": "BLP COST"},
 			    		 { "field": "blpCostSimulation", "title": "BLP SIMULATION" },
-			    		 { "field": "entity", "title": "LEGAL ENTITY" },
-			    		 { command: ["update"], title: "", width: "110px" }]'
+			    		 { "field": "entity", "title": "LEGAL ENTITY"}]'
             style="display:none;">
 		</div>		
 	</fieldset>

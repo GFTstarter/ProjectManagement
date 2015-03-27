@@ -1,6 +1,7 @@
 package br.com.gft.managementSupport.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity (name = "travel")
 @SuppressWarnings("serial")
@@ -30,6 +33,18 @@ public class Travel implements Serializable {
 	
 	@ManyToMany(mappedBy = "travels")
 	private List<Resource> resources;
+	
+	@Column (name = "start_date", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+	
+	@Column (name = "end_date", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+    
+	@Column (name = "description", nullable = true)
+    private String description;
+    	
 	
 	public Long getIdTravel() {
 		return idTravel;
@@ -61,6 +76,30 @@ public class Travel implements Serializable {
 
 	public void setCostRate(Double costRate) {
 		this.costRate = costRate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	
 	

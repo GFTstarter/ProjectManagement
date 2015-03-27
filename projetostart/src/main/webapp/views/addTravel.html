@@ -2,50 +2,30 @@
 	<fieldset>
 		<legend>Add New Travel</legend>
 		
-		<form class="form-horizontal" data-role="validator" name="addTravelForm" id="addTravelForm" ng-submit="submitTravelForm(addTravelForm.$valid)" kendo-validator novalidate>		
-			<!--<div class="control-group">		
-				<label class="control-label" for="idTravel">Travel ID:</label>		
-				<div class="controls">		
-					<input  type="text" name="idTravel" ng-model="travel.travelCode" class="input-large"
-							placeholder="Travel ID" required validationMessage="Inform your travel ID"			
-							tabindex="-1" />							
-					&nbsp;<span class="k-invalid-msg" data-for="idTravel"></span>
-				</div>
-			</div>		
-			
-			-->	
-			<!--<div class="control-group">		
-				<label class="control-label" for="name">Resource Name:</label>		
+		<form class="form-horizontal" data-role="validator" name="addTravelForm" id="addTravelForm" ng-submit="submitTravelForm(addTravelForm.$valid)" kendo-validator novalidate>
+
+
+
+
+			<div>
+				<label class="control-label" for="name">Resource Name:</label> <select
+					kendo-combo-box k-placeholder="'Choose Travel'"
+					ng-model="selectedProject" k-data-source="projects"
+					k-data-value-field="'idProject'" k-data-text-field="'name'"
+					k-change="onChange" name="cmbTravel" id="cmbTravel">
+				</select>
+			</div>
+
+
+			<div class="control-group">		
+				<label class="control-label" for="name">Cost rate:</label>		
 				<div class="controls">		
 					<input  type="text" name="name" ng-model="travel.name" class="input-large" 
-							kendo-combo-box placeholder="'Travel Name'"  required validationMessage="Inform your travel name" />							
+							placeholder="Project Name" required validationMessage="Inform your project name" />							
 					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
-				</div>
-			</div>-->
-
-<!--
-			<div class="control-group">
-				<label class="control-label" for="name">Resource Name:</label>
-				<div class="controls">
-					<input type="text" autocomplete="on" name="cmbAnsence"
-						k-change="onChange" id="cmbTravel" ng-model="selectedTravel"
-						k-data-source="travels" k-data-value-field="'idTravel'"
-						k-data-text-field="'name'" class="input-large" kendo-combo-box
-						placeholder="Travel Name" required
-						validationMessage="Inform your travel name" /> &nbsp;<span
-						class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
 
--->
-
-<div>
-		<label class="control-label" for="name">Resource Name:</label>
-		<select kendo-combo-box k-placeholder="'Choose Travel'" ng-model="selectedProject"
-				k-data-source="projects" k-data-value-field="'idProject'" k-data-text-field="'name'"
-				k-change="onChange" name="cmbTravel" id="cmbTravel">
-       	</select>	
-</div>
 
 
 

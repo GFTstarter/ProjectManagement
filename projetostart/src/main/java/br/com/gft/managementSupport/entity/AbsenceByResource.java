@@ -45,6 +45,8 @@ public class AbsenceByResource implements Serializable {
     @Column (name = "work_hours", nullable = true)
     private int workHours;
     
+	@Column (name = "description", nullable = true)
+    private String description;
     
 
 	public Long getIdAbsenceResource() {
@@ -103,6 +105,13 @@ public class AbsenceByResource implements Serializable {
 		this.workHours = workHours;
 	}
 	
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 
 	@Override
