@@ -1,78 +1,52 @@
 <div id="content" ng-controller="HomeController">
 	<fieldset>
 		<legend>Add New Absence</legend>
-		
-		<form class="form-horizontal" data-role="validator" name="addAbsenceForm" id="addAbsenceForm" ng-submit="submitAbsenceForm(addAbsenceForm.$valid)" kendo-validator novalidate>		
-			<!--<div class="control-group">		
-				<label class="control-label" for="idAbsence">Absence ID:</label>		
-				<div class="controls">		
-					<input  type="text" name="idAbsence" ng-model="absence.absenceCode" class="input-large"
-							placeholder="Absence ID" required validationMessage="Inform your absence ID"			
-							tabindex="-1" />							
-					&nbsp;<span class="k-invalid-msg" data-for="idAbsence"></span>
-				</div>
-			</div>		
-			
-			-->	
-			<!--<div class="control-group">		
-				<label class="control-label" for="name">Resource Name:</label>		
-				<div class="controls">		
-					<input  type="text" name="name" ng-model="absence.name" class="input-large" 
-							kendo-combo-box placeholder="'Absence Name'"  required validationMessage="Inform your absence name" />							
-					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
-				</div>
-			</div>-->
 
-<!--
+		<form class="form-horizontal" data-role="validator"
+			name="addAbsenceForm" id="addAbsenceForm"
+			ng-submit="submitAbsenceForm(addAbsenceForm.$valid)" kendo-validator
+			novalidate>
+
+
 			<div class="control-group">
-				<label class="control-label" for="name">Resource Name:</label>
+				<label class="input-group-addon" for="name">Resource Name:</label>
 				<div class="controls">
-					<input type="text" autocomplete="on" name="cmbAnsence"
-						k-change="onChange" id="cmbAbsence" ng-model="selectedAbsence"
-						k-data-source="absences" k-data-value-field="'idAbsence'"
-						k-data-text-field="'name'" class="input-large" kendo-combo-box
-						placeholder="Absence Name" required
-						validationMessage="Inform your absence name" /> &nbsp;<span
-						class="k-invalid-msg" data-for="name"></span>
+					<select kendo-combo-box k-placeholder="'Resource Name'"
+						ng-model="selectedProject" k-data-source="projects"
+						k-data-value-field="'idProject'" k-data-text-field="'name'"
+						k-change="onChange" name="cmbTravel" id="cmbTravel">
+					</select>
 				</div>
 			</div>
 
--->
 
-<div>
-		<label class="control-label" for="name">Resource Name:</label>
-		<select kendo-combo-box k-placeholder="'Choose Absence'" ng-model="selectedProject"
-				k-data-source="projects" k-data-value-field="'idProject'" k-data-text-field="'name'"
-				k-change="onChange" name="cmbAbsence" id="cmbAbsence">
-       	</select>	
-</div>
-
-
-
-			<div class="control-group" >	
+			<div class="control-group">
 				<label class="control-label" for="startDate">Start Date</label>
 				<div class="controls">
-		            <input	kendo-date-picker k-format="'yyyy-MM-dd'" name="startDate" data-type="date" 
-		            		ng-model="absence.startDate" placeholder="YYYY-MM-DD" required />		            		   
-		            &nbsp;<span class="k-invalid-msg" data-for="startDate"></span>
+					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="startDate"
+						data-type="date" ng-model="absence.startDate"
+						placeholder="YYYY-MM-DD" required /> &nbsp;<span
+						class="k-invalid-msg" data-for="startDate"></span>
 				</div>
 			</div>
-			<div class="control-group">	
+			<div class="control-group">
 				<label class="control-label" for="endDate">End Date</label>
 				<div class="controls">
-		            <input  kendo-date-picker k-format="'yyyy-MM-dd'" name="endDate" data-type="date"
-		            		ng-model="absence.endDate" placeholder="YYYY-MM-DD" required />		            		   
-		            &nbsp;<span class="k-invalid-msg" data-for="endDate"></span>		            
+					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="endDate"
+						data-type="date" ng-model="absence.endDate"
+						placeholder="YYYY-MM-DD" required /> &nbsp;<span
+						class="k-invalid-msg" data-for="endDate"></span>
 				</div>
 			</div>
 
 			<div>
 				<label class="control-label" for="endDate">Motive</label>
 				<div class="controls">
-					<select kendo-combo-box k-placeholder="'Choose Absence'" ng-model="selectedAbsence" style="width: 350px;"
-						="'Choose Absence'"
-					k-data-text-field="'name'"
-						k-change="onChange" name="cmbAbsence" id="cmbAbsence">
+					<select kendo-combo-box k-placeholder="'Choose Absence'"
+						ng-model="selectedAbsence" style="width: 350px;" ="'Choose
+						Absence'"
+					k-data-text-field="'name'" k-change="onChange"
+						name="cmbAbsence" id="cmbAbsence">
 						<option>Annual Leave = Planned</option>
 						<option>Annual Leave = Confirmed</option>
 						<option>Public Holiday (Brazil)</option>
@@ -87,17 +61,32 @@
 							weekend)</option>
 					</select>
 				</div>
-
 			</div>
 
-			<input type="hidden" name="idUser" ng-model="absence.idUser" ng-init="init()" />
-			
-			<br><br>
-					
-			<div style="float:right">								
-				<button name="reset"  id="btnReset" type="reset"  class="btn">Reset <i class="icon-refresh"></i></button>
-				<button name="submit" id="btnAddAbsence" type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="addAbsenceForm.$invalid">Submit <i class="icon-ok-sign icon-white"></i></button>
-			</div>							
-		</form>		
+			<div class="control-group">
+				<label class="control-label" for="name">Description:</label> <label
+					class="input-group-addon" for="name"></label>
+				<div class="controls">
+
+					<textarea rows="3"></textarea>
+				</div>
+			</div>
+
+
+
+			<input type="hidden" name="idUser" ng-model="absence.idUser"
+				ng-init="init()" /> <br> <br>
+
+			<div style="float: right">
+				<button name="reset" id="btnReset" type="reset" class="btn">
+					Reset <i class="icon-refresh"></i>
+				</button>
+				<button name="submit" id="btnAddAbsence" type="submit"
+					class="btn btn-primary" ng-click="save()"
+					ng-disabled="addAbsenceForm.$invalid">
+					Submit <i class="icon-ok-sign icon-white"></i>
+				</button>
+			</div>
+		</form>
 	</fieldset>
 </div>
