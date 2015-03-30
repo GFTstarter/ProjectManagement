@@ -34,13 +34,13 @@ public class Travel implements Serializable {
 	@ManyToMany(mappedBy = "travels")
 	private List<Resource> resources;
 	
-	@Column (name = "start_date", nullable = false)
+	@Column (name = "dt_beginTravel", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date startDate;
+	private Date beginTravelDate;
 	
-	@Column (name = "end_date", nullable = false)
+	@Column (name = "dt_endTravel", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date endDate;
+	private Date endTravelDate;
     
 	@Column (name = "description", nullable = true)
     private String description;
@@ -86,21 +86,23 @@ public class Travel implements Serializable {
 		this.description = description;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public Date getBeginTravelDate() {
+		return beginTravelDate;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setBeginTravelDate(Date beginTravelDate) {
+		this.beginTravelDate = beginTravelDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public Date getEndTravelDate() {
+		return endTravelDate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndTravelDate(Date endTravelDate) {
+		this.endTravelDate = endTravelDate;
 	}
+
+	
 	
 	
 	

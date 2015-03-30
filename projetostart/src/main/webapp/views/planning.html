@@ -1,19 +1,16 @@
 
-<div id="example" ng-app="KendoDemos">
+<div id="example" ng-app="KendoDemos"  class="k-content">
     <div ng-controller="MyCtrl">
     
-    	<div id="gridPlanning" kendo-grid k-data-source="gridPlanningView" 
-      		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
-		  	 k-filterable="true" k-editable="'incell'" k-sortable="true" k-resizable = "true"
-             class="gridPlanning" k-toolbar="['save','cancel']"           
-             k-columns='[{ "field": "resource", "title": "NAME"},
-			    		 { "field": "hiredate", "title": "HIRE DATE"},
-			    		 { "field": "concept", "title": "PROFILE"},
-			    		 { "field": "dtBeginOnProject", "title": "BEGIN ON PROJECT"},
-			    		 { "field": "dtEndOnProject", "title": "END ON PROJECT"},
-		    			  { command: ["update"], title: "", width: "110px"}]'>
-		</div>
-		
+    
+	    <kendo-grid options="mainGridOptions" 
+	    			k-toolbar="['save','cancel']" >
+	    
+	    </kendo-grid>
+	    
+	
+    	
+	</div>
 	    <div id="team-schedule">
 			<div id="people" class="form-inline">
 				<label><input checked type="checkbox" id="alex" value="1"> Resource 1</label>
@@ -50,13 +47,126 @@
    
     
 </style>
-</div>
+
 
 <script>
 function MyCtrl ($scope, $location) {
+	
+
+	 var columns = [];
+	 
+	 var date1 = new Date();
+	 var addDays1 = kendo.date.addDays;
+	 
+	// console.log(kendo.date.addDays(date1, 1));
+	 
+	 var data = kendo.toString(kendo.date.addDays(date1, 1), "d");
+	 
+	 console.log(data);
+	 
+	 
+	 columns.push({
+         field: "resource",
+         title: "RESOURCE",
+         locked: true,
+         lockable: false,
+         width: "120px"
+         },{
+         field: "hiredate",
+         title: "HIRE DATE",
+         locked: true,
+         width: "120px"
+         },{
+         field: "concept",
+         title: "PROFILE",
+         locked: true,
+         width: "120px"
+         },{
+         field: "dtBeginOnProject",
+         title: "BEGIN ON PROJECT",
+         locked: true,
+         width: "120px"
+         },{
+         field: "dtEndOnProject",
+       	 title: "END ON PROJECT",
+       	 locked: true,
+       	 width: "120px"
+     	 }
+     );
+	 
+	    for (var i = 0; i < 100; i++) {
+	        columns.push({
+	            field: "concept",
+	            title: "" +  kendo.toString(kendo.date.addDays(date1, i), "d"),
+	            width: "120px"
+	        });
+	    }
+	
 	var date = new Date();
     var addDays = kendo.date.addDays;
-    
+          
+    	$scope.mainGridOptions = {
+   			dataSource: {
+   				transport: {
+   		           	read: {         	   
+   		        	   url: "rest/planning",
+   		        	   contentType: "application/json; charset=utf-8",
+   		               dataType: "json"
+   		           	},
+   		           	update: {         	   
+   		         	   url: "rest/planning",
+   		         	   contentType: "application/json; charset=utf-8",
+   		               dataType: "json",
+   		               type: "PUT"
+   		            }
+   				},
+   				schema: {
+   			   	    model: {id: "idBaselineResource"},
+   			   	 	type: "json"
+   			   	}
+   			},
+	    	sortable: true,
+	    	editable: true,
+	    	resizable: true,
+	    	scrollable: {
+	            virtual: true
+	        },
+	    	columnMenu: true,
+	        pageable:{ 
+	        	pageSize: 10, 
+	        	refresh: true, 
+	        	pageSizes: [5,10,20]
+   			},
+   			columns: columns
+   			/*columns:  [{
+                field: "resource",
+                title: "NAME",
+                locked: true,
+                lockable: false,
+                width: "120px"
+                },{
+                field: "hiredate",
+                title: "HIRE DATE",
+                locked: true,
+                width: "120px"
+                },{
+                field: "concept",
+                title: "PROFILE",
+                locked: true,
+                width: "120px"
+                },{
+                field: "dtBeginOnProject",
+                title: "BEGIN ON PROJECT",
+                locked: true,
+                width: "120px"
+                },{
+                field: "dtEndOnProject",
+              	title: "END ON PROJECT",
+              	locked: false,
+              	width: "120px"
+            	}]*/
+    	}	
+    	
 	    $scope.gridPlanningView = new kendo.data.DataSource({ 
 			AutoSync: true,
 			page: 1,
@@ -80,7 +190,6 @@ function MyCtrl ($scope, $location) {
 		   	    model: {id: "idBaselineResource"},
 		   	 	type: "json"
 		   	},
-		   	
 		   });
     
         $scope.schedulerOptions = {
@@ -232,7 +341,6 @@ function MyCtrl ($scope, $location) {
 				}
 			});
 		});
-        
       }
 </script>
 
