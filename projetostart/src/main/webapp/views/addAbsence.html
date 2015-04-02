@@ -1,15 +1,13 @@
-<div id="content" ng-controller="HomeController">
+<div id="content" ng-controller="AbsenceController">
 	<fieldset>
 		<legend>Add New Absence</legend>
-
+<!-- TROCAR O ALIAS project. PARA absence. E TROCAR OS ATRIBUTOS QUE SERAO ACESSADO (DA CLASSE ABSENCE_RESOURCE) -->
 		<form class="form-horizontal" data-role="validator"
 			name="addAbsenceForm" id="addAbsenceForm"
 			ng-submit="submitAbsenceForm(addAbsenceForm.$valid)" kendo-validator
 			novalidate>
 
-
-
-			<div class="control-group">	
+			<div class="control-group">
 				<label class="input-group-addon" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
@@ -20,48 +18,24 @@
 				</div>
 			</div>
 
-
-
-
-			<div class="control-group">		
-				<label class="control-label" for="idProject">Project ID:</label>		
-				<div class="controls">		
-					<input  type="text" name="idProject" ng-model="project.projectCode" class="input-large"
-							placeholder="Project ID" required validationMessage="Inform your project ID"			
-							tabindex="-1" />							
+			<div class="control-group">
+				<label class="control-label" for="idProject">Project ID:</label>
+				<div class="controls">
+					<input type="text" name="idProject" ng-model="absence.projectCode"
+						class="input-large" placeholder="Project ID" required
+						validationMessage="Inform your project ID" tabindex="-1" />
 					&nbsp;<span class="k-invalid-msg" data-for="idProject"></span>
 				</div>
-			</div>			
-			<div class="control-group">		
-				<label class="control-label" for="name">Project Name:</label>		
-				<div class="controls">		
-					<input  type="text" name="name" ng-model="project.name" class="input-large" 
-							placeholder="Project Name" required validationMessage="Inform your project name" />							
-					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="name">Project Name:</label>
+				<div class="controls">
+					<input type="text" name="name" ng-model="project.name"
+						class="input-large" placeholder="Project Name" required
+						validationMessage="Inform your project name" /> &nbsp;<span
+						class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 			<div class="control-group">
@@ -126,8 +100,8 @@
 					</select>
 				</div>
 			</div>
-			
-<br>	
+
+			<br>
 
 			<div class="control-group">
 				<label class="control-label" for="name">Description:</label> <label
@@ -137,7 +111,6 @@
 					<textarea rows="3"></textarea>
 				</div>
 			</div>
-
 
 
 			<input type="hidden" name="idUser" ng-model="absence.idUser"
