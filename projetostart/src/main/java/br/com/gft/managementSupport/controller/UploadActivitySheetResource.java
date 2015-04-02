@@ -120,9 +120,9 @@ public class UploadActivitySheetResource {
 						//populates Map
 						for (ActivitySheet a : objProject.getActivitySheets()) {
 							for (Resource r : a.getResources()) {
-								Map<Date, ActivitySheet> activityMap = map.get(r);
-								if (activityMap == null) {
-									activityMap = new HashMap<Date, ActivitySheet>();
+								Map<Date, ActivitySheet> activityMap = map.get(r); //Busca de valor (MAP) por index (Resource_name)
+								if (activityMap == null) { 
+									activityMap = new HashMap<Date, ActivitySheet>(); 
 									map.put(r, activityMap);
 								}
 								activityMap.put(a.getDate(), a);
@@ -132,20 +132,20 @@ public class UploadActivitySheetResource {
 						return "0|Project not found!";
 					}
 					
-					
+					//com.sun.jdi.InvocationException occurred invoking method.
 					Map<Date, ActivitySheet> activityMap = map.get(objResource);
-					if (activityMap == null) {						
+					if (activityMap == null) {						//Não ocorre ao repetir um resource			
 
 						activityMap = new HashMap<Date, ActivitySheet>();
-						List<ActivitySheet> list = objResource.getActivitySheets();
+						List<ActivitySheet> list = objResource.getActivitySheets(); 
 						
-						for (ActivitySheet a : list) {
+						for (ActivitySheet a : list) {					
 							activityMap.put(a.getDate(), a);
 						}
-						map.put(objResource, activityMap);						
+						map.put(objResource, activityMap);				//inserindo activityMap	nulo	
 					}
 
-					ActivitySheet objAct = activityMap.get(Date);
+					ActivitySheet objAct = activityMap.get(Date); //Busca se há registro de atividade na data do registro atual 
 					if (objAct == null) {
 						
 						ActivitySheet objActivitySheet = new ActivitySheet();

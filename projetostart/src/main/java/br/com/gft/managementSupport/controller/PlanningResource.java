@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.gft.managementSupport.JsonViews;
 import br.com.gft.managementSupport.dao.BaselineByResourceDao;
+import br.com.gft.managementSupport.entity.BaselineByResource;
 import br.com.gft.managementSupport.gridViews.PlanningView;
 import br.com.gft.managementSupport.rowMapper.PlanningDao;
 
@@ -75,34 +76,41 @@ public class PlanningResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public PlanningView create(PlanningView newsEntry) {
+	public BaselineByResource create(BaselineByResource newsEntry) {
 
 		this.logger.info("create(): " + newsEntry);
 
-		return this.planningDao.save(newsEntry);
+		return this.baselineByResourceDao.save(newsEntry);
 	}
 
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public PlanningView update(@FormParam("idBaselineResource") Long id,
+	public BaselineByResource update(@FormParam("idBaselineResource") Long id,
 			  					@FormParam("dtBeginOnProject") Date beginOnProjDate,
 			  					@FormParam("dtEndOnProject") Date endOnProjDate) {
 
+		BaselineByResource update = baselineByResourceDao.find(id);
+		
+		update.setIdBaselineResource(id);
+		update.setBeginOnProjectDate(beginOnProjDate);
+		update.setEndOnProjectDate(endOnProjDate);
+		
+		
 		this.logger.info("update(): " + id);
 
-		return null;
+		return this.baselineByResourceDao.save(update);
 	}
 
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(@FormParam("idResource") Long id) {
+	public void delete(@FormParam("idBaselineResource") Long id) {
 
 		this.logger.info("deleteEntry(id)");
 
-		this.planningDao.delete(id);
+		this.baselineByResourceDao.delete(id);
 	}
 	
 	
