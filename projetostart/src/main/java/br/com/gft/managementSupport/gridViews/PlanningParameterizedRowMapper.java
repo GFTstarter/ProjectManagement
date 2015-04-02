@@ -10,7 +10,7 @@ public class PlanningParameterizedRowMapper implements ParameterizedRowMapper<Pl
 	public PlanningView mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		PlanningView planning = new PlanningView();
-		planning.setidBaselineResource(rs.getLong("id_baseline_resource"));
+		planning.setidBaselineResource(rs.getLong("id_baseline_resource")); //?? id_baseline_resource ou id_resource ??
 		planning.setResource(rs.getString("resource"));
 		planning.setHiredate(rs.getDate("hire_date"));
 		planning.setConcept(rs.getString("concept"));
@@ -21,3 +21,5 @@ public class PlanningParameterizedRowMapper implements ParameterizedRowMapper<Pl
 		
 	}
 }
+
+

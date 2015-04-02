@@ -7,10 +7,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -60,10 +62,14 @@ public class ActivitySheet implements Serializable {
 	
 	@Column (name = "year", nullable = false)
 	private int year;
+	/*
+	@ManyToMany(mappedBy = "activitySheets", cascade = CascadeType.ALL)
+	@JoinTable(name="resource_activity_sheet", joinColumns=@JoinColumn(name="id_activity_sheet"), inverseJoinColumns=@JoinColumn(name="id_resource"))
+	private List<Resource> resources;*/
 	
 	@ManyToMany(mappedBy = "activitySheets", cascade = CascadeType.ALL)
 	private List<Resource> resources;
-
+	
 	public Long getIdActivitySheet() {
 		return idActivitySheet;
 	}
