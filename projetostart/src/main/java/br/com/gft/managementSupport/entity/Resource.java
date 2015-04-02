@@ -44,7 +44,7 @@ public class Resource implements Serializable{
 	
 	@JsonIgnore						//TERCEIRA TABELA ENTRE RESOURCE E TRAVEL ADICIONADO
 	@ManyToMany
-	private List<Travel> travels;
+	private List<Expenses> expenses;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -112,12 +112,12 @@ public class Resource implements Serializable{
 		return "Resource [idResource=" + idResource + "]";
 	}
 
-	public List<Travel> getTravels() {
-		return travels;
+	public List<Expenses> getExpenses() {
+		return expenses;
 	}
 
-	public void setTravels(List<Travel> travels) {
-		this.travels = travels;
+	public void setExpenses(List<Expenses> expenses) {
+		this.expenses = expenses;
 	}
 
 	public Date getHireDate() {

@@ -1,10 +1,10 @@
 <div id="content" ng-controller="HomeController">
 	<fieldset>
-		<legend>Add New Travel</legend>
+		<legend>Add New Expenses</legend>
 
 		<form class="form-horizontal" data-role="validator"
-			name="addTravelForm" id="addTravelForm"
-			ng-submit="submitTravelForm(addTravelForm.$valid)" kendo-validator
+			name="addExpensesForm" id="addExpensesForm"
+			ng-submit="submitExpensesForm(addExpensesForm.$valid)" kendo-validator
 			novalidate>
 
 
@@ -14,7 +14,7 @@
 					<select kendo-combo-box k-placeholder="'Resource Name'"
 						ng-model="selectedProject" k-data-source="projects"
 						k-data-value-field="'idProject'" k-data-text-field="'name'"
-						k-change="onChange" name="cmbTravel" id="cmbTravel">
+						k-change="onChange" name="cmbExpenses" id="cmbExpenses">
 					</select>
 				</div>
 			</div>
@@ -23,9 +23,9 @@
 			<div class="control-group">
 				<label class="control-label" for="name">Cost rate:</label>
 				<div class="controls">
-					<input type="text" name="name" ng-model="travel.name"
+					<input type="text" name="name" ng-model="expenses.name"
 						class="input-large" placeholder="$$$" required
-						validationMessage="Inform the cost of travel" /> &nbsp;<span
+						validationMessage="Inform the cost of Expenses" /> &nbsp;<span
 						class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
@@ -36,10 +36,10 @@
 				<label class="control-label" for="endDate">Country</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Choose Country'"
-						ng-model="selectedAbsence" style="width: 350px;" ="'Choose
+						ng-model="selectedExpenses" style="width: 350px;" ="'Choose
 						Absence'"
 					k-data-text-field="'name'" k-change="onChange"
-						name="cmbAbsence" id="cmbAbsence">
+						name="cmbExpenses" id="cmbExpenses">
 
 						<option value="Afghanistan">Afghanistan</option>
 						<option value="Aland Islands">Aland Islands</option>
@@ -329,7 +329,7 @@
 				<label class="control-label" for="startDate">Start Date</label>
 				<div class="controls">
 					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="startDate"
-						data-type="date" ng-model="travel.startDate"
+						data-type="date" ng-model="expenses.startDate"
 						placeholder="YYYY-MM-DD" required /> &nbsp;<span
 						class="k-invalid-msg" data-for="startDate"></span>
 				</div>
@@ -338,7 +338,7 @@
 				<label class="control-label" for="endDate">End Date</label>
 				<div class="controls">
 					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="endDate"
-						data-type="date" ng-model="travel.endDate"
+						data-type="date" ng-model="expenses.endDate"
 						placeholder="YYYY-MM-DD" required /> &nbsp;<span
 						class="k-invalid-msg" data-for="endDate"></span>
 				</div>
@@ -359,16 +359,16 @@
 
 
 
-			<input type="hidden" name="idUser" ng-model="travel.idUser"
+			<input type="hidden" name="idUser" ng-model="expenses.idUser"
 				ng-init="init()" /> <br> <br>
 
 			<div style="float: right">
 				<button name="reset" id="btnReset" type="reset" class="btn">
 					Reset <i class="icon-refresh"></i>
 				</button>
-				<button name="submit" id="btnAddTravel" type="submit"
+				<button name="submit" id="btnAddExpenses" type="submit"
 					class="btn btn-primary" ng-click="save()"
-					ng-disabled="addTravelForm.$invalid">
+					ng-disabled="addExpensesForm.$invalid">
 					Submit <i class="icon-ok-sign icon-white"></i>
 				</button>
 			</div>
