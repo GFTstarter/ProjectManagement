@@ -12,17 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity (name = "travel")
+@Entity (name = "expenses")
 @SuppressWarnings("serial")
-public class Travel implements Serializable {
+public class Expenses implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column (name = "id_travel")
-	private Long idTravel;
+	@Column (name = "id_expenses")
+	private Long idExpenses;
 	
 	@ManyToOne
 	@JoinColumn(name="id_legal_entity")
@@ -31,27 +32,25 @@ public class Travel implements Serializable {
 	@Column (name = "cost_rate", nullable = false)
 	private Double costRate;
 	
-	@ManyToMany(mappedBy = "travels")
-	private List<Resource> resources;
 	
-	@Column (name = "dt_beginTravel", nullable = false)
+	@Column (name = "dt_beginExpenses", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date beginTravelDate;
+	private Date beginExpensesDate;
 	
-	@Column (name = "dt_endTravel", nullable = false)
+	@Column (name = "dt_endExpenses", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date endTravelDate;
+	private Date endExpensesDate;
     
 	@Column (name = "description", nullable = true)
     private String description;
     	
 	
-	public Long getIdTravel() {
-		return idTravel;
+	public Long getIdExpenses() {
+		return idExpenses;
 	}
 
-	public void setIdTravel(Long idTravel) {
-		this.idTravel = idTravel;
+	public void setIdExpenses(Long idExpenses) {
+		this.idExpenses = idExpenses;
 	}
 
 	public LegalEntity getIdLegalEntity() {
@@ -62,13 +61,6 @@ public class Travel implements Serializable {
 		this.idLegalEntity = idLegalEntity;
 	}
 
-	public List<Resource> getResources() {
-		return resources;
-	}
-
-	public void setResources(List<Resource> resources) {
-		this.resources = resources;
-	}
 
 	public Double getCostRate() {
 		return costRate;
@@ -78,6 +70,7 @@ public class Travel implements Serializable {
 		this.costRate = costRate;
 	}
 
+
 	public String getDescription() {
 		return description;
 	}
@@ -86,20 +79,20 @@ public class Travel implements Serializable {
 		this.description = description;
 	}
 
-	public Date getBeginTravelDate() {
-		return beginTravelDate;
+	public Date getBeginExpensesDate() {
+		return beginExpensesDate;
 	}
 
-	public void setBeginTravelDate(Date beginTravelDate) {
-		this.beginTravelDate = beginTravelDate;
+	public void setBeginExpensesDate(Date beginExpensesDate) {
+		this.beginExpensesDate = beginExpensesDate;
 	}
 
-	public Date getEndTravelDate() {
-		return endTravelDate;
+	public Date getEndExpensesDate() {
+		return endExpensesDate;
 	}
 
-	public void setEndTravelDate(Date endTravelDate) {
-		this.endTravelDate = endTravelDate;
+	public void setEndExpensesDate(Date endExpensesDate) {
+		this.endExpensesDate = endExpensesDate;
 	}
 
 	

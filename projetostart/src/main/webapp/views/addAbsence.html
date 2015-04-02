@@ -8,16 +8,60 @@
 			novalidate>
 
 
-			<div class="control-group">
+
+			<div class="control-group">	
 				<label class="input-group-addon" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
 						ng-model="selectedProject" k-data-source="projects"
 						k-data-value-field="'idProject'" k-data-text-field="'name'"
-						k-change="onChange" name="cmbTravel" id="cmbTravel">
+						k-change="onChange" name="cmbTravel" id="cmbTravel">&nbsp;
 					</select>
 				</div>
 			</div>
+
+
+
+
+			<div class="control-group">		
+				<label class="control-label" for="idProject">Project ID:</label>		
+				<div class="controls">		
+					<input  type="text" name="idProject" ng-model="project.projectCode" class="input-large"
+							placeholder="Project ID" required validationMessage="Inform your project ID"			
+							tabindex="-1" />							
+					&nbsp;<span class="k-invalid-msg" data-for="idProject"></span>
+				</div>
+			</div>			
+			<div class="control-group">		
+				<label class="control-label" for="name">Project Name:</label>		
+				<div class="controls">		
+					<input  type="text" name="name" ng-model="project.name" class="input-large" 
+							placeholder="Project Name" required validationMessage="Inform your project name" />							
+					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 			<div class="control-group">
@@ -36,6 +80,26 @@
 						data-type="date" ng-model="absence.endDate"
 						placeholder="YYYY-MM-DD" required /> &nbsp;<span
 						class="k-invalid-msg" data-for="endDate"></span>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="name">Work day:</label>
+				<div class="controls">
+					<input type="text" name="name" ng-model="travel.name"
+						class="input-large" placeholder="Work day" required
+						validationMessage="Inform the cost of travel" /> &nbsp;<span
+						class="k-invalid-msg" data-for="name"></span>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="name">Work hours:</label>
+				<div class="controls">
+					<input type="text" name="name" ng-model="travel.name"
+						class="input-large" placeholder="Work hours" required
+						validationMessage="Inform the cost of travel" /> &nbsp;<span
+						class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
 
@@ -62,6 +126,8 @@
 					</select>
 				</div>
 			</div>
+			
+<br>	
 
 			<div class="control-group">
 				<label class="control-label" for="name">Description:</label> <label
