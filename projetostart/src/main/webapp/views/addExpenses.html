@@ -1,21 +1,21 @@
-<div id="content" ng-controller="HomeController">
+<div id="content" ng-controller="ExpensesController">
 	<fieldset>
 		<legend>Add New Expenses</legend>
 
 		<form class="form-horizontal" data-role="validator"
 			name="addExpensesForm" id="addExpensesForm"
-			ng-submit="submitExpensesForm(addExpensesForm.$valid)" kendo-validator
-			novalidate>
+			ng-submit="submitExpensesForm(addExpensesForm.$valid)"
+			kendo-validator novalidate>
 
 
-			<div class="control-group">
+		  	<div class="control-group">
 				<label class="input-group-addon" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
-						ng-model="selectedProject" k-data-source="projects"
-						k-data-value-field="'idProject'" k-data-text-field="'name'"
-						k-change="onChange" name="cmbExpenses" id="cmbExpenses">
-					</select>
+						ng-model="selectedResource" k-data-source="resources"
+						k-data-value-field="'resource'" k-data-text-field="'name'"
+						k-change="onChange" name="cmbExpenses" id="cmbExpenses"></select>
+					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
 
@@ -366,6 +366,7 @@
 				<button name="reset" id="btnReset" type="reset" class="btn">
 					Reset <i class="icon-refresh"></i>
 				</button>
+
 				<button name="submit" id="btnAddExpenses" type="submit"
 					class="btn btn-primary" ng-click="save()"
 					ng-disabled="addExpensesForm.$invalid">

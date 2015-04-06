@@ -8,6 +8,14 @@ App.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
 						   {templateUrl: 'views/addProject.html', 
 						   controller: 'ProjectController'});
 		
+		$routeProvider.when('/addAbsence', 
+				   {templateUrl: 'views/addAbsence.html', 
+				   controller: 'AbsenceController'});
+		
+		$routeProvider.when('/addExpenses', 
+				   {templateUrl: 'views/addExpenses.html', 
+				   controller: 'ExpensesController'});
+		
 		$routeProvider.otherwise({redirectTo:'/home'});
 		
 		$locationProvider.hashPrefix('!');

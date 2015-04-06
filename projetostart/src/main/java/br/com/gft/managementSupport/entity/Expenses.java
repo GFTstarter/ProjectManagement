@@ -2,17 +2,15 @@ package br.com.gft.managementSupport.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -25,6 +23,10 @@ public class Expenses implements Serializable {
 	@Column (name = "id_expenses")
 	private Long idExpenses;
 	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_resource")
+    private Resource resource;
+
 	@ManyToOne
 	@JoinColumn(name="id_legal_entity")
 	private LegalEntity idLegalEntity;
@@ -51,6 +53,14 @@ public class Expenses implements Serializable {
 
 	public void setIdExpenses(Long idExpenses) {
 		this.idExpenses = idExpenses;
+	}
+
+	public Resource getResource() {
+		return resource;
+	}
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
 	}
 
 	public LegalEntity getIdLegalEntity() {
