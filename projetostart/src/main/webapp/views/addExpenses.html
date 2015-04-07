@@ -8,36 +8,24 @@
 			kendo-validator novalidate>
 
 
-		  	<div class="control-group">
+			<div class="control-group">
 				<label class="input-group-addon" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
 						ng-model="selectedResource" k-data-source="resources"
-						k-data-value-field="'resource'" k-data-text-field="'name'"
+						k-data-value-field="'idResource'" k-data-text-field="'name'"
 						k-change="onChange" name="cmbExpenses" id="cmbExpenses"></select>
 					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
 
 
-			<div class="control-group">
-				<label class="control-label" for="name">Cost rate:</label>
-				<div class="controls">
-					<input type="text" name="name" ng-model="expenses.name"
-						class="input-large" placeholder="$$$" required
-						validationMessage="Inform the cost of Expenses" /> &nbsp;<span
-						class="k-invalid-msg" data-for="name"></span>
-				</div>
-			</div>
-
-
 
 			<div class="control-group">
-				<label class="control-label" for="endDate">Country</label>
+				<label class="control-label" for="Coutry">Country</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Choose Country'"
-						ng-model="selectedExpenses" style="width: 350px;" ="'Choose
-						Absence'"
+						style="width: 350px;" ="'Choose	Absence'"
 					k-data-text-field="'name'" k-change="onChange"
 						name="cmbExpenses" id="cmbExpenses">
 
@@ -343,6 +331,17 @@
 						class="k-invalid-msg" data-for="endDate"></span>
 				</div>
 			</div>
+			
+						<div class="control-group">
+				<label class="control-label" for="name">Cost rate:</label>
+				<div class="controls">
+					<input type="text" name="name" ng-model="expenses.name"
+						class="input-large" placeholder="$$$" required
+						validationMessage="Inform the cost of Expenses" /> &nbsp;<span
+						class="k-invalid-msg" data-for="name"></span>
+				</div>
+			</div>
+			
 
 
 

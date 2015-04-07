@@ -3,8 +3,12 @@ package br.com.gft.managementSupport.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,6 +27,15 @@ public class ExpensesDaoJpa implements ExpensesDao {
 
 		return this.entityManager;
 	}
+	
+	/*SEQUENCIAL ID EXPENSES
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_expenses")
+	@SequenceGenerator(name = "id_expenses", sequenceName = "seq_expenses")
+	public Long getId() {
+	     Long id = null;
+		return id;
+	}*/
 
 
 	@PersistenceContext

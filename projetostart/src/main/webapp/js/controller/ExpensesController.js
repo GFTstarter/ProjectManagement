@@ -13,10 +13,11 @@ var ExpensesController = function($rootScope, $scope, $location, ExpensesService
 				});
 			};
 		}		
-	};	
+
+	};
 	
 	
-	ResourceService.get({id: $rootScope.user.id}, function(r) {
+	ExpensesService.get({id: $rootScope.user.id}, function(r) {
 		
 		$scope.selectedResource = null;
 		$scope.resources = new kendo.data.DataSource({
@@ -24,16 +25,14 @@ var ExpensesController = function($rootScope, $scope, $location, ExpensesService
 		});
 		
 	});
-
+	
 	$scope.onChange = function(e) {		
 		var valueID = this.element.val();		
-	    console.log("idResource: " + valueID);		
+        console.log("idResource: " + valueID);		
 	}
-
-
+	
+	
+	
 	
 };
 ExpensesController.$inject = ['$rootScope', '$scope', '$location', 'ExpensesService'];
-
-
-

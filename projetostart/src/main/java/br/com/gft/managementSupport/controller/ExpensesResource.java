@@ -109,11 +109,11 @@ public class ExpensesResource {
 		
 		Expenses newsEntry = new Expenses();
 		newsEntry.setIdExpenses(id);
-		//newsEntry.setResource(objExpenses.getResource());
-		newsEntry.setCostRate(objExpenses.getCostRate());
+		newsEntry.setResource(objExpenses.getResource());
 		newsEntry.setIdLegalEntity(objExpenses.getIdLegalEntity());
 		newsEntry.setBeginExpensesDate(objExpenses.getBeginExpensesDate());
 		newsEntry.setEndExpensesDate(endExpensesDate);
+		newsEntry.setCostRate(objExpenses.getCostRate());
 		newsEntry.setDescription(objExpenses.getDescription());
 		
 		this.logger.info("update(): " + newsEntry);

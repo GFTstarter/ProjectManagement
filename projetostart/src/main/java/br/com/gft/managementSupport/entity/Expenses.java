@@ -31,10 +31,6 @@ public class Expenses implements Serializable {
 	@JoinColumn(name="id_legal_entity")
 	private LegalEntity idLegalEntity;
 	
-	@Column (name = "cost_rate", nullable = false)
-	private Double costRate;
-	
-	
 	@Column (name = "dt_beginExpenses", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date beginExpensesDate;
@@ -42,11 +38,13 @@ public class Expenses implements Serializable {
 	@Column (name = "dt_endExpenses", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date endExpensesDate;
-    
+	
+	@Column (name = "cost_rate", nullable = false)
+	private Double costRate;
+	    
 	@Column (name = "description", nullable = true)
     private String description;
-    	
-	
+
 	public Long getIdExpenses() {
 		return idExpenses;
 	}
@@ -71,24 +69,6 @@ public class Expenses implements Serializable {
 		this.idLegalEntity = idLegalEntity;
 	}
 
-
-	public Double getCostRate() {
-		return costRate;
-	}
-
-	public void setCostRate(Double costRate) {
-		this.costRate = costRate;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public Date getBeginExpensesDate() {
 		return beginExpensesDate;
 	}
@@ -105,9 +85,20 @@ public class Expenses implements Serializable {
 		this.endExpensesDate = endExpensesDate;
 	}
 
-	
-	
-	
-	
-	
+	public Double getCostRate() {
+		return costRate;
+	}
+
+	public void setCostRate(Double costRate) {
+		this.costRate = costRate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+    		
 }
