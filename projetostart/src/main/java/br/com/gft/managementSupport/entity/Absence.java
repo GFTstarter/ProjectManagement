@@ -24,8 +24,10 @@ public class Absence implements Serializable {
 	@Column (name = "absence", nullable = false, unique = true)
 	private String absence;
 	
+	/*
 	@OneToMany(mappedBy = "absence")
-    private List<AbsenceByResource> resources;
+    private List<AbsenceByResource> resources;   //FK TIRADA POIS DADOS SAO INSERIDOS ATRAVEZ DE COMBO BOX, EVITANDO ERROS DE INSERÇÃO
+    */
 
 	public Long getIdAbsence() {
 		return idAbsence;
@@ -43,20 +45,12 @@ public class Absence implements Serializable {
 		this.absence = absence;
 	}
 
-	public List<AbsenceByResource> getResources() {
-		return resources;
-	}
-
-	public void setResources(List<AbsenceByResource> resources) {
-		this.resources = resources;
-	}
-
+	
 	
 	
 	@Override
 	public String toString() {
-		return "Absence [idAbsence=" + idAbsence + ", absence=" + absence
-				+ ", resources=" + resources + "]";
+		return "Absence [idAbsence=" + idAbsence + ", absence=" + absence + "]";
 	}
 	
 }

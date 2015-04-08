@@ -30,17 +30,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import br.com.gft.managementSupport.JsonViews;
-import br.com.gft.managementSupport.dao.AbsenceByResourceDao;
-import br.com.gft.managementSupport.entity.AbsenceByResource;
+import br.com.gft.managementSupport.dao.AbsenceDao;
+import br.com.gft.managementSupport.entity.Absence;
 
 @Component
-@Path("/absenceByResource")
-public class AbsenceByResourceResource {
-
+@Path("/absence")
+public class AbsenceResource {
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private AbsenceByResourceDao absenceByResourceDao;
+	private AbsenceDao absenceDao;
 	
 	@Autowired
 	private ObjectMapper mapper;
@@ -54,7 +54,7 @@ public class AbsenceByResourceResource {
 
 		ObjectWriter viewWriter = createViewWriter();
 		
-		List<AbsenceByResource> allEntries = this.absenceByResourceDao.findAll();
+		List<Absence> allEntries = this.absenceDao.findAll();
 
 		return viewWriter.writeValueAsString(allEntries);
 	}
@@ -74,11 +74,11 @@ public class AbsenceByResourceResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public AbsenceByResource read(@PathParam("id") Long id) {
+	public Absence read(@PathParam("id") Long id) {
 
 		this.logger.info("getEntry(id)");
 
-		AbsenceByResource newsEntry = this.absenceByResourceDao.find(id);
+		Absence newsEntry = this.absenceDao.find(id);
 		if (newsEntry == null) {
 			throw new WebApplicationException(404);
 		}
@@ -89,68 +89,45 @@ public class AbsenceByResourceResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public AbsenceByResource create(AbsenceByResource newsEntry) {
+	public Absence create(Absence newsEntry) {
 
 		this.logger.info("create(): " + newsEntry);
 
-		return this.absenceByResourceDao.save(newsEntry);
+		return this.absenceDao.save(newsEntry);
 	}
 
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public AbsenceByResource update(@FormParam("idAbsenceByResource") Long id,
-						  @FormParam("endDate") Date endDate
+	public Absence update(@FormParam("idAbsence") Long id,
+						  @FormParam("absence") Date endDate
 						  ) {
 		
-		AbsenceByResource objAbsenceByResource = absenceByResourceDao.find(id);
+		Absence objAbsence = absenceDao.find(id);
 		
 		
-		AbsenceByResource newsEntry = new AbsenceByResource();
-		newsEntry.setIdAbsenceResource(id);
-		newsEntry.setWorkDays(objAbsenceByResource.getWorkDays());
-		newsEntry.setStartDate(objAbsenceByResource.getStartDate());
-		newsEntry.setEndDate(endDate);
-		newsEntry.setIdAbsence(objAbsenceByResource.getIdAbsence());
-		newsEntry.setIdResource(objAbsenceByResource.getIdResource());
+		Absence newsEntry = new Absence();
+		newsEntry.setIdAbsence(id);
+		newsEntry.setAbsence(objAbsence.getAbsence());
 		
 		this.logger.info("update(): " + newsEntry);
 
-		return this.absenceByResourceDao.save(newsEntry);
+		return this.absenceDao.save(newsEntry);
 	}
 
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(@FormParam("idAbsenceByResource") Long id) {
+	public void delete(@FormParam("idAbsence") Long id) {
 
 		this.logger.info("deleteEntry(id)");
 
-		this.absenceByResourceDao.delete(id);
+		this.absenceDao.delete(id);
 	}
 	
-	/*
-	 * EXCLUIDA
-	 * 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/byUser/{id}")
-	public String listReadAbsenceByResourceByUser(@PathParam("id") int id) throws JsonGenerationException, JsonMappingException, IOException {
-		
-		this.logger.info("list(id)");
-		
-		ObjectWriter viewWriter = createViewWriter();
-		
-		List<AbsenceByResource> allEntries = this.absenceDao.findByUserId(id);
-		
-		return viewWriter.writeValueAsString(allEntries);
-		
-	}*/
-	
-		
 	private boolean isAdmin() {
-	
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
@@ -166,4 +143,5 @@ public class AbsenceByResourceResource {
 
 		return false;
 	}
+
 }

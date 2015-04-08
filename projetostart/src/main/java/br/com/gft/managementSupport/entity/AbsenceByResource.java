@@ -23,14 +23,21 @@ public class AbsenceByResource implements Serializable {
 	@Column (name = "id_absence_resource")
 	private Long idAbsenceResource;
 	
-    @ManyToOne(fetch = FetchType.LAZY)
+  /*@ManyToOne(fetch = FetchType.LAZY)	//FK TIRADA POIS DADOS SAO INSERIDOS ATRAVEZ DE COMBO BOX, EVITANDO ERROS DE INSERÇÃO
     @JoinColumn(name="id_absence")
     private Absence absence;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_resource")
     private Resource resource;
-        
+  */
+	
+	@Column (name = "id_absence")
+    private int idAbsence;
+    
+	@Column (name = "id_resource")
+    private int idResource;
+    
     @Column (name = "start_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date startDate;
@@ -57,20 +64,20 @@ public class AbsenceByResource implements Serializable {
 		this.idAbsenceResource = idAbsenceResource;
 	}
 
-	public Absence getAbsence() {
-		return absence;
+	public int getIdAbsence() {
+		return idAbsence;
 	}
 
-	public void setAbsence(Absence absence) {
-		this.absence = absence;
+	public void setIdAbsence(int idAbsence) {
+		this.idAbsence = idAbsence;
 	}
 
-	public Resource getResource() {
-		return resource;
+	public int getIdResource() {
+		return idResource;
 	}
 
-	public void setResource(Resource resource) {
-		this.resource = resource;
+	public void setIdResource(int idResource) {
+		this.idResource = idResource;
 	}
 
 	public Date getStartDate() {
@@ -117,7 +124,7 @@ public class AbsenceByResource implements Serializable {
 	@Override
 	public String toString() {
 		return "AbsenceByResource [idAbsenceResource=" + idAbsenceResource
-				+ ", absence=" + absence + ", resource=" + resource
+				+ ", absence=" + idAbsence + ", resource=" + idResource
 				+ ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", workDays=" + workDays + "]";
 	}

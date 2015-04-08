@@ -11,9 +11,10 @@
 				<label class="control-label" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
-						ng-model="absence.resource" k-data-source="absencedata"
+						ng-model="absence.idResource" k-data-source="absencedata"
 						k-data-value-field="'idResource'" k-data-text-field="'resource'"
 						k-change="onChange" name="resource" id="cmbResource">&nbsp;
+						
 					</select>
 				</div>
 			</div>
@@ -58,29 +59,17 @@
 				</div>
 			</div>
 			
-	<!--  	<div>
-				<label class="control-label" for="endDate">Motive</label>
+	  		<div class="control-group">
+				<label class="control-label" for="motive">Motive</label>
+				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Choose Absence'"
-						k-data-source="projects" k-data-value-field="'idAbsence'"
-						ng-model="selectedAbsence" style="width: 350px;" 
-						k-data-text-field="'name'" k-change="onChange"
+						k-data-source="motivedata" k-data-value-field="'idAbsence'"
+						ng-model="absence.idAbsence" style="width: 350px;" 
+						k-data-text-field="'absence'" k-change="onChange"
 						name="cmbAbsence" id="cmbAbsence">
-						<option>Annual Leave = Planned</option>
-						<option>Annual Leave = Confirmed</option>
-						<option>Public Holiday (Brazil)</option>
-						<option>Public Holiday (N=NY)</option>
-						<option>Public Holiday (L=London)</option>
-						<option>Public Holiday (both)</option>
-						<option>Medical License</option>
-						<option>Clearance (time bank) P = Planned</option>
-						<option>Clearance (time bank confimed)</option>
-						<option>Clearance (time bank) - H=Half day</option>
-						<option>Day compensation (will work on holiday or
-							weekend)</option>
 					</select>
-				</div>-->	
-
-			<br>
+				</div>
+			</div>	
 
 			<div class="control-group">
 				<label class="control-label" for="description">Description:</label> 

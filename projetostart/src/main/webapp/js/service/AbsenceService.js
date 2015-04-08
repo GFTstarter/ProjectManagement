@@ -5,8 +5,16 @@ services.factory('AbsenceService', function($resource) {
 			method: 'GET',
 			isArray: true
 		}
-	}),
-		posting: $resource('rest/absenceByResource') 
+		}),
+		
+		posting: $resource('rest/absenceByResource') ,
+		
+		gettingMotive: $resource('rest/absence', null, {
+			get: {
+				method: 'GET',
+				isArray: true
+			}
+		})
 	
 	};
 });

@@ -23,6 +23,7 @@
 		<bean id="legalEntityDao" class="br.com.gft.managementSupport.dao.LegalEntityDaoJpa"/>
 		<bean id="locationDao" class="br.com.gft.managementSupport.dao.LocationDaoJpa"/>
 		<bean id="projectDao" class="br.com.gft.managementSupport.dao.ProjectDaoJpa"/>
+		<bean id="absenceDao" class="br.com.gft.managementSupport.dao.AbsenceDaoJpa"/>
 		<bean id="absenceByResourceDao" class="br.com.gft.managementSupport.dao.AbsenceByResourceDaoJpa"/>
 		<bean id="expensesDao" class="br.com.gft.managementSupport.dao.ExpensesDaoJpa"/>
 		<bean id="resourceDao" class="br.com.gft.managementSupport.dao.ResourceDaoJpa"/>
