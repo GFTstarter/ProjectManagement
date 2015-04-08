@@ -111,8 +111,31 @@ public class UploadActivitySheetResource {
 					if (objResource == null) {
 						return "0|Resource not found!";
 					}
-					
 					if (objProject == null) {
+						objProject = projectDao.findByProjectCode(projectCode);
+						if (objProject == null) {
+							return "0|Project not found!";
+						}
+					} else if (!objProject.getProjectCode().equals(projectCode)) {
+						return "0|Project not found!";
+					} else {
+						//populates Map
+						for (ActivitySheet a : objProject.getActivitySheets()) {
+							for (Resource r : a.getResources()) {
+								Map<Date, ActivitySheet> activityMap = map.get(r); //Busca de valor (MAP) por index (Resource_name)
+								if (activityMap == null) { 
+									activityMap = new HashMap<Date, ActivitySheet>(); 
+									map.put(r, activityMap);
+								}
+								activityMap.put(a.getDate(), a);
+							}
+						}
+					}
+					
+					
+					
+					
+				/*if (objProject == null) {
 						objProject = projectDao.findByProjectCode(projectCode);
 						if (objProject == null) {
 							return "0|Project not found!";
@@ -130,7 +153,29 @@ public class UploadActivitySheetResource {
 						}
 					} else if (!objProject.getProjectCode().equals(projectCode)) {
 						return "0|Project not found!";
+					}*/
+					
+				/*	if (objProject == null) {
+						objProject = projectDao.findByProjectCode(projectCode);
+					//	objProject = projectDao.findByProjectCode(projectCode);
+					//	return "0|Project not found!";
 					}
+					else{
+						//populates Map
+						for (ActivitySheet a : objProject.getActivitySheets()) {
+							for (Resource r : a.getResources()) {
+								Map<Date, ActivitySheet> activityMap = map.get(r); //Busca de valor (MAP) por index (Resource_name)
+								if (activityMap == null) { 
+									activityMap = new HashMap<Date, ActivitySheet>(); 
+									map.put(r, activityMap);
+								}
+								activityMap.put(a.getDate(), a);
+							}
+						}
+					}*/
+					
+					if (!objProject.getProjectCode().equals(projectCode)) 
+						return "0|Project not found!";
 					
 					//com.sun.jdi.InvocationException occurred invoking method.
 					Map<Date, ActivitySheet> activityMap = map.get(objResource);

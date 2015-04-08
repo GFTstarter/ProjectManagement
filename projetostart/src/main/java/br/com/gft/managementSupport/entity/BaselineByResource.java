@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity (name = "baseline_resources")
+//@Entity (name = "baseline_resources")
 @SuppressWarnings("serial")
 public class BaselineByResource implements Serializable {
 	

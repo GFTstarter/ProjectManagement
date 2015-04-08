@@ -8,38 +8,18 @@
 			novalidate>
 
 			<div class="control-group">
-				<label class="input-group-addon" for="name">Resource Name:</label>
+				<label class="control-label" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
-						ng-model="selectedProject" k-data-source="projects"
-						k-data-value-field="'idProject'" k-data-text-field="'name'"
-						k-change="onChange" name="cmbTravel" id="cmbTravel">&nbsp;
+						ng-model="absence.resource" k-data-source="absencedata"
+						k-data-value-field="'idResource'" k-data-text-field="'resource'"
+						k-change="onChange" name="resource" id="cmbResource">&nbsp;
 					</select>
 				</div>
 			</div>
 
 			<div class="control-group">
-				<label class="control-label" for="idProject">Project ID:</label>
-				<div class="controls">
-					<input type="text" name="idProject" ng-model="absence.projectCode"
-						class="input-large" placeholder="Project ID" required
-						validationMessage="Inform your project ID" tabindex="-1" />
-					&nbsp;<span class="k-invalid-msg" data-for="idProject"></span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="name">Project Name:</label>
-				<div class="controls">
-					<input type="text" name="name" ng-model="project.name"
-						class="input-large" placeholder="Project Name" required
-						validationMessage="Inform your project name" /> &nbsp;<span
-						class="k-invalid-msg" data-for="name"></span>
-				</div>
-			</div>
-
-
-			<div class="control-group">
-				<label class="control-label" for="startDate">Start Date</label>
+				<label class="control-label" for="startDate">Start Date:</label>
 				<div class="controls">
 					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="startDate"
 						data-type="date" ng-model="absence.startDate"
@@ -47,8 +27,9 @@
 						class="k-invalid-msg" data-for="startDate"></span>
 				</div>
 			</div>
+			
 			<div class="control-group">
-				<label class="control-label" for="endDate">End Date</label>
+				<label class="control-label" for="endDate">End Date:</label>
 				<div class="controls">
 					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="endDate"
 						data-type="date" ng-model="absence.endDate"
@@ -58,32 +39,31 @@
 			</div>
 
 			<div class="control-group">
-				<label class="control-label" for="name">Work day:</label>
+				<label class="control-label" for="workDays">Work day:</label>
 				<div class="controls">
-					<input type="text" name="name" ng-model="travel.name"
+					<input type="text" name="workDays" ng-model="absence.workDays"
 						class="input-large" placeholder="Work day" required
 						validationMessage="Inform the cost of travel" /> &nbsp;<span
-						class="k-invalid-msg" data-for="name"></span>
+						class="k-invalid-msg" data-for="workDays"></span>
 				</div>
 			</div>
 
 			<div class="control-group">
-				<label class="control-label" for="name">Work hours:</label>
+				<label class="control-label" for="workHours">Work hours:</label>
 				<div class="controls">
-					<input type="text" name="name" ng-model="travel.name"
+					<input type="text" name="workHours" ng-model="absence.workHours"
 						class="input-large" placeholder="Work hours" required
 						validationMessage="Inform the cost of travel" /> &nbsp;<span
-						class="k-invalid-msg" data-for="name"></span>
+						class="k-invalid-msg" data-for="workHours"></span>
 				</div>
 			</div>
-
-			<div>
+			
+	<!--  	<div>
 				<label class="control-label" for="endDate">Motive</label>
-				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Choose Absence'"
-						ng-model="selectedAbsence" style="width: 350px;" ="'Choose
-						Absence'"
-					k-data-text-field="'name'" k-change="onChange"
+						k-data-source="projects" k-data-value-field="'idAbsence'"
+						ng-model="selectedAbsence" style="width: 350px;" 
+						k-data-text-field="'name'" k-change="onChange"
 						name="cmbAbsence" id="cmbAbsence">
 						<option>Annual Leave = Planned</option>
 						<option>Annual Leave = Confirmed</option>
@@ -98,23 +78,22 @@
 						<option>Day compensation (will work on holiday or
 							weekend)</option>
 					</select>
-				</div>
-			</div>
+				</div>-->	
 
 			<br>
 
 			<div class="control-group">
-				<label class="control-label" for="name">Description:</label> <label
-					class="input-group-addon" for="name"></label>
+				<label class="control-label" for="description">Description:</label> 
+				<label class="input-group-addon" for="name"></label>
 				<div class="controls">
-
-					<textarea rows="3"></textarea>
+					<textarea rows="3" type="text" name="description" 
+					ng-model="absence.description" class="input-large" 
+					placeholder="Description"></textarea>
 				</div>
 			</div>
 
 
-			<input type="hidden" name="idUser" ng-model="absence.idUser"
-				ng-init="init()" /> <br> <br>
+			 <br> <br>
 
 			<div style="float: right">
 				<button name="reset" id="btnReset" type="reset" class="btn">

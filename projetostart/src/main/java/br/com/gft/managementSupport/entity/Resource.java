@@ -42,7 +42,7 @@ public class Resource implements Serializable{
 	@ManyToMany(cascade = {CascadeType.ALL})
 	private List<ActivitySheet> activitySheets;
 	
-	@JsonIgnore						//TERCEIRA TABELA ENTRE RESOURCE E TRAVEL ADICIONADO
+	@JsonIgnore						//TERCEIRA TABELA ENTRE RESOURCE E EXPENSES ADICIONADO
 	@ManyToMany
 	private List<Expenses> expenses;
 	
@@ -56,9 +56,9 @@ public class Resource implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date hireDate;
 	
-	@OneToMany(mappedBy = "resource")
+/*	@OneToMany(mappedBy = "resource")
     private List<BaselineByResource> baselines; //ADICIONADO CONTROLE DE DATA E/S PROJETO
-	
+	*/
 	/*
 	 * 
 	 * @OneToMany(mappedBy = "resource")		//ADICIONA LIGAÇÃO AUSENTE ENTRE (RESOURCE) 1----N (ABSENCE_RESOURCE )
@@ -128,13 +128,7 @@ public class Resource implements Serializable{
 		this.hireDate = hireDate;
 	}
 
-	public List<BaselineByResource> getBaselines() {
-		return baselines;
-	}
-
-	public void setBaselines(List<BaselineByResource> baselines) {
-		this.baselines = baselines;
-	}	
+	
 	
 	
 	

@@ -1,10 +1,22 @@
 var AbsenceController = function($rootScope, $scope, $location, AbsenceService) {
 	
-	$scope.init = function(){
-		$scope.absence.idUser = $rootScope.user.id;
-	}
+	
+	
+	AbsenceService.getting.get(function(r) {
 		
-	$scope.absence = new AbsenceService();
+		$scope.selectedResource = null;
+		
+		console.log(r);
+		
+		$scope.absencedata = new kendo.data.DataSource({
+			data: r
+		});
+	});
+	
+	
+	
+	
+	$scope.absence = new AbsenceService.posting();
 	$scope.submitAbsenceForm = function(isValid){
 		if(isValid){
 			$scope.save = function() {
@@ -15,6 +27,7 @@ var AbsenceController = function($rootScope, $scope, $location, AbsenceService) 
 		}		
 	};	
 };
+
 AbsenceController.$inject = ['$rootScope', '$scope', '$location', 'AbsenceService'];
 
 
