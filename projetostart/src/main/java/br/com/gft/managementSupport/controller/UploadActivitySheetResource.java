@@ -81,7 +81,6 @@ public class UploadActivitySheetResource {
 	  
 			br = new BufferedReader(new InputStreamReader(uploadedInputStream));
 			
-			Map<Resource, Map<Date, ActivitySheet>> map = new HashMap<Resource, Map<Date,ActivitySheet>>();
 			Project objProject = null;
 
 			int header = 0;			
@@ -89,7 +88,12 @@ public class UploadActivitySheetResource {
 	  
 				String[] column = line.split(splitBy);  
 				
-				if(header > 0) {		
+				Map<String, Resource> resourceMap = new HashMap<String, Resource>();
+				Map<String, Map<Date, ActivitySheet>> map = new HashMap<String, Map<Date,ActivitySheet>>();
+				
+				
+				
+				if(header > 0){		
 					
 					String projectCode = column[0];
 					String description = column[1];
@@ -107,126 +111,65 @@ public class UploadActivitySheetResource {
 					Integer month = Integer.parseInt(column[10]);
 					Integer year = Integer.parseInt(column[11]);
 					
-					Resource objResource = resourceDao.findByResourceName(resource);
+					Resource objResource = resourceMap.get(resource);
 					if (objResource == null) {
-						return "0|Resource not found!";
+						objResource = resourceDao.findByResourceName(resource);
+						if (objResource == null) {
+							return "0|Resource not found!";
+						}
+						resourceMap.put(resource, objResource);
 					}
 					if (objProject == null) {
 						objProject = projectDao.findByProjectCode(projectCode);
 						if (objProject == null) {
 							return "0|Project not found!";
 						}
-					} else if (!objProject.getProjectCode().equals(projectCode)) {
+					} 
+					if (!objProject.getProjectCode().equals(projectCode)) {
 						return "0|Project not found!";
-					} else {
-						//populates Map
-						for (ActivitySheet a : objProject.getActivitySheets()) {
-							for (Resource r : a.getResources()) {
-								Map<Date, ActivitySheet> activityMap = map.get(r); //Busca de valor (MAP) por index (Resource_name)
-								if (activityMap == null) { 
-									activityMap = new HashMap<Date, ActivitySheet>(); 
-									map.put(r, activityMap);
-								}
-								activityMap.put(a.getDate(), a);
-							}
+					} 
+					
+					Map<Date, ActivitySheet> dateMap = map.get(resource);
+					if (dateMap == null){
+						dateMap = new HashMap<Date, ActivitySheet>();
+						List<ActivitySheet> list = objResource.getActivitySheets();
+						
+						for (ActivitySheet a : list){
+							dateMap.put(a.getDate(), a);
 						}
+						
+						map.put(resource, dateMap);
 					}
 					
 					
-					
-					
-				/*if (objProject == null) {
-						objProject = projectDao.findByProjectCode(projectCode);
-						if (objProject == null) {
-							return "0|Project not found!";
-						}
-						//populates Map
-						for (ActivitySheet a : objProject.getActivitySheets()) {
-							for (Resource r : a.getResources()) {
-								Map<Date, ActivitySheet> activityMap = map.get(r); //Busca de valor (MAP) por index (Resource_name)
-								if (activityMap == null) { 
-									activityMap = new HashMap<Date, ActivitySheet>(); 
-									map.put(r, activityMap);
-								}
-								activityMap.put(a.getDate(), a);
-							}
-						}
-					} else if (!objProject.getProjectCode().equals(projectCode)) {
-						return "0|Project not found!";
-					}*/
-					
-				/*	if (objProject == null) {
-						objProject = projectDao.findByProjectCode(projectCode);
-					//	objProject = projectDao.findByProjectCode(projectCode);
-					//	return "0|Project not found!";
-					}
-					else{
-						//populates Map
-						for (ActivitySheet a : objProject.getActivitySheets()) {
-							for (Resource r : a.getResources()) {
-								Map<Date, ActivitySheet> activityMap = map.get(r); //Busca de valor (MAP) por index (Resource_name)
-								if (activityMap == null) { 
-									activityMap = new HashMap<Date, ActivitySheet>(); 
-									map.put(r, activityMap);
-								}
-								activityMap.put(a.getDate(), a);
-							}
-						}
-					}*/
-					
-					if (!objProject.getProjectCode().equals(projectCode)) 
-						return "0|Project not found!";
-					
-					//com.sun.jdi.InvocationException occurred invoking method.
-					Map<Date, ActivitySheet> activityMap = map.get(objResource);
-					if (activityMap == null) {						//Não ocorre ao repetir um resource			
-
-						activityMap = new HashMap<Date, ActivitySheet>();
-						List<ActivitySheet> list = objResource.getActivitySheets(); 
+					ActivitySheet objAct = dateMap.get(Date);
+					if(objAct == null){
 						
-						for (ActivitySheet a : list) {					
-							activityMap.put(a.getDate(), a);
-						}
-						map.put(objResource, activityMap);				//inserindo activityMap	nulo	
-					}
-
-					ActivitySheet objAct = activityMap.get(Date); //Busca se há registro de atividade na data do registro atual 
-					if (objAct == null) {
-						
-						ActivitySheet objActivitySheet = new ActivitySheet();
-						objActivitySheet.setDescription(description);
-						objActivitySheet.setActivityType(activityType);
-						objActivitySheet.setTask(task);					
-						objActivitySheet.setDate(Date);					
-						objActivitySheet.setHours(hours);
-						objActivitySheet.setStatus(status);					
-						objActivitySheet.setApprDate(ApprDate);
-						objActivitySheet.setRemarks(remarks);
-						objActivitySheet.setMonth(month);
-						objActivitySheet.setYear(year);										
-						objActivitySheet.setProject(objProject);
-						
+						ActivitySheet objActivity = new ActivitySheet();
 						List<ActivitySheet> activityList = new ArrayList<ActivitySheet>();
-						List<Resource> resourceList = new ArrayList<Resource>();
 						
-						resourceList.add(objResource);
+						objActivity.setDescription(description);
+						objActivity.setActivityType(activityType);
+						objActivity.setTask(task);					
+						objActivity.setDate(Date);					
+						objActivity.setHours(hours);
+						objActivity.setStatus(status);					
+						objActivity.setApprDate(ApprDate);
+						objActivity.setRemarks(remarks);
+						objActivity.setMonth(month);
+						objActivity.setYear(year);										
+						objActivity.setProject(objProject);
 						
-						objActivitySheet.setResources(resourceList);
 						
-						activityList.add(objActivitySheet);
+						activityList = objResource.getActivitySheets();
+						if(activityList == null){
+							activityList = new ArrayList<ActivitySheet>();
+							objResource.setActivitySheets(activityList);
+						}
 						
-						objResource.setActivitySheets(activityList);
-												
-						objProject.setActivitySheets(activityList);
-												
-						activityMap.put(Date, objActivitySheet);
-						
-						activitySheetDao.save(objActivitySheet);						
-						
-					} else {
-						// update fields
-					}					
-	
+						activityList.add(objActivity);
+						dateMap.put(Date, objActivity);
+					}
 				}
 				
 				header++;
