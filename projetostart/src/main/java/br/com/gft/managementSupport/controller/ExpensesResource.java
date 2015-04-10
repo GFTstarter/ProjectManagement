@@ -32,11 +32,11 @@ import org.springframework.stereotype.Component;
 import br.com.gft.managementSupport.JsonViews;
 import br.com.gft.managementSupport.dao.ExpensesDao;
 import br.com.gft.managementSupport.entity.Expenses;
-import br.com.gft.managementSupport.entity.Resource;
 
 @Component
 @Path("/expenses")
 public class ExpensesResource {
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -54,7 +54,7 @@ public class ExpensesResource {
 
 		ObjectWriter viewWriter = createViewWriter();
 		
-		List<Resource> allEntries = this.expensesDao.findAll();
+		List<Expenses> allEntries = this.expensesDao.findAll();
 
 		return viewWriter.writeValueAsString(allEntries);
 	}
@@ -101,7 +101,7 @@ public class ExpensesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Expenses update(@FormParam("idExpenses") Long id,
-						  @FormParam("endDate") Date endExpensesDate
+						  @FormParam("endExpensesDate") Date endExpensesDate
 						  ) {
 		
 		Expenses objExpenses = expensesDao.find(id);
@@ -109,8 +109,8 @@ public class ExpensesResource {
 		
 		Expenses newsEntry = new Expenses();
 		newsEntry.setIdExpenses(id);
-		newsEntry.setResource(objExpenses.getResource());
-		newsEntry.setIdLegalEntity(objExpenses.getIdLegalEntity());
+		newsEntry.setIdResource(objExpenses.getIdResource());
+		newsEntry.setLegalEntity(objExpenses.getLegalEntity());
 		newsEntry.setBeginExpensesDate(objExpenses.getBeginExpensesDate());
 		newsEntry.setEndExpensesDate(endExpensesDate);
 		newsEntry.setCostRate(objExpenses.getCostRate());
@@ -131,21 +131,23 @@ public class ExpensesResource {
 		this.expensesDao.delete(id);
 	}
 	
-
+	/*
+	 * EXCLUIDA
+	 * 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/byUser/{id}")
-	public String listReadExpensesByUser(@PathParam("id") int id) throws JsonGenerationException, JsonMappingException, IOException {
+	public String listReadAbsenceByResourceByUser(@PathParam("id") int id) throws JsonGenerationException, JsonMappingException, IOException {
 		
 		this.logger.info("list(id)");
 		
 		ObjectWriter viewWriter = createViewWriter();
 		
-		List<Resource> allEntries = this.expensesDao.findByUserId(id);
+		List<AbsenceByResource> allEntries = this.absenceDao.findByUserId(id);
 		
 		return viewWriter.writeValueAsString(allEntries);
 		
-	}
+	}*/
 	
 		
 	private boolean isAdmin() {
@@ -165,5 +167,4 @@ public class ExpensesResource {
 
 		return false;
 	}
-	
 }

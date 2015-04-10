@@ -5,12 +5,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -23,17 +20,16 @@ public class Expenses implements Serializable {
 	@Column (name = "id_expenses")
 	private Long idExpenses;
 	
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_resource")
-    private Resource resource;
-
-	@ManyToOne
-	@JoinColumn(name="id_legal_entity")
-	private LegalEntity idLegalEntity;
+	@Column (name = "id_resource")
+	private int idResource;
+	
+	@Column
+	private String legalEntity;
 	
 	@Column (name = "dt_beginExpenses", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date beginExpensesDate;
+	
 	
 	@Column (name = "dt_endExpenses", nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -42,6 +38,7 @@ public class Expenses implements Serializable {
 	@Column (name = "cost_rate", nullable = false)
 	private Double costRate;
 	    
+	
 	@Column (name = "description", nullable = true)
     private String description;
 
@@ -49,56 +46,80 @@ public class Expenses implements Serializable {
 		return idExpenses;
 	}
 
+
 	public void setIdExpenses(Long idExpenses) {
 		this.idExpenses = idExpenses;
 	}
 
-	public Resource getResource() {
-		return resource;
+	public int getIdResource() {
+		return idResource;
 	}
 
-	public void setResource(Resource resource) {
-		this.resource = resource;
+
+	public void setIdResource(int idResource) {
+		this.idResource = idResource;
 	}
 
-	public LegalEntity getIdLegalEntity() {
-		return idLegalEntity;
+
+ 
+
+	public String getLegalEntity() {
+		return legalEntity;
 	}
 
-	public void setIdLegalEntity(LegalEntity idLegalEntity) {
-		this.idLegalEntity = idLegalEntity;
+
+	public void setLegalEntity(String legalEntity) {
+		this.legalEntity = legalEntity;
 	}
+
 
 	public Date getBeginExpensesDate() {
 		return beginExpensesDate;
 	}
 
+
 	public void setBeginExpensesDate(Date beginExpensesDate) {
 		this.beginExpensesDate = beginExpensesDate;
 	}
+
 
 	public Date getEndExpensesDate() {
 		return endExpensesDate;
 	}
 
+
 	public void setEndExpensesDate(Date endExpensesDate) {
 		this.endExpensesDate = endExpensesDate;
 	}
+
 
 	public Double getCostRate() {
 		return costRate;
 	}
 
+
 	public void setCostRate(Double costRate) {
 		this.costRate = costRate;
 	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-    		
+
+
+	@Override
+	public String toString() {
+		return "Expenses [idExpenses=" + idExpenses
+				+ ", idExpenses=" + idExpenses + ", resource=" + idResource +", idLegalEntity=" + legalEntity
+				+ ", beginExpensesDate=" + beginExpensesDate + ", endExpensesDate=" + endExpensesDate
+				+ ", costRate=" + costRate + ", ]";
+	}
+    
+   		
 }

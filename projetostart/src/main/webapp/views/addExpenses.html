@@ -9,24 +9,22 @@
 
 
 			<div class="control-group">
-				<label class="input-group-addon" for="name">Resource Name:</label>
+				<label class="control-label" for="name">Resource Name:</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Resource Name'"
-						ng-model="selectedResource" k-data-source="resources"
-						k-data-value-field="'idResource'" k-data-text-field="'name'"
-						k-change="onChange" name="cmbExpenses" id="cmbExpenses"></select>
-					&nbsp;<span class="k-invalid-msg" data-for="name"></span>
+						ng-model="expenses.idResource" k-data-source="expensesdata"
+						k-data-value-field="'idResource'" k-data-text-field="'resource'"
+						k-change="onChange" name="resource" id="cmbResource">&nbsp;
+					</select>
 				</div>
 			</div>
-
-
 
 			<div class="control-group">
 				<label class="control-label" for="Coutry">Country</label>
 				<div class="controls">
 					<select kendo-combo-box k-placeholder="'Choose Country'"
-						style="width: 350px;" ="'Choose	Absence'"
-					k-data-text-field="'name'" k-change="onChange"
+						style="width: 350px;" k-data-text-field="'legalEntity'" 
+						ng-model="expenses.legalEntity" k-change="onChange"	
 						name="cmbExpenses" id="cmbExpenses">
 
 						<option value="Afghanistan">Afghanistan</option>
@@ -316,47 +314,44 @@
 			<div class="control-group">
 				<label class="control-label" for="startDate">Start Date</label>
 				<div class="controls">
-					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="startDate"
-						data-type="date" ng-model="expenses.startDate"
+					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="beginExpensesDate"
+						data-type="date" ng-model="expenses.beginExpensesDate"
 						placeholder="YYYY-MM-DD" required /> &nbsp;<span
-						class="k-invalid-msg" data-for="startDate"></span>
+						class="k-invalid-msg" data-for="beginExpensesDate"></span>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="endDate">End Date</label>
 				<div class="controls">
-					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="endDate"
-						data-type="date" ng-model="expenses.endDate"
+					<input kendo-date-picker k-format="'yyyy-MM-dd'" name="endExpensesDate"
+						data-type="date" ng-model="expenses.endExpensesDate"
 						placeholder="YYYY-MM-DD" required /> &nbsp;<span
-						class="k-invalid-msg" data-for="endDate"></span>
+						class="k-invalid-msg" data-for="endExpensesDate"></span>
 				</div>
 			</div>
-			
-						<div class="control-group">
+
+			<div class="control-group">
 				<label class="control-label" for="name">Cost rate:</label>
 				<div class="controls">
-					<input type="text" name="name" ng-model="expenses.name"
+					<input type="text" name="name" ng-model="expenses.costRate"
 						class="input-large" placeholder="$$$" required
 						validationMessage="Inform the cost of Expenses" /> &nbsp;<span
 						class="k-invalid-msg" data-for="name"></span>
 				</div>
 			</div>
-			
+
 
 
 
 			<div class="control-group">
-				<label class="control-label" for="name">Description:</label> <label
-					class="input-group-addon" for="name"></label>
+				<label class="control-label" for="description">Description:</label>
+				<label class="input-group-addon" for="name"></label>
 				<div class="controls">
-
-					<textarea rows="3"></textarea>
+					<textarea rows="3" type="text" name="description"
+						ng-model="expenses.description" class="input-large"
+						placeholder="Description"></textarea>
 				</div>
 			</div>
-
-
-
-
 
 			<input type="hidden" name="idUser" ng-model="expenses.idUser"
 				ng-init="init()" /> <br> <br>

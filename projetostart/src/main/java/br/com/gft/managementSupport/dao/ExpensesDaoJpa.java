@@ -3,12 +3,8 @@ package br.com.gft.managementSupport.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +13,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gft.managementSupport.entity.Expenses;
-import br.com.gft.managementSupport.entity.Resource;
 
 public class ExpensesDaoJpa implements ExpensesDao {
 	
@@ -27,15 +22,6 @@ public class ExpensesDaoJpa implements ExpensesDao {
 
 		return this.entityManager;
 	}
-	
-	/*SEQUENCIAL ID EXPENSES
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_expenses")
-	@SequenceGenerator(name = "id_expenses", sequenceName = "seq_expenses")
-	public Long getId() {
-	     Long id = null;
-		return id;
-	}*/
 
 
 	@PersistenceContext
@@ -44,18 +30,18 @@ public class ExpensesDaoJpa implements ExpensesDao {
 		this.entityManager = entityManager;
 	}
 
-//Exibe lista de Resource
+
 	@Override
 	@Transactional(readOnly = true)
-	public List<Resource> findAll() {
-
+	public List<Expenses> findAll() {
+		
 		final CriteriaBuilder builder = this.getEntityManager().getCriteriaBuilder();
-		final CriteriaQuery<Resource> criteriaQuery = builder.createQuery(Resource.class);
+		final CriteriaQuery<Expenses> criteriaQuery = builder.createQuery(Expenses.class);
 
-		Root<Resource> root = criteriaQuery.from(Resource.class);
-		criteriaQuery.orderBy(builder.asc(root.get("idResource")));
+		Root<Expenses> root = criteriaQuery.from(Expenses.class);
+		criteriaQuery.orderBy(builder.asc(root.get("idExpenses")));
 
-		TypedQuery<Resource> typedQuery = this.getEntityManager().createQuery(criteriaQuery);
+		TypedQuery<Expenses> typedQuery = this.getEntityManager().createQuery(criteriaQuery);
 		return typedQuery.getResultList();
 	}
 
@@ -63,11 +49,32 @@ public class ExpensesDaoJpa implements ExpensesDao {
 	@Override
 	@Transactional(readOnly = true)
 	public Expenses find(Long id) {
-
 		return this.getEntityManager().find(Expenses.class, id);
 	}
 
 
+	@Override
+	@Transactional
+	public Expenses findByExpensesCode(String ExpensesCode) {
+		
+		final CriteriaBuilder builder = this.getEntityManager().getCriteriaBuilder();
+		final CriteriaQuery<Expenses> criteriaQuery = builder.createQuery(Expenses.class);
+
+		Root<Expenses> root = criteriaQuery.from(Expenses.class);
+		
+		criteriaQuery.where(builder.equal(root.get("expensesCode"), builder.parameter(String.class, "expensesCode")));
+		TypedQuery<Expenses> q = entityManager.createQuery(criteriaQuery);
+		q.setParameter("expensesCode", ExpensesCode);
+		
+		try {
+			return (Expenses) q.getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
+	}
+
+
+	@Override
 	@Transactional
 	public Expenses save(Expenses obj) {
 		return this.getEntityManager().merge(obj);
@@ -77,7 +84,7 @@ public class ExpensesDaoJpa implements ExpensesDao {
 	@Override
 	@Transactional
 	public void delete(Long id) {
-
+		
 		if (id == null) {
 			return;
 		}
@@ -88,47 +95,6 @@ public class ExpensesDaoJpa implements ExpensesDao {
 		}
 
 		this.getEntityManager().remove(obj);
-	}
-
-
-	@Override
-	@Transactional
-	public List<Resource> findByUserId(int idUser) {
-				
-		final CriteriaBuilder builder = this.getEntityManager().getCriteriaBuilder();
-		final CriteriaQuery<Resource> criteriaQuery = builder.createQuery(Resource.class);
-
-		Root<Expenses> root = criteriaQuery.from(Expenses.class);
-		
-		criteriaQuery.where(builder.equal(root.get("idUser"), builder.parameter(Integer.class, "idUser")));
-		TypedQuery<Resource> q = entityManager.createQuery(criteriaQuery);
-		q.setParameter("idUser", idUser);
-		
-		criteriaQuery.orderBy(builder.asc(root.get("name")));
-
-		return q.getResultList();
-			
-	}
-
-	@Override
-	@Transactional
-	public Resource findByResourceCode(String resourceCode) {
-		
-		final CriteriaBuilder builder = this.getEntityManager().getCriteriaBuilder();
-		final CriteriaQuery<Resource> criteriaQuery = builder.createQuery(Resource.class);
-
-		Root<Resource> root = criteriaQuery.from(Resource.class);
-		
-		criteriaQuery.where(builder.equal(root.get("resourceCode"), builder.parameter(String.class, "resourceCode")));
-		TypedQuery<Resource> q = entityManager.createQuery(criteriaQuery);
-		q.setParameter("resourceCode", resourceCode);
-		
-		try {
-			return (Resource) q.getSingleResult();
-		} catch (NoResultException nre) {
-			return null;
-		}
 		
 	}
-	
 }

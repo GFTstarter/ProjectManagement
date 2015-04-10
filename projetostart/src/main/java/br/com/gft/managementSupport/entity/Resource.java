@@ -42,9 +42,9 @@ public class Resource implements Serializable{
 	@ManyToMany(cascade = {CascadeType.ALL})
 	private List<ActivitySheet> activitySheets;
 	
-	@JsonIgnore						//TERCEIRA TABELA ENTRE RESOURCE E EXPENSES ADICIONADO
+	/*@JsonIgnore						//TERCEIRA TABELA ENTRE RESOURCE E EXPENSES ADICIONADO
 	@ManyToMany
-	private List<Expenses> expenses;
+	private List<Expenses> expenses;*/
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -110,14 +110,6 @@ public class Resource implements Serializable{
 	@Override
 	public String toString() {
 		return "Resource [idResource=" + idResource + "]";
-	}
-
-	public List<Expenses> getExpenses() {
-		return expenses;
-	}
-
-	public void setExpenses(List<Expenses> expenses) {
-		this.expenses = expenses;
 	}
 
 	public Date getHireDate() {
