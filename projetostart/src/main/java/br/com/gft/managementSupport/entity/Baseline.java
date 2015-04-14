@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @SuppressWarnings("serial")
@@ -57,10 +58,20 @@ public class Baseline implements Serializable{
 	@JoinTable(name="baseline_resources", joinColumns=@JoinColumn(name="id_baseline"), inverseJoinColumns=@JoinColumn(name="id_resources"))
 	private List<Resource> resources;
 	
-	/*@OneToMany(mappedBy = "baseline")
-    private List<BaselineByResource> resources;   //ADICIONADO CONTROLE DE DATA E/S PROJETO
-	*/
+	@OneToMany(mappedBy = "baseline")
+    private List<BaselineByResource> resource;   //ADICIONADO CONTROLE DE DATA E/S PROJETO
 	
+	
+	
+
+	public List<BaselineByResource> getResource() {
+		return resource;
+	}
+
+	public void setResource(List<BaselineByResource> resource) {
+		this.resource = resource;
+	}
+
 	public Long getIdBaseline() {
 		return idBaseline;
 	}

@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -32,8 +35,9 @@ public class AbsenceByResource implements Serializable {
 	@Column (name = "id_absence")
     private int idAbsence;
     
-	@Column (name = "id_resource")
-    private int idResource;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_resource")
+    private Resource resource;
     
     @Column (name = "start_date", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -53,75 +57,141 @@ public class AbsenceByResource implements Serializable {
     private String description;
     
 
+
+	
+
 	public Long getIdAbsenceResource() {
 		return idAbsenceResource;
 	}
+
+
+
+
 
 	public void setIdAbsenceResource(Long idAbsenceResource) {
 		this.idAbsenceResource = idAbsenceResource;
 	}
 
+
+
+
+
 	public int getIdAbsence() {
 		return idAbsence;
 	}
+
+
+
+
 
 	public void setIdAbsence(int idAbsence) {
 		this.idAbsence = idAbsence;
 	}
 
-	public int getIdResource() {
-		return idResource;
+
+
+
+
+	public Resource getResource() {
+		return resource;
 	}
 
-	public void setIdResource(int idResource) {
-		this.idResource = idResource;
+
+
+
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
 	}
+
+
+
+
 
 	public Date getStartDate() {
 		return startDate;
 	}
 
+
+
+
+
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+
+
+
+
 
 	public Date getEndDate() {
 		return endDate;
 	}
 
+
+
+
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+
+
+
 
 	public int getWorkDays() {
 		return workDays;
 	}
 
+
+
+
+
 	public void setWorkDays(int workDays) {
 		this.workDays = workDays;
 	}
-	
+
+
+
+
+
 	public int getWorkHours() {
 		return workHours;
 	}
 
+
+
+
+
 	public void setWorkHours(int workHours) {
 		this.workHours = workHours;
 	}
-	
-    public String getDescription() {
+
+
+
+
+
+	public String getDescription() {
 		return description;
 	}
+
+
+
+
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+
+
+
 
 	@Override
 	public String toString() {
 		return "AbsenceByResource [idAbsenceResource=" + idAbsenceResource
-				+ ", absence=" + idAbsence + ", resource=" + idResource
+				+ ", absence=" + idAbsence + ", resource=" + resource
 				+ ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", workDays=" + workDays + "]";
 	}

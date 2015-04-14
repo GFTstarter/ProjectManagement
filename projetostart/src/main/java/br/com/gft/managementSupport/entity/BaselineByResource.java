@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//@Entity (name = "baseline_resources")
+@Entity (name = "baseline_resources")
 @SuppressWarnings("serial")
 public class BaselineByResource implements Serializable {
 	
@@ -79,10 +79,16 @@ public class BaselineByResource implements Serializable {
 
 	public void setEndOnProjectDate(Date endOnProjectDate) {
 		this.endOnProjectDate = endOnProjectDate;
-	}
-    
-    
-    
-    
+	}   
 	
+
+
+@Override
+public String toString() {
+	return "BaselineByResource [id_baseline_resource=" + idBaselineResource
+			+ ", id_baseline=" + baseline 
+			+ ", id_resource=" + resource
+			+ ", dt_beginOnProject=" + beginOnProjectDate
+			+ ", dt_endOnProject=" + endOnProjectDate + "]";
+	}
 }

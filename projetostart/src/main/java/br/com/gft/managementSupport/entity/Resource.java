@@ -25,47 +25,47 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @SuppressWarnings("serial")
 public class Resource implements Serializable{
 	
+	//GERA ID AUTOMATICO PARA ID_RESOURCE
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column (name = "id_resource")
 	private Long idResource;
 	
+	//RECEBE O NOME DO RESOURCE
 	@Column(name = "resource", nullable = false)
 	private String resource;
 		
+	//CHAVE ESTRANGEIRA DO CAMPO ID_CONCEPT DA TABELA RESOURCE COM ID_CONCEPT DA TABELA CONCEPT
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)    
     @JoinColumn(name="id_concept")      
 	private Concept concept;
 	
 	@JsonIgnore
-	@ManyToMany(cascade = {CascadeType.ALL})
-	private List<ActivitySheet> activitySheets;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="id_location")
+	private Location location;
+
+	@JsonIgnore
+	@Column (name = "hire_date", nullable = true) //HIREDATE ADICIONADO //campo não incluso na planilha importada
+    @Temporal(TemporalType.DATE)
+    private Date hireDate;
 	
 	/*@JsonIgnore						//TERCEIRA TABELA ENTRE RESOURCE E EXPENSES ADICIONADO
 	@ManyToMany
 	private List<Expenses> expenses;*/
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="id_location")
-	private Location location;
+	@ManyToMany(cascade = {CascadeType.ALL})
+	private List<ActivitySheet> activitySheets;
 	
 	@JsonIgnore
-	@Column (name = "hire_date", nullable = true) //HIREDATE ADICIONADO //campo não incluso na planilha importada
-    @Temporal(TemporalType.DATE)
-    private Date hireDate;
-	
-/*	@OneToMany(mappedBy = "resource")
+	@OneToMany(mappedBy = "resource")
     private List<BaselineByResource> baselines; //ADICIONADO CONTROLE DE DATA E/S PROJETO
-	*/
-	/*
-	 * 
-	 * @OneToMany(mappedBy = "resource")		//ADICIONA LIGAÇÃO AUSENTE ENTRE (RESOURCE) 1----N (ABSENCE_RESOURCE )
-       private List<AbsenceByResource> absence;
-	 * 
-	 * */
-	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "resource")		//ADICIONA LIGAÇÃO AUSENTE ENTRE (RESOURCE) 1----N (ABSENCE_RESOURCE )
+    private List<AbsenceByResource> absence;
 
 	public Long getIdResource() {
 		return idResource;
@@ -91,25 +91,12 @@ public class Resource implements Serializable{
 		this.concept = concept;
 	}
 
-	public List<ActivitySheet> getActivitySheets() {
-		return activitySheets;
-	}
-
-	public void setActivitySheets(List<ActivitySheet> activitySheets) {
-		this.activitySheets = activitySheets;
-	}
-
 	public Location getLocation() {
 		return location;
 	}
 
 	public void setLocation(Location location) {
 		this.location = location;
-	}
-
-	@Override
-	public String toString() {
-		return "Resource [idResource=" + idResource + "]";
 	}
 
 	public Date getHireDate() {
@@ -119,6 +106,33 @@ public class Resource implements Serializable{
 	public void setHireDate(Date hireDate) {
 		this.hireDate = hireDate;
 	}
+
+	public List<ActivitySheet> getActivitySheets() {
+		return activitySheets;
+	}
+
+	public void setActivitySheets(List<ActivitySheet> activitySheets) {
+		this.activitySheets = activitySheets;
+	}
+
+	public List<BaselineByResource> getBaselines() {
+		return baselines;
+	}
+
+	public void setBaselines(List<BaselineByResource> baselines) {
+		this.baselines = baselines;
+	}
+
+	public List<AbsenceByResource> getAbsence() {
+		return absence;
+	}
+
+	public void setAbsence(List<AbsenceByResource> absence) {
+		this.absence = absence;
+	}
+
+
+
 
 	
 	
