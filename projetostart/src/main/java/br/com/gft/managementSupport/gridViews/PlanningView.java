@@ -2,33 +2,57 @@ package br.com.gft.managementSupport.gridViews;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Map;
 
 @SuppressWarnings("serial")
 public class PlanningView  implements Serializable{
 
-	private Long idBaselineResource;
+	private Long idResource;
 	private String resource;
 	private Date hiredate;
 	private String concept;
-	private Date dtBeginOnProject;
-	private Date dtEndOnProject;
+	private Date date;
+	private Integer hours;
+	private Map<Date, Integer> activity;
+	private Map<String, Map<Date, Integer>> horasResource;
 	
-	public PlanningView (){}
+	
+	
+		public PlanningView (){}
 		
-		public PlanningView (String resource, Date hiredate, String concept, Date dtBeginOnProject, Date dtEndOnProject){
+		public PlanningView (String resource, Date hiredate, String concept, Date date, Integer hours){
 			this.resource = resource;
 			this.hiredate = hiredate;
 			this.concept = concept;
-			this.dtBeginOnProject = dtBeginOnProject;
-			this.dtEndOnProject = dtEndOnProject;
+			this.date = date;
+			this.hours = hours;
+			
+		}
+		
+		
+
+		public Map<Date, Integer> getActivity() {
+			return activity;
 		}
 
-		public Long getidBaselineResource() {
-			return idBaselineResource;
+		public void setActivity(Map<Date, Integer> activity) {
+			this.activity = activity;
 		}
 
-		public void setidBaselineResource(Long idBaselineResource) {
-			this.idBaselineResource = idBaselineResource;
+		public Map<String, Map<Date, Integer>> getHorasResource() {
+			return horasResource;
+		}
+
+		public void setHorasResource(Map<String, Map<Date, Integer>> horasResource) {
+			this.horasResource = horasResource;
+		}
+
+		public Long getIdResource() {
+			return idResource;
+		}
+
+		public void setIdResource(Long idResource) {
+			this.idResource = idResource;
 		}
 
 		public String getResource() {
@@ -38,7 +62,7 @@ public class PlanningView  implements Serializable{
 		public void setResource(String resource) {
 			this.resource = resource;
 		}
-
+		
 		public Date getHiredate() {
 			return hiredate;
 		}
@@ -54,31 +78,31 @@ public class PlanningView  implements Serializable{
 		public void setConcept(String concept) {
 			this.concept = concept;
 		}
-
-		public Date getDtBeginOnProject() {
-			return dtBeginOnProject;
+	
+		public Date getDate() {
+			return date;
 		}
 
-		public void setDtBeginOnProject(Date dtBeginOnProject) {
-			this.dtBeginOnProject = dtBeginOnProject;
+		public void setDate(Date date) {
+			this.date = date;
 		}
 
-		public Date getDtEndOnProject() {
-			return dtEndOnProject;
+		public Integer getHours() {
+			return hours;
 		}
 
-		public void setDtEndOnProject(Date dtEndOnProject) {
-			this.dtEndOnProject = dtEndOnProject;
+		public void setHours(Integer hours) {
+			this.hours = hours;
 		}
-		
+
 		@Override
 		public String toString() {
-			return "PeopleView [resource=" + resource + ", hiredate=" + hiredate 
-					+ ", concept=" + concept +", dtBeginOnProject=" + dtBeginOnProject 
-					+ ", dtEndOnProject=" + dtEndOnProject 
+			return "PlanningView [resource=" + resource + ", hiredate=" + hiredate 
+					+ ", concept=" + concept +", date=" + date 
+					+ ", hours=" + hours 
 					+ ", getResource()=" + getResource() + ", getHiredate()="
-					+ getHiredate() + ", getConcept()=" + getConcept() +", getDtBeginOnProject()="
-					+ getDtBeginOnProject() + ", getDtEndOnProject()=" + getDtEndOnProject()
+					+ getHiredate() + ", getConcept()=" + getConcept() +", getDate()="
+					+ getDate() + ", getHours()=" + getHours()
 					+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
 					+ super.toString() + "]";
 		}

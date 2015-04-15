@@ -2,29 +2,12 @@
 <div id="example" ng-app="KendoDemos"  class="k-content">
     <div ng-controller="MyCtrl">
     
-    
-	    <kendo-grid options="mainGridOptions" 
-	    			k-toolbar="['save','cancel']" >
-	    
+	    <kendo-grid options="mainGridOptions" k-toolbar="['save','cancel']" >
 	    </kendo-grid>
 	    
-	
-    	
 	</div>
-	    <div id="team-schedule">
-			<div id="people" class="form-inline">
-				<label><input checked type="checkbox" id="alex" value="1"> Resource 1</label>
-				<label><input type="checkbox" id="bob" value="2"> Resource 2 </label>
-				<label><input type="checkbox" id="charlie" value="3"> Resource 3 </label>
-			</div>
-		</div>
-		
-	    <div kendo-scheduler k-options="schedulerOptions" id="scheduler">
-	        <span k-event-template class='custom-event' >{{dataItem.title}}</span>
-	        <div k-all-day-event-template class='custom-all-day-event k-scheduler-times'>{{dataItem.title}}</div>
-	    </div>
-	    
-    </div>
+	  
+</div>
 <!-- tr[role="row"] td:nth-child(1) -->
 <style>
 
@@ -45,25 +28,21 @@
     	
     }
    
-    
 </style>
-
 
 <script>
 function MyCtrl ($scope, $location) {
-	
 
 	 var columns = [];
 	 
 	 var date1 = new Date();
 	 var addDays1 = kendo.date.addDays;
 	 
-	// console.log(kendo.date.addDays(date1, 1));
+	//console.log(kendo.date.addDays(date1, 1));
 	 
 	 var data = kendo.toString(kendo.date.addDays(date1, 1), "d");
 	 
 	 console.log(data);
-	 
 	 
 	 columns.push({
          field: "resource",
@@ -71,60 +50,50 @@ function MyCtrl ($scope, $location) {
          locked: true,
          lockable: false,
          width: "120px"
-         },{
-         field: "hiredate",
-         title: "HIRE DATE",
-         locked: true,
-         width: "120px"
-         },{
-         field: "concept",
-         title: "PROFILE",
-         locked: true,
-         width: "120px"
-         },{
-         field: "dtBeginOnProject",
-         title: "BEGIN ON PROJECT",
-         locked: true,
-         width: "120px"
-         },{
-         field: "dtEndOnProject",
-       	 title: "END ON PROJECT",
-       	 locked: true,
-       	 width: "120px"
-     	 }
+         }
      );
 	 
 	    for (var i = 0; i < 100; i++) {
-	        columns.push({
-	            field: "hours",
-	            title: "" +  kendo.toString(kendo.date.addDays(date1, i), "d"),
-	            width: "120px"
+	    	columns.push({
+	            field: "",
+	            title: "" + kendo.toString(date1, "d"),
+	            width: "100px"
 	        });
+	    	
+	    	date1 = kendo.date.addDays(date1, i);
 	    }
 	
 	var date = new Date();
     var addDays = kendo.date.addDays;
           
+   var dataSource = new kendo.data.DataSource({
+    	transport: {
+	           	read: {         	   
+	        	   url: "rest/planning",
+	        	   contentType: "application/json; charset=utf-8",
+	               dataType: "json"
+	           	},	
+	           	update: {         	   
+	         	   url: "rest/planning",
+	         	   contentType: "application/json; charset=utf-8",
+	               dataType: "json",
+	               type: "PUT"
+	            }
+			},
+			schema: {
+			    parse: function(response) {
+			    	for (var m in response){
+			    	    for (var i in response[m]){
+			    	    	console.log(response[m][i]);
+			    	    }
+			    	} 
+			      return products;
+			    }
+			}
+    });
+    
     	$scope.mainGridOptions = {
-   			dataSource: {
-   				transport: {
-   		           	read: {         	   
-   		        	   url: "rest/planning",
-   		        	   contentType: "application/json; charset=utf-8",
-   		               dataType: "json"
-   		           	},
-   		           	update: {         	   
-   		         	   url: "rest/planning",
-   		         	   contentType: "application/json; charset=utf-8",
-   		               dataType: "json",
-   		               type: "PUT"
-   		            }
-   				},
-   				schema: {
-   			   	    model: {id: "idBaselineResource"},
-   			   	 	type: "json"
-   			   	}
-   			},
+   			dataSource: dataSource,
 	    	sortable: true,
 	    	editable: true,
 	    	resizable: true,
@@ -138,33 +107,6 @@ function MyCtrl ($scope, $location) {
 	        	pageSizes: [5,10,20]
    			},
    			columns: columns
-   			/*columns:  [{
-                field: "resource",
-                title: "NAME",
-                locked: true,
-                lockable: false,
-                width: "120px"
-                },{
-                field: "hiredate",
-                title: "HIRE DATE",
-                locked: true,
-                width: "120px"
-                },{
-                field: "concept",
-                title: "PROFILE",
-                locked: true,
-                width: "120px"
-                },{
-                field: "dtBeginOnProject",
-                title: "BEGIN ON PROJECT",
-                locked: true,
-                width: "120px"
-                },{
-                field: "dtEndOnProject",
-              	title: "END ON PROJECT",
-              	locked: false,
-              	width: "120px"
-            	}]*/
     	}	
     	
 	    $scope.gridPlanningView = new kendo.data.DataSource({ 
@@ -191,157 +133,36 @@ function MyCtrl ($scope, $location) {
 		   	 	type: "json"
 		   	},
 		   });
-    
-        $scope.schedulerOptions = {
-        		eventHeight: 40,
-				eventWidth: 10,
-                //set major tick to full day
-                //and leave the default startTime/endTime
-                majorTick: 1440,
-                //show only one minor tick
-                minorTickCount: 1,
-                majorTimeHeaderTemplate: "",
-                views: [
-					"day",
-					{ type: "workWeek", selected: true },
-					"week",
-					"month",
-                ],
-                timezone: "Etc/UTC",
-                dataBound: function(e) {
-                    //hide the times row from the date/time header:
-                    var view = this.view();
-                    view.datesHeader.find("tr:last").prev().hide();
-                    view.timesHeader.find("tr:last").prev().hide();
-                },
-                dataSource: {
-                    batch: true,
-                    data: [
-                        //sample data:
-                        {
-                            Start: date,
-                            End: date,
-                            Title: "Team building",
-                            IsAllDay: true,
-                            OwnerID: 1,
-                            Attendees: [1, 2, 3]
-                        }, {
-                            Start: addDays(date, 1),
-                            End: addDays(date, 1),
-                            Title: "Meeting with Alex",
-                            IsAllDay: true,
-                            OwnerID: 2,
-                            Attendees: [1]
-                        }, {
-                            Start: addDays(date, 2),
-                            End: addDays(date, 2),
-                            Title: "Meeting with Charlie",
-                            IsAllDay: true,
-                            OwnerID: 2,
-                            Attendees: [3]
-                        }
-                    ],
-                    schema: {
-                        model: {
-                            id: "meetingID",
-                            fields: {
-                                meetingID: {
-                                    from: "MeetingID",
-                                    type: "number"
-                                },
-                                title: {
-                                    from: "Title",
-                                    defaultValue: "No title",
-                                    validation: {
-                                        required: true
-                                    }
-                                },
-                                start: {
-                                    type: "date",
-                                    from: "Start"
-                                },
-                                end: {
-                                    type: "date",
-                                    from: "End"
-                                },
-                                startTimezone: { from: "StartTimezone"},
-                                endTimezone: {from: "EndTimezone"},
-                                description: {from: "Description"},
-                                recurrenceId: {from: "RecurrenceID"},
-                                recurrenceRule: {from: "RecurrenceRule"},
-                                recurrenceException: {from: "RecurrenceException"},
-                                ownerId: {
-                                    from: "OwnerID",
-									defaultValue: 1,
-                                    nullable: true
-                                },
-                                attendees: {
-                                    from: "Attendees",
-                                    nullable: true
-                                },
-                                isAllDay: {
-                                    type: "boolean",
-                                    from: "IsAllDay"
-                                }
-                            }
-                        }
-                    },
-					filter: {
-						logic: "or",
-						filters: [
-							{ field: "ownerId", operator: "eq", value: 1 },
-							{ field: "ownerId", operator: "eq", value: 2 }
-						]
-					}
-                },
-				resources: [{
-                    field: "ownerId",
-                    name: "Rooms",
-                    dataSource: [{
-                        text: "Meeting Room 101",
-                        value: 1,
-                        color: "#6eb3fa"
-                    }, {
-                        text: "Meeting Room 201",
-                        value: 2,
-                        color: "#f58a8a"
-                    }],
-                    title: "Owner"
-                }, {
-                    field: "attendees",
-                    name: "Attendees",
-                    dataSource: [{
-                        text: "Alex",
-                        value: 1,
-                        color: "#f8a398"
-                    }, {
-                        text: "Bob",
-                        value: 2,
-                        color: "#51a0ed"
-                    }, {
-                        text: "Charlie",
-                        value: 3,
-                        color: "#56ca85"
-                    }],
-                    multiple: true,
-                    title: "Attendees"
-                }]
-        };
-        
-        $("#people :checkbox").change(function(e) {
-			var checked = $.map($("#people :checked"), function(checkbox) {
-				return parseInt($(checkbox).val());
-			});
-
-			var scheduler = $("#scheduler").data("kendoScheduler");
-
-			scheduler.dataSource.filter({
-				operator: function(task) {
-					return $.inArray(task.ownerId, checked) >= 0;
-				}
-			});
-		});
       }
+      
+      
+/*columns:  [{
+field: "resource",
+title: "NAME",
+locked: true,
+lockable: false,
+width: "120px"
+},{
+field: "hiredate",
+title: "HIRE DATE",
+locked: true,
+width: "120px"
+},{
+field: "concept",
+title: "PROFILE",
+locked: true,
+width: "120px"
+},{
+field: "dtBeginOnProject",
+title: "BEGIN ON PROJECT",
+locked: true,
+width: "120px"
+},{
+field: "dtEndOnProject",
+	title: "END ON PROJECT",
+	locked: false,
+	width: "120px"
+}]*/
 </script>
 
 
