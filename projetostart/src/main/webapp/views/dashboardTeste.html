@@ -1,0 +1,61 @@
+<Div id="chart" style="width: 1000px; altura: 2000px"></div>
+
+
+<script>
+
+var dataSource = new kendo.data.DataSource({
+	  transport: {
+	    read: {
+	      url: "rest/project",
+	      contentType: "application/json; charset=utf-8",
+	      dataType: "jsonp"
+	    }
+	  }
+	});
+	
+
+$("#chart").kendoChart({
+    title: {
+        text: "Dashboard Project"
+    },
+    legend: {
+        position: "bottom"
+    },
+    seriesDefaults: {
+        type: "line"
+    },
+    
+    
+    
+    //LINHAS
+    series: [{
+        name: "Atual",
+        data: [20, 16.7, 20, 23.5, 26.6] //LINHA LARANJA
+    }, {
+        name: "Planejado",
+        data: [67.96, 68.93, 75, 74, 78] //LINHA VERDE
+    }],
+    valueAxis: {
+        labels: {
+            format: "{0}$"
+        }
+    },
+
+   
+//VALORES DO EIXO X
+	categoryAxis : {
+
+			categories : [ "Mon", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+
+			crosshair : {
+				tooltip : {
+					format : "Month: {0}",
+					visible : true
+				},
+				visible : true
+			}
+		},
+
+	});
+</script>
+

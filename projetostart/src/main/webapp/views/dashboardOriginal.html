@@ -4,6 +4,7 @@
 
 
 
+<!-- TABELAS INFERIORES -->
 <table id="grid1">
 
     <colgroup>
@@ -69,6 +70,19 @@
 <button type="button" id="refreshButton" style="float:right"">Refresh</button>
 
 <script>
+
+var dataSource = new kendo.data.DataSource({
+	  transport: {
+	    read: {
+	      url: "rest/project",
+	      contentType: "application/json; charset=utf-8",
+	      dataType: "jsonp"
+	    }
+	  }
+	});
+
+
+
 $("#chart").kendoChart({
     title: {
         text: ""
