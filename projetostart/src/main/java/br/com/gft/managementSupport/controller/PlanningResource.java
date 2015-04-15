@@ -2,7 +2,10 @@ package br.com.gft.managementSupport.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,13 +40,13 @@ import br.com.gft.managementSupport.rowMapper.PlanningDao;
 @Path("/planning")
 public class PlanningResource {
 	
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	
 	@Autowired
 	private PlanningDao planningDao;
 	
-	@Autowired
-	private BaselineByResourceDao baselineByResourceDao;
 	
 	@Autowired
 	private ObjectMapper mapper;
@@ -53,13 +56,31 @@ public class PlanningResource {
 	public String list() throws JsonGenerationException, JsonMappingException, IOException {
 
 		this.logger.info("list()");
+		
+		Map<Date, Integer> activity = new HashMap<Date, Integer>();
+		Map<String, Map<Date, Integer>> horasResource = new HashMap<String, Map<Date, Integer>>();
+		Map<String, Map<Date, Integer>> horasR = new HashMap<String, Map<Date, Integer>>();
 
 		ObjectWriter viewWriter = createViewWriter();
 		
 		List<PlanningView> allEntries = this.planningDao.findAll();
 		System.out.println(allEntries);
-
-		return viewWriter.writeValueAsString(allEntries);
+		
+		for(PlanningView pv : allEntries){
+			horasResource.put(pv.getResource(), null);
+		}
+		
+		for(Map.Entry<String, Map<Date, Integer>> entry : horasResource.entrySet()){
+			activity = new HashMap<Date, Integer>();
+			for (PlanningView pv : allEntries ){
+				
+				if (pv.getResource().equals(entry.getKey())){
+					activity.put(pv.getDate(), pv.getHours());
+				}
+			}
+			horasR.put(entry.getKey(), activity);
+		}
+		return viewWriter.writeValueAsString(horasR);
 	}
 
 	
@@ -73,45 +94,45 @@ public class PlanningResource {
 		return viewWriter;
 	}
 
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public BaselineByResource create(BaselineByResource newsEntry) {
-
-		this.logger.info("create(): " + newsEntry);
-
-		return this.baselineByResourceDao.save(newsEntry);
-	}
-
-
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public BaselineByResource update(@FormParam("idBaselineResource") Long id,
-			  					@FormParam("dtBeginOnProject") Date beginOnProjDate,
-			  					@FormParam("dtEndOnProject") Date endOnProjDate) {
-
-		BaselineByResource update = baselineByResourceDao.find(id);
-		
-		update.setIdBaselineResource(id);
-		update.setBeginOnProjectDate(beginOnProjDate);
-		update.setEndOnProjectDate(endOnProjDate);
-		
-		
-		this.logger.info("update(): " + id);
-
-		return this.baselineByResourceDao.save(update);
-	}
-
-
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(@FormParam("idBaselineResource") Long id) {
-
-		this.logger.info("deleteEntry(id)");
-
-		this.baselineByResourceDao.delete(id);
-	}
+//	@POST
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public BaselineByResource create(BaselineByResource newsEntry) {
+//
+//		this.logger.info("create(): " + newsEntry);
+//
+//		return this.baselineByResourceDao.save(newsEntry);
+//	}
+//
+//
+//	@PUT
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public BaselineByResource update(@FormParam("idBaselineResource") Long id,
+//			  					@FormParam("dtBeginOnProject") Date beginOnProjDate,
+//			  					@FormParam("dtEndOnProject") Date endOnProjDate) {
+//
+//		BaselineByResource update = baselineByResourceDao.find(id);
+//		
+//		update.setIdBaselineResource(id);
+//		update.setBeginOnProjectDate(beginOnProjDate);
+//		update.setEndOnProjectDate(endOnProjDate);
+//		
+//		
+//		this.logger.info("update(): " + id);
+//
+//		return this.baselineByResourceDao.save(update);
+//	}
+//
+//
+//	@DELETE
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void delete(@FormParam("idBaselineResource") Long id) {
+//
+//		this.logger.info("deleteEntry(id)");
+//
+//		this.baselineByResourceDao.delete(id);
+//	}
 	
 	
 	private boolean isAdmin() {
