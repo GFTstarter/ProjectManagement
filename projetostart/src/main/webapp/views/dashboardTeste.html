@@ -1,61 +1,140 @@
-<Div id="chart" style="width: 1000px; altura: 2000px"></div>
+<legend>Dashboard Project...</legend>
 
+<br>
+
+<Div id="chart" style="width: 1100px; altura: 2000px; position: static">
+</div>
+
+<br><br>
+
+<div id="gridDashboards" kendo-grid k-data-source="gridDashboards"
+	k-selectable="'inline'"
+	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	k-filterable="true" k-sortable="true" k-resizable="true"
+	k-editable="'incell'" class="gridDashboards"
+	k-columns='[{ field: "concept", title: "K", width: 30},
+		    			  { field: "costRate", title: "Cost Rate", width: 40},
+		    			  { field: "blpHours", title: "BLP Hours"},
+		    			  { field: "blpTotalCost", title: "BLP Total Cost"},
+		    			  { field: "eacHours", title: "EAC Hours"},
+		    			  { field: "eacCost", title: "EAC Cost"},
+		    			  { field: "costDiff", title: "Cost Diff"},
+		    			  { field: "costStatus", title: "Cost Status"}]'>
+</div>
+
+<br>
+
+<div id="gridDashboardsBalance" kendo-grid
+	k-data-source="gridDashboardsBalance" k-selectable="'inline'"
+	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	k-filterable="true" k-sortable="true" k-resizable="true"
+	k-editable="'incell'" class="gridDashboards"
+	k-columns='[{ field: "blp", title: "BLP"},
+		    			  { field: "eac", title: "EAC"},
+		    			  { field: "diff", title: "Diff"},
+		    			  { field: "notes", title: "Notes"},
+		    			  { field: "eacHours", title: "EAC Hours"}]'>
+</div>
+
+<br>
 
 <script>
-
-var dataSource = new kendo.data.DataSource({
-	  transport: {
-	    read: {
-	      url: "rest/project",
-	      contentType: "application/json; charset=utf-8",
-	      dataType: "jsonp"
-	    }
-	  }
+	var dataSource = new kendo.data.DataSource({
+		transport : {
+			read : {
+				url : "rest/project",
+				contentType : "application/json; charset=utf-8",
+				dataType : "jsonp"
+			}
+		}
 	});
 	
-
-$("#chart").kendoChart({
-    title: {
-        text: "Dashboard Project"
-    },
-    legend: {
-        position: "bottom"
-    },
-    seriesDefaults: {
-        type: "line"
-    },
-    
-    
-    
-    //LINHAS
-    series: [{
-        name: "Atual",
-        data: [20, 16.7, 20, 23.5, 26.6] //LINHA LARANJA
-    }, {
-        name: "Planejado",
-        data: [67.96, 68.93, 75, 74, 78] //LINHA VERDE
-    }],
-    valueAxis: {
-        labels: {
-            format: "{0}$"
-        }
-    },
-
-   
-//VALORES DO EIXO X
-	categoryAxis : {
-
-			categories : [ "Mon", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
-
-			crosshair : {
-				tooltip : {
-					format : "Month: {0}",
-					visible : true
-				},
-				visible : true
+	eixox = [];
+	
+	$("#chart").kendoChart();
+	
+	$.get("rest/project", { }, function(response){
+		date = response[0].startDate.split("-");
+		dataInicial = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
+		date = response[0].endDate.split("-");
+		dataFinal = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
+				
+		qtdeMeses = Math.ceil((dataFinal - dataInicial) / (60 * 60 * 24 * 30 * 1000));
+		
+		qtdeMeses = (qtdeMeses < 12 ? 12 : qtdeMeses);
+		mesInicial = dataInicial.getMonth();
+		anoInicial = (dataInicial.getFullYear() + "").substr(2, 2);
+		
+		for (i = 0; i < qtdeMeses; i++){
+			eixox[i] = nomeMeses(mesInicial++) + "/" + anoInicial;
+			
+			if(mesInicial == 12){
+				mesInicial = 0;
+				anoInicial++;
 			}
-		},
+		}
+		
+		$("#chart").kendoChart({
+			title : {
+				text : ""
+			},
+			legend : {
+				position : "bottom"
+			},
+			seriesDefaults : {
+				type : "line"
+			},
 
-	});
+			//LINHAS
+			series : [ {
+				name : "Atual",
+				data : [ 20, 16.7, 20, 23.5, 26.6 ]
+			//LINHA LARANJA
+			}, {
+				name : "Planejado",
+				data : [ 67.96, 68.93, 75, 74, 78 ]
+			//LINHA VERDE
+			} ],
+			valueAxis : {
+				labels : {
+					format : "{0}$"
+				}
+			},
+
+			//VALORES DO EIXO X
+			categoryAxis : {
+
+				categories : eixox,
+
+				crosshair : {
+					tooltip : {
+						format : "Month: {0}",
+						visible : true
+					},
+					visible : true
+				}
+			},
+
+		});
+	}, "json");
+	
+	nomeMeses = function(meses){
+		switch (meses){
+			case 0: var mes = "Jan";break;
+			case 1: var mes = "Feb";break;
+			case 2: var mes = "Mar";break;
+			case 3: var mes = "Apr";break;
+			case 4: var mes = "May";break;
+			case 5: var mes = "Jun";break;
+			case 6: var mes = "Jul";break;
+			case 7: var mes = "Aug";break;
+			case 8: var mes = "Sep";break;
+			case 9: var mes = "Oct";break;
+			case 10: var mes = "Nov";break;
+			case 11: var mes = "Dec";break;
+		}
+		
+		return mes;
+	}
 </script>
 
