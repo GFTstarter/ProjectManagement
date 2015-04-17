@@ -13,6 +13,7 @@ public class PlanningParameterizedRowMapper implements ParameterizedRowMapper<Pl
 		
 		PlanningView planning = new PlanningView();
 		
+		planning.setIdActivity(rs.getLong("id_activity_sheet"));
 		planning.setIdResource(rs.getLong("id_resource"));
 		planning.setResource(rs.getString("resource"));
 		planning.setHiredate(rs.getDate("hire_date"));

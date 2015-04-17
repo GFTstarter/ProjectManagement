@@ -5,6 +5,8 @@
 	    <kendo-grid options="mainGridOptions" k-toolbar="['save','cancel']" >
 	    </kendo-grid>
 	    
+	    
+	    
 	</div>
 	  
 </div>
@@ -25,7 +27,6 @@
     	display: none
     }
     td[role="gridcell"] {
-    	
     }
    
 </style>
@@ -49,92 +50,86 @@ function MyCtrl ($scope, $location) {
          title: "RESOURCE",
          locked: true,
          lockable: false,
-         width: "120px"
+         width: "150px"
          }
      );
 	 
-	    for (var i = 0; i < 100; i++) {
-	    	columns.push({
-	            field: "",
-	            title: "" + kendo.toString(date1, "d"),
-	            width: "100px"
-	        });
-	    	
-	    	date1 = kendo.date.addDays(date1, i);
-	    }
+    for (var i = 0; i < 100; i++) {
+    	columns.push({
+            field: "hours",
+            title: "" + kendo.toString(kendo.date.addDays(date1, i), "d"),
+            width: "100px"
+        });	    
+    }
 	
 	var date = new Date();
     var addDays = kendo.date.addDays;
           
-   var dataSource = new kendo.data.DataSource({
+   	var dataSource = new kendo.data.DataSource({
     	transport: {
-	           	read: {         	   
-	        	   url: "rest/planning",
-	        	   contentType: "application/json; charset=utf-8",
-	               dataType: "json"
-	           	},	
-	           	update: {         	   
-	         	   url: "rest/planning",
-	         	   contentType: "application/json; charset=utf-8",
-	               dataType: "json",
-	               type: "PUT"
-	            }
-			},
-			schema: {
-			    parse: function(response) {
-			    	for (var m in response){
-			    	    for (var i in response[m]){
-			    	    	console.log(response[m][i]);
-			    	    }
-			    	} 
-			      return products;
-			    }
-			}
+	       	read: {         	   
+	    	   url: "rest/planning",
+	    	   contentType: "application/json; charset=utf-8",
+	           dataType: "json"
+	       	},	
+	       	update: {         	   
+	     	   url: "rest/planning",
+	     	   contentType: "application/json; charset=utf-8",
+	           dataType: "json",
+	           type: "PUT"
+	        }
+		},
+		group: { 
+			field: "resource",
+			aggregates: [{ 
+       			field: "hours", 
+       			aggregate: "sum" 
+       		}]
+		},
+		schema: {
+		  /*data: function(response) {
+		    	for (var m in response){
+		    	    for (var i in response[m]){
+		    		   	//console.log(response[m][i].hours);
+		    	    }
+		    	} 
+		      console.log(response);
+		      return response;
+	    	},*/
+		    model: {id: "idActivitySheet"},
+	   	 	type: "json"
+		},
+		 page: 1,
+		 pageSize: 10
     });
+   
+   /*	dataSource.fetch(function(){
+	   var data = this.data();
+	   console.log(data.length);
+	});
+   	
+	var observable = new kendo.data.ObservableObject(data);
+	var json = observable.toJSON();
+	
+	//console.log(JSON.stringify(json));*/
     
-    	$scope.mainGridOptions = {
-   			dataSource: dataSource,
-	    	sortable: true,
-	    	editable: true,
-	    	resizable: true,
-	    	scrollable: {
-	            virtual: true
-	        },
-	    	columnMenu: true,
-	        pageable:{ 
-	        	pageSize: 10, 
-	        	refresh: true, 
-	        	pageSizes: [5,10,20]
-   			},
-   			columns: columns
-    	}	
-    	
-	    $scope.gridPlanningView = new kendo.data.DataSource({ 
-			AutoSync: true,
-			page: 1,
-			pageSize: 10,
-			transport: {
-	           	read: {         	   
-	        	   url: "rest/planning",
-	        	   contentType: "application/json; charset=utf-8",
-	               dataType: "json"
-	           	},
-	           	
-	           	update: {         	   
-	         	   url: "rest/planning",
-	         	   contentType: "application/json; charset=utf-8",
-	               dataType: "json",
-	               type: "PUT"
-	            },
-			},
-			
-			schema: {
-		   	    model: {id: "idBaselineResource"},
-		   	 	type: "json"
-		   	},
-		   });
-      }
-      
+	$scope.mainGridOptions = {
+		dataSource: dataSource,
+		sortable: true,
+		editable: true,
+		resizable: true,
+		scrollable: {
+	        virtual: true
+	    },
+		columnMenu: true,
+	    pageable:{ 
+	    	refresh: true, 
+	    	pageSizes: [5,10,100]
+		},
+		columns: columns
+	}	
+}    
+		
       
 /*columns:  [{
 field: "resource",

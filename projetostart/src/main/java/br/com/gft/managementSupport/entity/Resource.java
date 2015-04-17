@@ -66,6 +66,16 @@ public class Resource implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "resource")		//ADICIONA LIGAÇÃO AUSENTE ENTRE (RESOURCE) 1----N (ABSENCE_RESOURCE )
     private List<AbsenceByResource> absence;
+	
+	
+	public Resource() {
+		
+	}
+
+	public Resource(String resource) {
+		super();
+		this.resource = resource;
+	}
 
 	public Long getIdResource() {
 		return idResource;
@@ -131,8 +141,87 @@ public class Resource implements Serializable{
 		this.absence = absence;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((absence == null) ? 0 : absence.hashCode());
+		result = prime * result
+				+ ((activitySheets == null) ? 0 : activitySheets.hashCode());
+		result = prime * result
+				+ ((baselines == null) ? 0 : baselines.hashCode());
+		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
+		result = prime * result
+				+ ((hireDate == null) ? 0 : hireDate.hashCode());
+		result = prime * result
+				+ ((idResource == null) ? 0 : idResource.hashCode());
+		result = prime * result
+				+ ((location == null) ? 0 : location.hashCode());
+		result = prime * result
+				+ ((resource == null) ? 0 : resource.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Resource other = (Resource) obj;
+		if (absence == null) {
+			if (other.absence != null)
+				return false;
+		} else if (!absence.equals(other.absence))
+			return false;
+		if (activitySheets == null) {
+			if (other.activitySheets != null)
+				return false;
+		} else if (!activitySheets.equals(other.activitySheets))
+			return false;
+		if (baselines == null) {
+			if (other.baselines != null)
+				return false;
+		} else if (!baselines.equals(other.baselines))
+			return false;
+		if (concept == null) {
+			if (other.concept != null)
+				return false;
+		} else if (!concept.equals(other.concept))
+			return false;
+		if (hireDate == null) {
+			if (other.hireDate != null)
+				return false;
+		} else if (!hireDate.equals(other.hireDate))
+			return false;
+		if (idResource == null) {
+			if (other.idResource != null)
+				return false;
+		} else if (!idResource.equals(other.idResource))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (resource == null) {
+			if (other.resource != null)
+				return false;
+		} else if (!resource.equals(other.resource))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.getResource();
+	}
 
 
+	
 
 	
 	

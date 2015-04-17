@@ -4,8 +4,6 @@ var AbsenceController = function($rootScope, $scope, $location, AbsenceService) 
 	
 	AbsenceService.getting.get(function(r) {
 		
-		
-		
 		console.log(r);
 		
 		$scope.absencedata = new kendo.data.DataSource({
@@ -26,9 +24,6 @@ var AbsenceController = function($rootScope, $scope, $location, AbsenceService) 
 		
 		$scope.absence.idAbsence = null;
 	});
-	
-	
-	
 	
 	
 	$scope.absence = new AbsenceService.posting();

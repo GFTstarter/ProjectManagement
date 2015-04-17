@@ -42,7 +42,7 @@
 		  	 k-filterable="true" k-editable="'incell'" k-sortable="true" k-resizable = "true"
              class="gridProperties" k-toolbar="['save','cancel']"           
              k-columns='[
-				{ "field": "resource", "title": "NAME"},
+				{ "field": "resource", "title": "NAME"}, 
 				{ "field": "concept", "title": "CONCEPT"},
 				{ "field": "entity", "title": "LEGAL ENTITY"},
 				{ "field": "location", "title": "CITY"},
@@ -93,8 +93,8 @@
 		  	 k-filterable="true" k-editable="'incell'" k-sortable="true"
              k-resizable="true" class="gridProperties" k-toolbar="['save','cancel']"           	            
 		  	 k-columns='[{ "field": "concept", "title": "CONCEPT"},
-			    		 { "field": "blpCost", "title": "BLP COST"},
-			    		 { "field": "blpCostSimulation", "title": "BLP SIMULATION" },
+			    		 { "field": "blpCost", format: "{0:c}", "title": "BLP COST"},
+			    		 { "field": "blpCostSimulation", format: "{0:c}", "title": "BLP SIMULATION" },
 			    		 { "field": "entity", "title": "LEGAL ENTITY"}]'
             style="display:none;">
 		</div>		
@@ -139,7 +139,14 @@ function PropertiesController ($scope, $location) {
 				},
       		   	 
 				schema: {
-					model: {id: "idProject"}
+					model: {
+						id: "idProject",
+						fields: {
+							projectCode: {editable: false},
+							name: {editable: false},
+							startDate: {editable: false}
+						}
+					}
 				},
 				
        		});
@@ -172,7 +179,19 @@ function PropertiesController ($scope, $location) {
         		},
         		
         		schema: {
-    		   	    model: {id: "idResource"}
+        			data: function(response) {
+  					  console.log(response);
+  				      return response;
+  				    },
+    		   	    model: {
+    		   	    	id: "idResource",    
+    		   	    	fields: {
+    		   	    		resource: {editable: false},
+    		   	    		concept: {editable: false},
+    		   	    		entity: {editable: false},
+			        		location: {editable: false}
+						}
+    		   	    }
     		   	},
     		   	
        	   });
@@ -206,7 +225,12 @@ function PropertiesController ($scope, $location) {
         		}, 
         		
         		schema: {
-    		   	    model: { id: "idHoliday"},
+    		   	    model: { 
+    		   	    	id: "idHoliday",
+    		   	    	fields: {
+    		   	    		location: {editable: false}
+						}
+    		   	    },
     		   	    type: "json"
         		},
         	});
@@ -240,7 +264,14 @@ function PropertiesController ($scope, $location) {
     		   	}, 
     		
     			 schema: {
-     		   	    model: { id: "idConceptLegalEntity"},
+     		   	    model: { 
+     		   	    	id: "idConceptLegalEntity",
+	     		   	    fields: {
+			   	    		concept: {editable: false},
+			   	    		blpCost: {editable: false},
+			   	    		entity: {editable: false}
+						}
+     		   	    },
      		   	    type: "json"
      		   	},     		   	
     		}); 

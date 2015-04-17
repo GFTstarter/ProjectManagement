@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,7 +33,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.gft.managementSupport.JsonViews;
 import br.com.gft.managementSupport.dao.BaselineByResourceDao;
+import br.com.gft.managementSupport.entity.ActivitySheet;
 import br.com.gft.managementSupport.entity.BaselineByResource;
+import br.com.gft.managementSupport.entity.Resource;
 import br.com.gft.managementSupport.gridViews.PlanningView;
 import br.com.gft.managementSupport.rowMapper.PlanningDao;
 
@@ -60,27 +63,37 @@ public class PlanningResource {
 		Map<Date, Integer> activity = new HashMap<Date, Integer>();
 		Map<String, Map<Date, Integer>> horasResource = new HashMap<String, Map<Date, Integer>>();
 		Map<String, Map<Date, Integer>> horasR = new HashMap<String, Map<Date, Integer>>();
+		int cont = 0;
 
+	
+		Map<Integer, ActivitySheet> objTestAct = new HashMap<Integer, ActivitySheet>();
+		Map<Resource, Map<Integer, ActivitySheet>> objTestHR = new HashMap<Resource, Map<Integer, ActivitySheet>>();
+		Map<Resource, Map<Integer, ActivitySheet>> objTestHorasR = new HashMap<Resource, Map<Integer, ActivitySheet>>();
+		
 		ObjectWriter viewWriter = createViewWriter();
 		
 		List<PlanningView> allEntries = this.planningDao.findAll();
 		System.out.println(allEntries);
 		
+		
+		
 		for(PlanningView pv : allEntries){
-			horasResource.put(pv.getResource(), null);
+		//	Resource r = new Resource();
+			objTestHR.put(new Resource(pv.getResource().toString()), null);
 		}
 		
-		for(Map.Entry<String, Map<Date, Integer>> entry : horasResource.entrySet()){
-			activity = new HashMap<Date, Integer>();
+		for(Entry<Resource, Map<Integer, ActivitySheet>> entry : objTestHR.entrySet()){
+			objTestAct = new HashMap<Integer, ActivitySheet>();
 			for (PlanningView pv : allEntries ){
 				
-				if (pv.getResource().equals(entry.getKey())){
-					activity.put(pv.getDate(), pv.getHours());
+				if (pv.getResource().equals(entry.getKey().getResource())){
+					objTestAct.put(cont, new ActivitySheet(pv.getIdActivity(), pv.getDate(), pv.getHours()));
 				}
+				cont++;
 			}
-			horasR.put(entry.getKey(), activity);
+			objTestHorasR.put(new Resource (entry.getKey().getResource()), objTestAct);
 		}
-		return viewWriter.writeValueAsString(horasR);
+		return viewWriter.writeValueAsString(allEntries);
 	}
 
 	

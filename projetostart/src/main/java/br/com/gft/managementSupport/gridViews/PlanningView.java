@@ -7,6 +7,7 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class PlanningView  implements Serializable{
 
+	private Long idActivity;
 	private Long idResource;
 	private String resource;
 	private Date hiredate;
@@ -30,6 +31,16 @@ public class PlanningView  implements Serializable{
 		}
 		
 		
+
+		
+		
+		public Long getIdActivity() {
+			return idActivity;
+		}
+
+		public void setIdActivity(Long idActivity) {
+			this.idActivity = idActivity;
+		}
 
 		public Map<Date, Integer> getActivity() {
 			return activity;
