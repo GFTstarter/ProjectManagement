@@ -1,30 +1,31 @@
-<legend>Dashboard Project...</legend>
+<legend>Dashboard Project...<button id="print"style="float:right" class="btn"><i class="icon-print"></i></button></legend>
 
+
+<div id="grid"></div>
+
+<script type="text/x-kendo-template" id="toolbar-template">
+    <button type="button" class="k-button" id="printGrid">Print Grid</button>
+</script>
+
+<Div id="chart" style="width: 1100px"></div>
 <br>
 
-<Div id="chart" style="width: 1100px; altura: 2000px; position: static">
-</div>
-
-<br><br>
-
-<div id="gridDashboards" kendo-grid k-data-source="gridDashboards"
+<div id="gridDashboards" kendo-grid k-data-source="gridDashboards" style="width:59%; float:left"
 	k-selectable="'inline'"
 	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 	k-filterable="true" k-sortable="true" k-resizable="true"
 	k-editable="'incell'" class="gridDashboards"
-	k-columns='[{ field: "concept", title: "K", width: 30},
-		    			  { field: "costRate", title: "Cost Rate", width: 40},
-		    			  { field: "blpHours", title: "BLP Hours"},
-		    			  { field: "blpTotalCost", title: "BLP Total Cost"},
-		    			  { field: "eacHours", title: "EAC Hours"},
-		    			  { field: "eacCost", title: "EAC Cost"},
-		    			  { field: "costDiff", title: "Cost Diff"},
-		    			  { field: "costStatus", title: "Cost Status"}]'>
+	k-columns='[{ field: "concept", title: "K", width: 40},
+		    			  { field: "costRate", title: "Cost Rate", width: 85},
+		    			  { field: "blpHours", title: "BLP Hours", width: 85},
+		    			  { field: "blpTotalCost", title: "BLP Total Cost", width: 100},
+		    			  { field: "eacHours", title: "EAC Hours", width: 85},
+		    			  { field: "eacCost", title: "EAC Cost", width: 85},
+		    			  { field: "costDiff", title: "Cost Diff", width: 85},
+		    			  { field: "costStatus", title: "Cost Status", width: 85}]'>
 </div>
 
-<br>
-
-<div id="gridDashboardsBalance" kendo-grid
+<div id="gridDashboardsBalance" kendo-grid style="width:39%; float: right"
 	k-data-source="gridDashboardsBalance" k-selectable="'inline'"
 	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 	k-filterable="true" k-sortable="true" k-resizable="true"
@@ -36,6 +37,17 @@
 		    			  { field: "eacHours", title: "EAC Hours"}]'>
 </div>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 
 <script>
@@ -136,5 +148,89 @@
 		
 		return mes;
 	}
+	
+	
+	
+	function printGrid() {
+	    var gridElement = $('#grid'),
+	        printableContent = '',
+	        win = window.open('', '', 'width=800, height=500'),
+	        doc = win.document.open();
+
+	    var htmlStart =
+	            '<!DOCTYPE html>' +
+	            '<html>' +
+	            '<head>' +
+	            '<meta charset="utf-8" />' +
+	            '<title>Kendo UI Grid</title>' +
+	            '<link href="http://cdn.kendostatic.com/' + kendo.version + '/styles/kendo.common.min.css" rel="stylesheet" /> ' +
+	            '<style>' +
+	            'html { font: 11pt sans-serif; }' +
+	            '.k-grid { border-top-width: 0; }' +
+	            '.k-grid, .k-grid-content { height: auto !important; }' +
+	            '.k-grid-content { overflow: visible !important; }' +
+	            'div.k-grid table { table-layout: auto; width: 100% !important; }' +
+	            '.k-grid .k-grid-header th { border-top: 1px solid; }' +
+	            '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+	            '</style>' +
+	            '</head>' +
+	            '<body>';
+
+	    var htmlEnd =
+	            '</body>' +
+	            '</html>';
+
+	    var gridHeader = gridElement.children('.k-grid-header');
+	    if (gridHeader[0]) {
+	        var thead = gridHeader.find('thead').clone().addClass('k-grid-header');
+	        printableContent = gridElement
+	            .clone()
+	                .children('.k-grid-header').remove()
+	            .end()
+	                .children('.k-grid-content')
+	                    .find('table')
+	                        .first()
+	                            .children('tbody').before(thead)
+	                        .end()
+	                    .end()
+	                .end()
+	            .end()[0].outerHTML;
+	    } else {
+	        printableContent = gridElement.clone()[0].outerHTML;
+	    }
+
+	    doc.write(htmlStart + printableContent + htmlEnd);
+	    doc.close();
+	    win.print();
+	}
+
+	$(function () {
+	    var grid = $('#grid').kendoGrid({
+	        dataSource: {
+	            type: 'odata',
+	            transport: {
+	                read: "http://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
+	            },
+	            pageSize: 20,
+	            serverPaging: true,
+	            serverSorting: true,
+	            serverFiltering: true
+	        },
+	        toolbar: kendo.template($('#toolbar-template').html()),
+	        height: 400,
+	        pageable: true,
+	        columns: [
+	            { field: 'ProductID', title: 'Product ID', width: 100 },
+	            { field: 'ProductName', title: 'Product Name' },
+	            { field: 'UnitPrice', title: 'Unit Price', width: 100 },
+	            { field: 'QuantityPerUnit', title: 'Quantity Per Unit' }
+	        ]
+	    });
+
+	    $('#printGrid').click(function () {
+	        printGrid();
+	    });
+
+	});
 </script>
 
