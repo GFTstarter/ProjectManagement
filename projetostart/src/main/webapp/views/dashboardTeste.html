@@ -10,7 +10,7 @@
 <Div id="chart" style="width: 1100px"></div>
 <br>
 
-<div id="gridDashboards" kendo-grid k-data-source="gridDashboards" style="width:59%; float:left"
+<!-- <div id="gridDashboards" kendo-grid k-data-source="gridDashboards" style="width:59%; float:left"
 	k-selectable="'inline'"
 	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 	k-filterable="true" k-sortable="true" k-resizable="true"
@@ -23,9 +23,24 @@
 		    			  { field: "eacCost", title: "EAC Cost", width: 85},
 		    			  { field: "costDiff", title: "Cost Diff", width: 85},
 		    			  { field: "costStatus", title: "Cost Status", width: 85}]'>
+</div> -->
+
+
+
+<div id="gridProfile" 
+	k-selectable="'row'"
+	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	k-filterable="true" k-editable="'incell'" k-sortable="true"
+	k-resizable="true" class="gridProperties" k-toolbar="['save','cancel']"
+	k-columns='[{ "field": "concept", "title": "CONCEPT"},
+			    		 { "field": "blpCost", format: "{0:c}", "title": "BLP COST"},
+			    		 { "field": "blpCostSimulation", format: "{0:c}", "title": "BLP SIMULATION" },
+			    		 { "field": "entity", "title": "LEGAL ENTITY"}]'
+	style="display: none;"></div>
+
 </div>
 
-<div id="gridDashboardsBalance" kendo-grid style="width:39%; float: right"
+<!--  <div id="gridDashboardsBalance" kendo-grid style="width:39%; float: right"
 	k-data-source="gridDashboardsBalance" k-selectable="'inline'"
 	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 	k-filterable="true" k-sortable="true" k-resizable="true"
@@ -35,7 +50,7 @@
 		    			  { field: "diff", title: "Diff"},
 		    			  { field: "notes", title: "Notes"},
 		    			  { field: "eacHours", title: "EAC Hours"}]'>
-</div>
+</div>-->
 
 <br>
 <br>

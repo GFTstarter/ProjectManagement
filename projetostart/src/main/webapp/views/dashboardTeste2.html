@@ -1,0 +1,189 @@
+<legend>
+	Dashboard Project...
+	<button id="print" style="float: right" class="btn">
+		<i class="icon-print"></i>
+	</button>
+</legend>
+
+
+<Div id="chart" style="width: 1100px"></div>
+<br>
+
+<div class="row-fluid" ng-controller="PropertiesController">
+
+
+
+	<ul kendo-panel-bar k-options="panelBarOptions"
+		style="display: inline-block; min-width: 250px;"
+		k-on-select="onSelect(kendoEvent)">
+		<li id="profile"><span class="k-link k-state-selected">Dashboard</span>
+		</li>
+
+	</ul>
+
+
+	<div id="gridProfile" kendo-grid k-data-source="gridProfileView"
+		k-selectable="'row'"
+		k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+		k-filterable="true" k-editable="'incell'" k-sortable="true"
+		k-resizable="true" class="gridProperties"
+		k-columns='[{ "field": "concept", "title": "CONCEPT"},
+			    		 { "field": "blpCost", format: "{0:c}", "title": "BLP COST"},
+			    		 { "field": "blpCostSimulation", format: "{0:c}", "title": "BLP SIMULATION" },
+			    		 { "field": "entity", "title": "LEGAL ENTITY"}]'
+		style="display: none;"></div>
+
+
+<script>
+
+//SCRIPT DO CHART
+var dataSource = new kendo.data.DataSource({
+		transport : {
+			read : {
+				url : "rest/project",
+				contentType : "application/json; charset=utf-8",
+				dataType : "jsonp"
+			}
+		}
+	});
+	
+	eixox = [];
+	
+	$("#chart").kendoChart();
+	
+	$.get("rest/project", { }, function(response){
+		date = response[0].startDate.split("-");
+		dataInicial = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
+		date = response[0].endDate.split("-");
+		dataFinal = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
+				
+		qtdeMeses = Math.ceil((dataFinal - dataInicial) / (60 * 60 * 24 * 30 * 1000));
+		
+		qtdeMeses = (qtdeMeses < 12 ? 12 : qtdeMeses);
+		mesInicial = dataInicial.getMonth();
+		anoInicial = (dataInicial.getFullYear() + "").substr(2, 2);
+		
+		for (i = 0; i < qtdeMeses; i++){
+			eixox[i] = nomeMeses(mesInicial++) + "/" + anoInicial;
+			
+			if(mesInicial == 12){
+				mesInicial = 0;
+				anoInicial++;
+			}
+		}
+		
+		$("#chart").kendoChart({
+			title : {
+				text : ""
+			},
+			legend : {
+				position : "bottom"
+			},
+			seriesDefaults : {
+				type : "line"
+			},
+
+			//LINHAS
+			series : [ {
+				name : "Atual",
+				data : [ 20, 16.7, 20, 23.5, 26.6 ]
+			//LINHA LARANJA
+			}, {
+				name : "Planejado",
+				data : [ 67.96, 68.93, 75, 74, 78 ]
+			//LINHA VERDE
+			} ],
+			valueAxis : {
+				labels : {
+					format : "{0}$"
+				}
+			},
+
+			//VALORES DO EIXO X
+			categoryAxis : {
+
+				categories : eixox,
+
+				crosshair : {
+					tooltip : {
+						format : "Month: {0}",
+						visible : true
+					},
+					visible : true
+				}
+			},
+
+		});
+	}, "json");
+	
+	nomeMeses = function(meses){
+		switch (meses){
+			case 0: var mes = "Jan";break;
+			case 1: var mes = "Feb";break;
+			case 2: var mes = "Mar";break;
+			case 3: var mes = "Apr";break;
+			case 4: var mes = "May";break;
+			case 5: var mes = "Jun";break;
+			case 6: var mes = "Jul";break;
+			case 7: var mes = "Aug";break;
+			case 8: var mes = "Sep";break;
+			case 9: var mes = "Oct";break;
+			case 10: var mes = "Nov";break;
+			case 11: var mes = "Dec";break;
+		}
+		
+		return mes;
+	}
+	
+
+//SCRIPT DO GRID 
+function PropertiesController ($scope, $location) {
+
+	$scope.onSelect = function(e) {  
+    	
+		var id = $(e.item).attr('id');
+	  
+	
+    	if (id == 'profile') {
+    		
+    		$("#gridProjects").css("display", "none");
+    		$("#gridPeoples").css("display", "none");
+    		$("#gridCalendar").css("display", "none");
+    		$("#gridProfile").css("display", "");
+    		
+    		$scope.gridProfileView = new kendo.data.DataSource({ 
+    			AutoSync: true,
+    			page: 1,
+    			pageSize: 10,
+    		   	transport: {
+    		    	read: {         	   
+    		    	   url: "rest/profile",
+    		    	   contentType: "application/json; charset=utf-8",
+    		           dataType: "json"
+    		       	}, 
+    		       	
+    		        update: {
+	 	        	      url: "rest/conceptByLegalEntity",
+	 	        	      type: "PUT",
+	 	        	      contentType: "application/json; charset=utf-8",
+	 	        	      dataType: "json" 
+	 	           },
+    		   	}, 
+    		
+    			 schema: {
+     		   	    model: { 
+     		   	    	id: "idConceptLegalEntity",
+	     		   	    fields: {
+			   	    		concept: {editable: false},
+			   	    		blpCost: {editable: false},
+			   	    		entity: {editable: false}
+						}
+     		   	    },
+     		   	    type: "json"
+     		   	},     		   	
+    		}); 
+    	} 
+    	    	
+  	};
+}
+</script>
