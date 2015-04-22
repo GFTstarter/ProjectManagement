@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Map;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import br.com.gft.managementSupport.serializer.PlanningViewSerializer;
+
 @SuppressWarnings("serial")
+//@JsonSerialize(using = PlanningViewSerializer.class)
 public class PlanningView  implements Serializable{
 
 	private Long idActivity;
@@ -29,10 +34,6 @@ public class PlanningView  implements Serializable{
 			this.hours = hours;
 			
 		}
-		
-		
-
-		
 		
 		public Long getIdActivity() {
 			return idActivity;

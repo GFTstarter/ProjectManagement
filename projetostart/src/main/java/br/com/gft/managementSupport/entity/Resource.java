@@ -63,9 +63,9 @@ public class Resource implements Serializable{
 	@OneToMany(mappedBy = "resource")
     private List<BaselineByResource> baselines; //ADICIONADO CONTROLE DE DATA E/S PROJETO
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "resource")		//ADICIONA LIGAÇÃO AUSENTE ENTRE (RESOURCE) 1----N (ABSENCE_RESOURCE )
-    private List<AbsenceByResource> absence;
+	/*@JsonIgnore
+	@OneToMany(mappedBy = "resource")		//FK TIRADA POIS DADOS SAO INSERIDOS ATRAVEZ DE COMBO BOX, EVITANDO ERROS DE INSERÇÃO
+    private List<AbsenceByResource> absence;*/
 	
 	
 	public Resource() {
@@ -133,19 +133,12 @@ public class Resource implements Serializable{
 		this.baselines = baselines;
 	}
 
-	public List<AbsenceByResource> getAbsence() {
-		return absence;
-	}
-
-	public void setAbsence(List<AbsenceByResource> absence) {
-		this.absence = absence;
-	}
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((absence == null) ? 0 : absence.hashCode());
 		result = prime * result
 				+ ((activitySheets == null) ? 0 : activitySheets.hashCode());
 		result = prime * result
@@ -171,11 +164,6 @@ public class Resource implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Resource other = (Resource) obj;
-		if (absence == null) {
-			if (other.absence != null)
-				return false;
-		} else if (!absence.equals(other.absence))
-			return false;
 		if (activitySheets == null) {
 			if (other.activitySheets != null)
 				return false;
