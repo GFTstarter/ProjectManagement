@@ -113,7 +113,7 @@ public class AbsenceByResourceResource {
 		newsEntry.setStartDate(objAbsenceByResource.getStartDate());
 		newsEntry.setEndDate(endDate);
 		newsEntry.setIdAbsence(objAbsenceByResource.getIdAbsence());
-		newsEntry.setResource(objAbsenceByResource.getResource());
+		newsEntry.setIdResource(objAbsenceByResource.getIdResource());
 		
 		this.logger.info("update(): " + newsEntry);
 

@@ -5,6 +5,8 @@
 	    <kendo-grid options="mainGridOptions" k-toolbar="['save','cancel']" >
 	    </kendo-grid>
 	    
+	    <kendo-grid options="gridSimulation" k-toolbar="['save','cancel']" >
+	    </kendo-grid>
 	    
 	    
 	</div>
@@ -107,8 +109,8 @@ function MyCtrl ($scope, $location) {
 	   var data = this.data();
 	   console.log(data.length);
 	});
-   	
-	var observable = new kendo.data.ObservableObject(data);
+   
+   	var observable = new kendo.data.ObservableObject(data);
 	var json = observable.toJSON();
 	
 	//console.log(JSON.stringify(json));*/
@@ -128,36 +130,75 @@ function MyCtrl ($scope, $location) {
 		},
 		columns: columns
 	}	
+	
+	
+	var dataSource = new kendo.data.DataSource({
+    	transport: {
+	       	read: {         	   
+	    	   url: "rest/simulation",
+	    	   contentType: "application/json; charset=utf-8",
+	           dataType: "json"
+	       	},	
+	       	update: {         	   
+	     	   url: "rest/simulation",
+	     	   contentType: "application/json; charset=utf-8",
+	           dataType: "json",
+	           type: "PUT"
+	        }
+		},
+		schema: {
+		    model: {id: "idActivitySheet"},
+	   	 	type: "json"
+		},
+		 page: 1,
+		 pageSize: 10
+    });
+	
+	$scope.gridSimulation = {
+			dataSource: dataSource,
+			sortable: true,
+			editable: true,
+			resizable: true,
+			scrollable: {
+		        virtual: true
+		    },
+			columnMenu: true,
+		    pageable:{ 
+		    	refresh: true, 
+		    	pageSizes: [5,10,100]
+			},
+			columns:  [{
+				field: "resource",
+				title: "NAME",
+				locked: true,
+				lockable: false,
+				width: "120px"
+				},{
+				field: "hiredate",
+				title: "HIRE DATE",
+				locked: true,
+				width: "120px"
+				},{
+				field: "concept",
+				title: "PROFILE",
+				locked: true,
+				width: "120px"
+				},{
+				field: "dtBeginOnProject",
+				title: "BEGIN ON PROJECT",
+				locked: true,
+				width: "120px"
+				},{
+				field: "dtEndOnProject",
+					title: "END ON PROJECT",
+					locked: false,
+					width: "120px"
+			}]
+		}	
 }    
 		
       
-/*columns:  [{
-field: "resource",
-title: "NAME",
-locked: true,
-lockable: false,
-width: "120px"
-},{
-field: "hiredate",
-title: "HIRE DATE",
-locked: true,
-width: "120px"
-},{
-field: "concept",
-title: "PROFILE",
-locked: true,
-width: "120px"
-},{
-field: "dtBeginOnProject",
-title: "BEGIN ON PROJECT",
-locked: true,
-width: "120px"
-},{
-field: "dtEndOnProject",
-	title: "END ON PROJECT",
-	locked: false,
-	width: "120px"
-}]*/
+/**/
 </script>
 
 
