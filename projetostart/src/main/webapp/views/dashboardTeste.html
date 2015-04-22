@@ -1,60 +1,235 @@
-<Div id="chart" style="width: 1000px; altura: 2000px"></div>
+<legend>Dashboard Project...<button id="print"style="float:right" class="btn"><i class="icon-print"></i></button></legend>
 
+
+<!--  <div id="grid"></div>
+
+<script type="text/x-kendo-template" id="toolbar-template">
+    <button type="button" class="k-button" id="printGrid">Print Grid</button>
+</script>-->
+
+<Div id="chart" style="width: 1100px"></div>
+<br>
+
+<div id="gridDashboards" kendo-grid k-data-source="gridDashboards" style="width:59%; float:left"
+	k-selectable="'inline'"
+	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	k-filterable="true" k-sortable="true" k-resizable="true"
+	k-editable="'incell'" class="gridDashboards"
+	k-columns='[{ field: "concept", title: "K", width: 40},
+		    			  { field: "costRate", title: "Cost Rate", width: 85},
+		    			  { field: "blpHours", title: "BLP Hours", width: 85},
+		    			  { field: "blpTotalCost", title: "BLP Total Cost", width: 100},
+		    			  { field: "eacHours", title: "EAC Hours", width: 85},
+		    			  { field: "eacCost", title: "EAC Cost", width: 85},
+		    			  { field: "costDiff", title: "Cost Diff", width: 85},
+		    			  { field: "costStatus", title: "Cost Status", width: 85}]'>
+</div>
+
+<div id="gridDashboardsBalance" kendo-grid style="width:39%; float: right"
+	k-data-source="gridDashboardsBalance" k-selectable="'inline'"
+	k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	k-filterable="true" k-sortable="true" k-resizable="true"
+	k-editable="'incell'" class="gridDashboards"
+	k-columns='[{ field: "blp", title: "BLP"},
+		    			  { field: "eac", title: "EAC"},
+		    			  { field: "diff", title: "Diff"},
+		    			  { field: "notes", title: "Notes"},
+		    			  { field: "eacHours", title: "EAC Hours"}]'>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <script>
-
-var dataSource = new kendo.data.DataSource({
-	  transport: {
-	    read: {
-	      url: "rest/project",
-	      contentType: "application/json; charset=utf-8",
-	      dataType: "jsonp"
-	    }
-	  }
+	var dataSource = new kendo.data.DataSource({
+		transport : {
+			read : {
+				url : "rest/project",
+				contentType : "application/json; charset=utf-8",
+				dataType : "jsonp"
+			}
+		}
 	});
 	
-
-$("#chart").kendoChart({
-    title: {
-        text: "Dashboard Project"
-    },
-    legend: {
-        position: "bottom"
-    },
-    seriesDefaults: {
-        type: "line"
-    },
-    
-    
-    
-    //LINHAS
-    series: [{
-        name: "Atual",
-        data: [20, 16.7, 20, 23.5, 26.6] //LINHA LARANJA
-    }, {
-        name: "Planejado",
-        data: [67.96, 68.93, 75, 74, 78] //LINHA VERDE
-    }],
-    valueAxis: {
-        labels: {
-            format: "{0}$"
-        }
-    },
-
-   
-//VALORES DO EIXO X
-	categoryAxis : {
-
-			categories : [ "Mon", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
-
-			crosshair : {
-				tooltip : {
-					format : "Month: {0}",
-					visible : true
-				},
-				visible : true
+	eixox = [];
+	
+	$("#chart").kendoChart();
+	
+	$.get("rest/project", { }, function(response){
+		date = response[0].startDate.split("-");
+		dataInicial = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
+		date = response[0].endDate.split("-");
+		dataFinal = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
+				
+		qtdeMeses = Math.ceil((dataFinal - dataInicial) / (60 * 60 * 24 * 30 * 1000));
+		
+		qtdeMeses = (qtdeMeses < 12 ? 12 : qtdeMeses);
+		mesInicial = dataInicial.getMonth();
+		anoInicial = (dataInicial.getFullYear() + "").substr(2, 2);
+		
+		for (i = 0; i < qtdeMeses; i++){
+			eixox[i] = nomeMeses(mesInicial++) + "/" + anoInicial;
+			
+			if(mesInicial == 12){
+				mesInicial = 0;
+				anoInicial++;
 			}
-		},
+		}
+		
+		$("#chart").kendoChart({
+			title : {
+				text : ""
+			},
+			legend : {
+				position : "bottom"
+			},
+			seriesDefaults : {
+				type : "line"
+			},
+
+			//LINHAS
+			series : [ {
+				name : "Atual",
+				data : [ 20, 16.7, 20, 23.5, 26.6 ]
+			//LINHA LARANJA
+			}, {
+				name : "Planejado",
+				data : [ 67.96, 68.93, 75, 74, 78 ]
+			//LINHA VERDE
+			} ],
+			valueAxis : {
+				labels : {
+					format : "{0}$"
+				}
+			},
+
+			//VALORES DO EIXO X
+			categoryAxis : {
+
+				categories : eixox,
+
+				crosshair : {
+					tooltip : {
+						format : "Month: {0}",
+						visible : true
+					},
+					visible : true
+				}
+			},
+
+		});
+	}, "json");
+	
+	nomeMeses = function(meses){
+		switch (meses){
+			case 0: var mes = "Jan";break;
+			case 1: var mes = "Feb";break;
+			case 2: var mes = "Mar";break;
+			case 3: var mes = "Apr";break;
+			case 4: var mes = "May";break;
+			case 5: var mes = "Jun";break;
+			case 6: var mes = "Jul";break;
+			case 7: var mes = "Aug";break;
+			case 8: var mes = "Sep";break;
+			case 9: var mes = "Oct";break;
+			case 10: var mes = "Nov";break;
+			case 11: var mes = "Dec";break;
+		}
+		
+		return mes;
+	}
+	
+	
+	
+	function printGrid() {
+	    var gridElement = $('#grid'),
+	        printableContent = '',
+	        win = window.open('', '', 'width=800, height=500'),
+	        doc = win.document.open();
+
+	    var htmlStart =
+	            '<!DOCTYPE html>' +
+	            '<html>' +
+	            '<head>' +
+	            '<meta charset="utf-8" />' +
+	            '<title>Kendo UI Grid</title>' +
+	            '<link href="http://cdn.kendostatic.com/' + kendo.version + '/styles/kendo.common.min.css" rel="stylesheet" /> ' +
+	            '<style>' +
+	            'html { font: 11pt sans-serif; }' +
+	            '.k-grid { border-top-width: 0; }' +
+	            '.k-grid, .k-grid-content { height: auto !important; }' +
+	            '.k-grid-content { overflow: visible !important; }' +
+	            'div.k-grid table { table-layout: auto; width: 100% !important; }' +
+	            '.k-grid .k-grid-header th { border-top: 1px solid; }' +
+	            '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+	            '</style>' +
+	            '</head>' +
+	            '<body>';
+
+	    var htmlEnd =
+	            '</body>' +
+	            '</html>';
+
+	    var gridHeader = gridElement.children('.k-grid-header');
+	    if (gridHeader[0]) {
+	        var thead = gridHeader.find('thead').clone().addClass('k-grid-header');
+	        printableContent = gridElement
+	            .clone()
+	                .children('.k-grid-header').remove()
+	            .end()
+	                .children('.k-grid-content')
+	                    .find('table')
+	                        .first()
+	                            .children('tbody').before(thead)
+	                        .end()
+	                    .end()
+	                .end()
+	            .end()[0].outerHTML;
+	    } else {
+	        printableContent = gridElement.clone()[0].outerHTML;
+	    }
+
+	    doc.write(htmlStart + printableContent + htmlEnd);
+	    doc.close();
+	    win.print();
+	}
+
+	$(function () {
+	    var grid = $('#grid').kendoGrid({
+	        dataSource: {
+	            type: 'odata',
+	            transport: {
+	                read: "http://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
+	            },
+	            pageSize: 20,
+	            serverPaging: true,
+	            serverSorting: true,
+	            serverFiltering: true
+	        },
+	        toolbar: kendo.template($('#toolbar-template').html()),
+	        height: 400,
+	        pageable: true,
+	        columns: [
+	            { field: 'ProductID', title: 'Product ID', width: 100 },
+	            { field: 'ProductName', title: 'Product Name' },
+	            { field: 'UnitPrice', title: 'Unit Price', width: 100 },
+	            { field: 'QuantityPerUnit', title: 'Quantity Per Unit' }
+	        ]
+	    });
+
+	    $('#printGrid').click(function () {
+	        printGrid();
+	    });
 
 	});
 </script>

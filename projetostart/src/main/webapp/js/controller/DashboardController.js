@@ -3,7 +3,7 @@ var DashboardController = function($rootScope, $scope, DashboardService) {
 	DashboardService.get({id: $rootScope.user.id}, function(d) {
 		
 		scope.selectedProject = null;
-		$scope.dataproject = new kendo.data.DataSource({
+		$scope.dateProject = new kendo.data.DataSource({
 			data: d
 		});
 		
