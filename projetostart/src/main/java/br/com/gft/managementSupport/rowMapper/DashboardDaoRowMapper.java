@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.gft.managementSupport.entity.ConceptByLegalEntity;
+import br.com.gft.managementSupport.entity.BaselineByResource;
 import br.com.gft.managementSupport.gridViews.DashboardParameterizedRowMapper;
 import br.com.gft.managementSupport.gridViews.DashboardView;
 
@@ -31,15 +31,15 @@ public class DashboardDaoRowMapper  extends JdbcDaoSupport implements DashboardD
 	
 	@Override
 	@Transactional(readOnly = true)
-	public DashboardView find(Long idConcept) {
+	public DashboardView find(Long idBaseline) {
 
-		return this.getEntityManager().find(DashboardView.class, idConcept);
+		return this.getEntityManager().find(DashboardView.class, idBaseline);
 	}
 	
 	
 	@Override
 	@Transactional
-	public ConceptByLegalEntity save(ConceptByLegalEntity obj) {
+	public BaselineByResource save(BaselineByResource obj) {
 		
 		return this.getEntityManager().merge(obj);
 	}
@@ -66,9 +66,9 @@ public class DashboardDaoRowMapper  extends JdbcDaoSupport implements DashboardD
 		
 		String sql = "SELECT * FROM VW_DASHBOARD";
 		
-		List<DashboardView> Dashboards = getJdbcTemplate().query(sql, new DashboardParameterizedRowMapper());
+		List<DashboardView> dashboards = getJdbcTemplate().query(sql, new DashboardParameterizedRowMapper());
 		
-		return Dashboards;
+		return dashboards;
 	}
 	
 	

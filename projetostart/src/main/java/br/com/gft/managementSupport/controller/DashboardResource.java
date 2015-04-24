@@ -1,7 +1,6 @@
 package br.com.gft.managementSupport.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,9 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -30,17 +27,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import br.com.gft.managementSupport.JsonViews;
-import br.com.gft.managementSupport.dao.BaselineByResourceDao;
-import br.com.gft.managementSupport.entity.BaselineByResource;
+import br.com.gft.managementSupport.dao.BaselineDao;
+import br.com.gft.managementSupport.dao.ConceptDao;
+import br.com.gft.managementSupport.entity.ConceptByLegalEntity;
+import br.com.gft.managementSupport.gridViews.DashboardView;
+import br.com.gft.managementSupport.rowMapper.DashboardDao;
 
 @Component
-@Path("/baselineByResource")
-public class BaselineByResourceResource {
+@Path("/dashboard")
+public class DashboardResource {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private BaselineByResourceDao baselineByResourceDao;
+	private DashboardDao dashboardDao;
+	
+	@Autowired
+	private BaselineDao baselineDao;
 	
 	@Autowired
 	private ObjectMapper mapper;
@@ -54,11 +57,11 @@ public class BaselineByResourceResource {
 
 		ObjectWriter viewWriter = createViewWriter();
 		
-		List<BaselineByResource> allEntries = this.baselineByResourceDao.findAll();
+		List<DashboardView> allEntries = this.dashboardDao.findAll();
+
 
 		return viewWriter.writeValueAsString(allEntries);
 	}
-
 	
 	private ObjectWriter createViewWriter() {
 		ObjectWriter viewWriter;
@@ -70,69 +73,50 @@ public class BaselineByResourceResource {
 		return viewWriter;
 	}
 	
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{id}")
-	public BaselineByResource read(@PathParam("id") Long id) {
-
-		this.logger.info("getEntry(id)");
-
-		BaselineByResource newsEntry = this.baselineByResourceDao.find(id);
-		if (newsEntry == null) {
-			throw new WebApplicationException(404);
-		}
-		return newsEntry;
-	}
-
-
-	@POST
+	
+	/*@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public BaselineByResource create(BaselineByResource newsEntry) {
+	public ConceptByLegalEntity create(ConceptByLegalEntity newsEntry) {
 
 		this.logger.info("create(): " + newsEntry);
 
-		return this.baselineByResourceDao.save(newsEntry);
-	}
+		return this.conceptByLegalEntityDao.save(newsEntry);
+	}*/
 
 
-	@PUT
+	/*@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public BaselineByResource update(@FormParam("idBaselineByResource") Long id,
-						  @FormParam("endDate") Date endDate
-						  ) {
+	public ConceptByLegalEntity update(@FormParam("idConceptLegalEntity") Long idConceptLegalEntity//,
+							  		   //@FormParam("blpCostSimulator") Double simulator
+							 ){
 		
-		BaselineByResource objBaselineByResource = baselineByResourceDao.find(id);
+		ConceptByLegalEntity objCon = conceptByLegalEntityDao.find(idConceptLegalEntity);
 		
+		ConceptByLegalEntity newsEntry = new ConceptByLegalEntity();
 		
-		BaselineByResource newsEntry = new BaselineByResource();
-		newsEntry.setIdBaselineResource(id);
-		newsEntry.setBeginOnProjectDate(objBaselineByResource.getBeginOnProjectDate());
-		newsEntry.setEndOnProjectDate(endDate);
-		newsEntry.setBaseline(objBaselineByResource.getBaseline());
-		newsEntry.setResource(objBaselineByResource.getResource());	  
+		newsEntry.setIdConceptLegalEntity(idConceptLegalEntity);
+		newsEntry.setBlpCost(objCon.getBlpCost()); 
+		//newsEntry.setBlpCostSimulator(simulator);
 		
 		this.logger.info("update(): " + newsEntry);
+		return this.conceptByLegalEntityDao.save(newsEntry);
+		
+	}*/
 
-		return this.baselineByResourceDao.save(newsEntry);
-	}
 
-
-	@DELETE
+	/*@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void delete(@FormParam("idBaselineByResource") Long id) {
-
+	public void delete(@FormParam("idConceptLegalEntity") Long idConceptLegalEntity) {
+		
 		this.logger.info("deleteEntry(id)");
 
-		this.baselineByResourceDao.delete(id);
-	}
-	
+		this.dashboardDao.delete(idConceptLegalEntity);
+	}*/
 
-		
 	private boolean isAdmin() {
-	
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof String && ((String) principal).equals("anonymousUser")) {
@@ -145,7 +129,7 @@ public class BaselineByResourceResource {
 				return true;
 			}
 		}
-
+		
 		return false;
 	}
 }

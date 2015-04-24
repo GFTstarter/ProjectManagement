@@ -5,6 +5,7 @@
 		<class>br.com.gft.managementSupport.entity.AbsenceByResource</class>
 		<class>br.com.gft.managementSupport.entity.ActivitySheet</class>
 		<class>br.com.gft.managementSupport.entity.Baseline</class>
+		<class>br.com.gft.managementSupport.entity.BaselineByResource</class>		
 		<class>br.com.gft.managementSupport.entity.Concept</class>
 		<class>br.com.gft.managementSupport.entity.ConceptByLegalEntity</class>
 		<class>br.com.gft.managementSupport.entity.Holiday</class>

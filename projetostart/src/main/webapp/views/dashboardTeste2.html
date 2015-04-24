@@ -9,31 +9,22 @@
 <Div id="chart" style="width: 1100px"></div>
 <br>
 
-<div class="row-fluid" ng-controller="PropertiesController">
+<div class="row-fluid" ng-controller="DashboardController">
 
-
-
-	<ul kendo-panel-bar k-options="panelBarOptions"
-		style="display: inline-block; min-width: 250px;"
-		k-on-select="onSelect(kendoEvent)">
-		<li id="profile"><span class="k-link k-state-selected">Dashboard</span>
-		</li>
-
-	</ul>
-
-
-	<div id="gridProfile" kendo-grid k-data-source="gridProfileView"
+	<div id="gridDashboard" kendo-grid k-data-source="gridDashboardView"
 		k-selectable="'row'"
 		k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 		k-filterable="true" k-editable="'incell'" k-sortable="true"
-		k-resizable="true" class="gridProperties"
-		k-columns='[{ "field": "concept", "title": "CONCEPT"},
-			    		 { "field": "blpCost", format: "{0:c}", "title": "BLP COST"},
-			    		 { "field": "blpCostSimulation", format: "{0:c}", "title": "BLP SIMULATION" },
-			    		 { "field": "entity", "title": "LEGAL ENTITY"}]'
-		style="display: none;"></div>
+		k-resizable="true" class="gridDashboards"
+	    k-columns='[
+		    			  { field: "costRate", title: "Cost Rate", width: 85},
+		    			  { field: "blpHours", title: "BLP Hours", width: 85},
+		    			  { field: "blpTotalCost", title: "BLP Total Cost", width: 100},
+		    			  { field: "eac", title: "EAC Hours", width: 85},
+		    			  { field: "eacCost", title: "EAC Cost", width: 85},
+		    			  { field: "costDiff", title: "Cost Diff", width: 85}]'></div>
 
-
+<!-- { "field": "blpCostSimulation", format: "{0:c}", "title": "BLP SIMULATION" }, -->
 <script>
 
 //SCRIPT DO CHART
@@ -137,53 +128,50 @@ var dataSource = new kendo.data.DataSource({
 	
 
 //SCRIPT DO GRID 
-function PropertiesController ($scope, $location) {
+function DashboardController ($scope, $location) {
 
-	$scope.onSelect = function(e) {  
+	/*$scope.onSelect = function(e) {  
     	
 		var id = $(e.item).attr('id');
 	  
 	
-    	if (id == 'profile') {
+    	if (id == 'dashboard') {
     		
-    		$("#gridProjects").css("display", "none");
-    		$("#gridPeoples").css("display", "none");
-    		$("#gridCalendar").css("display", "none");
-    		$("#gridProfile").css("display", "");
+    		$("#gridDashboard").css("display", "");
     		
-    		$scope.gridProfileView = new kendo.data.DataSource({ 
-    			AutoSync: true,
-    			page: 1,
-    			pageSize: 10,
-    		   	transport: {
-    		    	read: {         	   
-    		    	   url: "rest/profile",
-    		    	   contentType: "application/json; charset=utf-8",
-    		           dataType: "json"
-    		       	}, 
-    		       	
-    		        update: {
-	 	        	      url: "rest/conceptByLegalEntity",
-	 	        	      type: "PUT",
-	 	        	      contentType: "application/json; charset=utf-8",
-	 	        	      dataType: "json" 
-	 	           },
-    		   	}, 
     		
-    			 schema: {
-     		   	    model: { 
-     		   	    	id: "idConceptLegalEntity",
-	     		   	    fields: {
-			   	    		concept: {editable: false},
-			   	    		blpCost: {editable: false},
-			   	    		entity: {editable: false}
-						}
-     		   	    },
-     		   	    type: "json"
-     		   	},     		   	
-    		}); 
     	} 
     	    	
-  	};
+  	};*/
+  	
+	$scope.gridDashboardView = new kendo.data.DataSource({ 
+		AutoSync: true,
+		page: 1,
+		pageSize: 10,
+	   	transport: {
+	    	read: {         	   
+	    	   url: "rest/dashboard",
+	    	   contentType: "application/json; charset=utf-8",
+	           dataType: "json"
+	       	}, 
+	   	}, 
+
+		 schema: {
+		   	    model: { 
+		   	    	id: "idBaseline",
+			   	    fields: {
+			   	    costRate: {editable: false},
+			   	    blpHours: {editable: false},
+	   	    		blpTotalCost: {editable: false},
+	   	    		eac: {editable: false},
+	   	    		eacCost: {editable: false},
+	   	    		costDiff: {editable: false}
+				}
+		   	    },
+		   	    type: "json"
+		   	},     		   	
+	}); 
 }
+
+
 </script>

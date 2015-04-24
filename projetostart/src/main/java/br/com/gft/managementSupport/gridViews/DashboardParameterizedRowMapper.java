@@ -10,12 +10,12 @@ public class DashboardParameterizedRowMapper implements ParameterizedRowMapper<D
 	public DashboardView mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		DashboardView dashboard = new DashboardView();
-		dashboard.setIdConceptLegalEntity(rs.getLong("id_concept_legal_entity")); 		
-		dashboard.setConcept(rs.getString("concept"));
-		dashboard.setBlpCost(rs.getDouble("blp_cost"));
-		dashboard.setBlpCostSimulation(rs.getDouble("blp_cost_simulator"));
-		dashboard.setEntity(rs.getString("legal_entity"));
+		dashboard.setIdBaseline(rs.getLong("id_baseline")); 		
+		dashboard.setCostRate(rs.getDouble("cost_rate"));
+		dashboard.setBlpHours(rs.getInt("blp_hours"));
+		dashboard.setEac(rs.getInt("eac"));
+		dashboard.setEacCost(rs.getDouble("eac_cost"));
 		return dashboard;
-		
+
 	}
 }
