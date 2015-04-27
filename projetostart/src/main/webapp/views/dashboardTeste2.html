@@ -16,15 +16,14 @@
 		k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 		k-filterable="true" k-editable="'incell'" k-sortable="true"
 		k-resizable="true" class="gridDashboards"
-	    k-columns='[
-		    			  { field: "costRate", title: "Cost Rate", width: 85},
+	    k-columns='[	  { field: "idBaseline", title: "ID Baseline", width: 85},
+		
+		    			  { field: "costRate", format: "{0:c}",title: "Cost Rate", width: 85},
 		    			  { field: "blpHours", title: "BLP Hours", width: 85},
-		    			  { field: "blpTotalCost", title: "BLP Total Cost", width: 100},
+		    			  { field: "blptotalcost", format: "{0:c}", title: "BLP Total Cost", width: 100},
 		    			  { field: "eac", title: "EAC Hours", width: 85},
-		    			  { field: "eacCost", title: "EAC Cost", width: 85},
-		    			  { field: "costDiff", title: "Cost Diff", width: 85}]'></div>
-
-<!-- { "field": "blpCostSimulation", format: "{0:c}", "title": "BLP SIMULATION" }, -->
+		    			  { field: "eacCost", format: "{0:c}", title: "EAC Cost", width: 85},
+		    			  { field: "blptotalcost - costdiff", format: "{0:c}", title: "Cost Diff", width: 85}]'></div>
 <script>
 
 //SCRIPT DO CHART
@@ -62,6 +61,27 @@ var dataSource = new kendo.data.DataSource({
 				anoInicial++;
 			}
 		}
+		
+		/*
+		//LINHA LARANJA (ATUAL)
+		for (a = 0; a < qtdeMeses; a++){
+			eixoyA[a] = + "H" nomeMeses(mesInicial++); 
+			
+			if (mesInicial == 12){
+				mesInicial = 0;
+				anoInicial++;
+			}
+		}
+		
+		//LINHA VERDE (PLANEJADO)
+		for (b = 0; i < qtdeMeses; b++){
+			eixoyB[b] = + "H" nomeMeses(mesInicial++); 
+			
+			if (mesInicial == 12){
+				mesInicial = 0;
+				anoInicial++;
+			}
+		}*/
 		
 		$("#chart").kendoChart({
 			title : {
@@ -125,6 +145,8 @@ var dataSource = new kendo.data.DataSource({
 		
 		return mes;
 	}
+	
+	
 	
 
 //SCRIPT DO GRID 
