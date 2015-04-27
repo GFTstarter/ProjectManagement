@@ -14,7 +14,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 			
-		<bean id="activitySheetDao" class="br.com.gft.managementSupport.dao.ActivitySheetDaoJpa"/>
+		<bean id="activitySheetDao" class="br.com.gft.managementSupport.dao.ActivitySheetDaoJpa">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
 		<bean id="baselineDao" class="br.com.gft.managementSupport.dao.BaselineDaoJpa"/>
 		<bean id="conceptBylegalEntityDao" class="br.com.gft.managementSupport.dao.ConceptByLegalEntityDaoJpa"/>
 		<bean id="conceptDao" class="br.com.gft.managementSupport.dao.ConceptDaoJpa"/>
@@ -48,7 +50,7 @@
 	
 		<bean id="dashboardDao" class="br.com.gft.managementSupport.rowMapper.DashboardDaoRowMapper">
 			<property name="dataSource" ref="dataSource" />
-		</bean>	
-					
+		</bean>
+	
 			
 </beans>

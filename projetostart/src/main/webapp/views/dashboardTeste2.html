@@ -37,12 +37,25 @@ var dataSource = new kendo.data.DataSource({
 		}
 	});
 	
+
+
+
+
 	eixox = [];
+	eixoy = [];
 	
 	$("#chart").kendoChart();
 	
-	$.get("rest/project", { }, function(response){
-		date = response[0].startDate.split("-");
+	$.get("rest/activitySheet", { }, function(response){
+		
+		for (i = 0; i < response.length; i++){
+			eixox[i] = nomeMeses(response[i].month-1);
+			eixoy[i] = response[i].hours;
+		}
+		
+		
+		
+	/*	date = response[0].startDate.split("-");
 		dataInicial = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
 		date = response[0].endDate.split("-");
 		dataFinal = new Date(date[0], date[1] - 1, date[2], 0, 0, 0, 0);
@@ -60,28 +73,11 @@ var dataSource = new kendo.data.DataSource({
 				mesInicial = 0;
 				anoInicial++;
 			}
-		}
-		
-		/*
-		//LINHA LARANJA (ATUAL)
-		for (a = 0; a < qtdeMeses; a++){
-			eixoyA[a] = + "H" nomeMeses(mesInicial++); 
-			
-			if (mesInicial == 12){
-				mesInicial = 0;
-				anoInicial++;
-			}
-		}
-		
-		//LINHA VERDE (PLANEJADO)
-		for (b = 0; i < qtdeMeses; b++){
-			eixoyB[b] = + "H" nomeMeses(mesInicial++); 
-			
-			if (mesInicial == 12){
-				mesInicial = 0;
-				anoInicial++;
-			}
 		}*/
+		
+	
+		
+		
 		
 		$("#chart").kendoChart({
 			title : {
@@ -97,16 +93,11 @@ var dataSource = new kendo.data.DataSource({
 			//LINHAS
 			series : [ {
 				name : "Atual",
-				data : [ 20, 16.7, 20, 23.5, 26.6 ]
-			//LINHA LARANJA
-			}, {
-				name : "Planejado",
-				data : [ 67.96, 68.93, 75, 74, 78 ]
-			//LINHA VERDE
-			} ],
+				data : eixoy
+			}],
 			valueAxis : {
 				labels : {
-					format : "{0}$"
+					format : ""
 				}
 			},
 
