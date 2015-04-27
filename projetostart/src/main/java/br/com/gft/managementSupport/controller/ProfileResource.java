@@ -105,7 +105,6 @@ public class ProfileResource {
 		
 		this.logger.info("update(): " + newsEntry);
 		return this.conceptByLegalEntityDao.save(newsEntry);
-		
 	}
 
 

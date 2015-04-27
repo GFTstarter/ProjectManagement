@@ -101,20 +101,22 @@ public class ExpensesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Expenses update(@FormParam("idExpenses") Long id,
-						  @FormParam("endExpensesDate") Date endExpensesDate
-						  ) {
-		
-		Expenses objExpenses = expensesDao.find(id);
-		
+							@FormParam("idResource") String idResource,
+							@FormParam("legalEntity") String legalEntity,
+							@FormParam("beginExpensesDate") Date beginExpensesDate,
+							@FormParam("endExpensesDate") Date endExpensesDate,
+							@FormParam("costRate") Double costRate,
+							@FormParam("description") String description
+						  	) {
 		
 		Expenses newsEntry = new Expenses();
 		newsEntry.setIdExpenses(id);
-		newsEntry.setIdResource(objExpenses.getIdResource());
-		newsEntry.setLegalEntity(objExpenses.getLegalEntity());
-		newsEntry.setBeginExpensesDate(objExpenses.getBeginExpensesDate());
+		newsEntry.setIdResource(idResource);
+		newsEntry.setLegalEntity(legalEntity);
+		newsEntry.setBeginExpensesDate(beginExpensesDate);
 		newsEntry.setEndExpensesDate(endExpensesDate);
-		newsEntry.setCostRate(objExpenses.getCostRate());
-		newsEntry.setDescription(objExpenses.getDescription());
+		newsEntry.setCostRate(costRate);
+		newsEntry.setDescription(description);
 		
 		this.logger.info("update(): " + newsEntry);
 

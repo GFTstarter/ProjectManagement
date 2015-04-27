@@ -5,8 +5,8 @@
 	    <kendo-grid options="mainGridOptions" k-toolbar="['save','cancel']" >
 	    </kendo-grid>
 	    
-	    <kendo-grid options="gridSimulation" k-toolbar="['save','cancel']" >
-	    </kendo-grid>
+	 <span class="hidden">  <kendo-grid options="gridSimulation" k-toolbar="['save','cancel']" >
+	    </kendo-grid></span> 
 	    
 	    
 	</div>
@@ -53,6 +53,12 @@ function MyCtrl ($scope, $location) {
          locked: true,
          lockable: false,
          width: "150px"
+         },{
+         field: "date",
+         title: "DATE",
+         locked: true,
+         lockable: false,
+         width: "150px"
          }
      );
 	 
@@ -66,8 +72,8 @@ function MyCtrl ($scope, $location) {
 	
 	var date = new Date();
     var addDays = kendo.date.addDays;
-          
-   	var dataSource = new kendo.data.DataSource({
+              
+    var dataSource = new kendo.data.DataSource({
     	transport: {
 	       	read: {         	   
 	    	   url: "rest/planning",
@@ -81,19 +87,20 @@ function MyCtrl ($scope, $location) {
 	           type: "PUT"
 	        }
 		},
-		group: { 
-			field: "resource",
+	/*	group: { 
+			field: "resource"
 			aggregates: [{ 
        			field: "hours", 
        			aggregate: "sum" 
        		}]
-		},
+		},*/
 		schema: {
-		  /*data: function(response) {
+		 /* data: function(response) {
 		    	for (var m in response){
+		    		console.log(m);
 		    	    for (var i in response[m]){
-		    		   	//console.log(response[m][i].hours);
-		    	    }
+		    		   console.log(response[m][i].idNome);
+		    	    } 
 		    	} 
 		      console.log(response);
 		      return response;
@@ -132,7 +139,7 @@ function MyCtrl ($scope, $location) {
 	}	
 	
 	
-	var dataSource = new kendo.data.DataSource({
+	var AdataSource = new kendo.data.DataSource({
     	transport: {
 	       	read: {         	   
 	    	   url: "rest/simulation",
@@ -155,7 +162,7 @@ function MyCtrl ($scope, $location) {
     });
 	
 	$scope.gridSimulation = {
-			dataSource: dataSource,
+			dataSource: AdataSource,
 			sortable: true,
 			editable: true,
 			resizable: true,

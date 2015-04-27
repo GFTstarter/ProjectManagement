@@ -43,13 +43,10 @@ import br.com.gft.managementSupport.rowMapper.PlanningDao;
 @Path("/planning")
 public class PlanningResource {
 	
-	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	
 	@Autowired
 	private PlanningDao planningDao;
-	
 	
 	@Autowired
 	private ObjectMapper mapper;
@@ -60,12 +57,8 @@ public class PlanningResource {
 
 		this.logger.info("list()");
 		
-		Map<Date, Integer> activity = new HashMap<Date, Integer>();
-		Map<String, Map<Date, Integer>> horasResource = new HashMap<String, Map<Date, Integer>>();
-		Map<String, Map<Date, Integer>> horasR = new HashMap<String, Map<Date, Integer>>();
 		int cont = 0;
 
-	
 		Map<Integer, ActivitySheet> objTestAct = new HashMap<Integer, ActivitySheet>();
 		Map<Resource, Map<Integer, ActivitySheet>> objTestHR = new HashMap<Resource, Map<Integer, ActivitySheet>>();
 		Map<Resource, Map<Integer, ActivitySheet>> objTestHorasR = new HashMap<Resource, Map<Integer, ActivitySheet>>();
@@ -75,10 +68,7 @@ public class PlanningResource {
 		List<PlanningView> allEntries = this.planningDao.findAll();
 		System.out.println(allEntries);
 		
-		
-		
 		for(PlanningView pv : allEntries){
-		//	Resource r = new Resource();
 			objTestHR.put(new Resource(pv.getResource().toString()), null);
 		}
 		
@@ -91,8 +81,8 @@ public class PlanningResource {
 				}
 				cont++;
 			}
-			objTestHorasR.put(new Resource (entry.getKey().getResource()), objTestAct);
-		}
+			objTestHorasR.put(new Resource (entry.getKey().getResource()), objTestAct); //Contém um Map com os registros de atividades agrupados pela chave (objeto Resource)
+		}																				//Kendo não acessa dados desse tipo de resposta
 		return viewWriter.writeValueAsString(allEntries);
 	}
 

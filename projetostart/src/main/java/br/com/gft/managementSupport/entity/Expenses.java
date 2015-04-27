@@ -21,7 +21,7 @@ public class Expenses implements Serializable {
 	private Long idExpenses;
 	
 	@Column (name = "id_resource")
-	private int idResource;
+	private String idResource;
 	
 	@Column
 	private String legalEntity;
@@ -51,17 +51,15 @@ public class Expenses implements Serializable {
 		this.idExpenses = idExpenses;
 	}
 
-	public int getIdResource() {
+	public String getIdResource() {
 		return idResource;
 	}
 
 
-	public void setIdResource(int idResource) {
+	public void setIdResource(String idResource) {
 		this.idResource = idResource;
 	}
 
-
- 
 
 	public String getLegalEntity() {
 		return legalEntity;

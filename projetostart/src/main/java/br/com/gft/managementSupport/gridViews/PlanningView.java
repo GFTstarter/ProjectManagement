@@ -19,8 +19,7 @@ public class PlanningView  implements Serializable{
 	private String concept;
 	private Date date;
 	private Integer hours;
-	private Map<Date, Integer> activity;
-	private Map<String, Map<Date, Integer>> horasResource;
+	
 	
 	
 	
@@ -41,22 +40,6 @@ public class PlanningView  implements Serializable{
 
 		public void setIdActivity(Long idActivity) {
 			this.idActivity = idActivity;
-		}
-
-		public Map<Date, Integer> getActivity() {
-			return activity;
-		}
-
-		public void setActivity(Map<Date, Integer> activity) {
-			this.activity = activity;
-		}
-
-		public Map<String, Map<Date, Integer>> getHorasResource() {
-			return horasResource;
-		}
-
-		public void setHorasResource(Map<String, Map<Date, Integer>> horasResource) {
-			this.horasResource = horasResource;
 		}
 
 		public Long getIdResource() {

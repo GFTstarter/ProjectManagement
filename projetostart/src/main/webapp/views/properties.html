@@ -9,7 +9,10 @@
 
 <div class="row-fluid" ng-controller="PropertiesController">	
 	<fieldset>
-		<legend>Properties...</legend>
+	<legend>
+		<button id="seegridex" class="btn btn-primary pull-right " kendo-tooltip k-content="'See list of expenses'" k-position="'top'">See Expenses <i class="icon-eye-open icon-white"></i></button>
+		Properties...
+	</legend>
 		
 	    <ul kendo-panel-bar k-options="panelBarOptions" style="display: inline-block; min-width: 250px;"
 	        k-on-select="onSelect(kendoEvent)">	        
@@ -26,6 +29,18 @@
 			    Profile
 		 	</li>	
         </ul>
+        
+        <div id="AgridExpenses" kendo-grid k-data-source="gridExpenses" k-selectable="'inline'"
+			 k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
+	  		 k-filterable="true" k-sortable="true" k-resizable = "true" k-editable = "'incell'"
+           	 class="gridProperties hidden" k-toolbar="['save','cancel']"
+           	 k-columns= '[{ field: "idResource", title: "RESOURCE"},
+		    			  { field: "legalEntity", title: "LEGAL ENTITY"},
+		    			  { field: "beginExpensesDate", title: "START DATE"},
+		    			  { field: "endExpensesDate", title: "END DATE"},
+		    			  { field: "costRate", format: "{0:c}", title: "COST"},
+		    			  { field: "description", title: "DESCRIPTION"}]'>
+		</div>
 			
    		<div id="gridProjects" kendo-grid k-data-source="gridProjects" k-selectable="'inline'"
 			 k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
@@ -70,11 +85,6 @@
 			
 		<div kendo-window="addExpenses" k-title="'Add Expenses'" k-visible="false" k-content="{ url: 'views/addExpenses.html' }" k-modal="'true'"></div>
 			
-
-			
-			
-			
-					
 		<div id="gridCalendar" kendo-grid k-data-source="gridCalendar" 
       		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 		  	 k-filterable="true" k-editable="'incell'" k-sortable="true"
@@ -106,11 +116,46 @@
 
 
 function PropertiesController ($scope, $location) {
+	
+	$("#seegridex").click(function(){
+	    $("#AgridExpenses").toggleClass('hidden');
+	});
 
 	$scope.onSelect = function(e) {  
     	
 		var id = $(e.item).attr('id');
-	    	
+		
+		$scope.gridExpenses = new kendo.data.DataSource({ 
+			autoSync: true, 
+			batch: false,
+       		page: 1,
+    		pageSize: 10,
+			transport: {
+				read: {
+					url: "rest/expenses",
+					contentType: "application/json; charset=utf-8",
+					dataType: "json"
+				}, 	
+				 	           
+				update: {
+					url: "rest/expenses",
+					contentType: "application/json; charset=utf-8",
+					type: "PUT",
+					dataType: "json"
+				},
+			},
+			schema: {
+				model: {
+					id: "idExpenses",
+					fields: {
+						idResource: {editable: false},
+						legalEntity: {editable: false}
+					}
+				}
+			},
+			
+   		});
+	    
 		if (id == 'project') {
 			
 			$("#gridProjects").css("display", "");
