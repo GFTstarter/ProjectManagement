@@ -3,12 +3,7 @@ package br.com.gft.managementSupport.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -27,9 +22,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import br.com.gft.managementSupport.JsonViews;
-import br.com.gft.managementSupport.dao.BaselineDao;
-import br.com.gft.managementSupport.dao.ConceptDao;
-import br.com.gft.managementSupport.entity.ConceptByLegalEntity;
 import br.com.gft.managementSupport.gridViews.DashboardView;
 import br.com.gft.managementSupport.rowMapper.DashboardDao;
 
@@ -38,12 +30,9 @@ import br.com.gft.managementSupport.rowMapper.DashboardDao;
 public class DashboardResource {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	@Autowired
-	private DashboardDao dashboardDao;
 	
 	@Autowired
-	private BaselineDao baselineDao;
+	private DashboardDao dashboardDao;
 	
 	@Autowired
 	private ObjectMapper mapper;

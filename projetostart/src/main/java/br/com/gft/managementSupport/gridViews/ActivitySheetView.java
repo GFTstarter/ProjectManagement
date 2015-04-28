@@ -7,6 +7,7 @@ public class ActivitySheetView implements Serializable{
 
 	private Integer hours;
 	private Integer month;
+	private Integer year;
 	
 	public Integer getHours() {
 		return hours;
@@ -19,6 +20,12 @@ public class ActivitySheetView implements Serializable{
 	}
 	public void setMonth(Integer month) {
 		this.month = month;
+	}
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 
 }

@@ -108,7 +108,7 @@ public class ActivitySheetDaoJpa extends JdbcDaoSupport implements ActivitySheet
 
 	@Override
 	public List<ActivitySheetView> getHours() {
-		String sql = "select sum(hours) as hours, month from activity_sheet group by month";
+		String sql = "select sum(hours) as hours, month, year from activity_sheet group by month, year order by month";
 		
 		List<ActivitySheetView> activitysheet = getJdbcTemplate().query(sql, new ActivitySheetParameterizedRowMapper());
 		

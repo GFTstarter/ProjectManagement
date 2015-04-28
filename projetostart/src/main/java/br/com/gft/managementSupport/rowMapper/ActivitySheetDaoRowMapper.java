@@ -66,7 +66,7 @@ public class ActivitySheetDaoRowMapper  extends JdbcDaoSupport implements Activi
 	@Transactional(readOnly = true)
 	public List<ActivitySheetView> getHours(){
 		
-		String sql = "select sum(hours) as hours, month from activity_sheet group by month";
+		String sql = "select sum(hours) as hours, month from activity_sheet group by month, year order by month";
 		
 		List<ActivitySheetView> activitysheet = getJdbcTemplate().query(sql, new ActivitySheetParameterizedRowMapper());
 		

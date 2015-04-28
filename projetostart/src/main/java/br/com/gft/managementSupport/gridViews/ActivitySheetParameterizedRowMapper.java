@@ -13,6 +13,7 @@ public class ActivitySheetParameterizedRowMapper implements ParameterizedRowMapp
 		
 		activitySheet.setHours(rs.getInt("hours"));
 		activitySheet.setMonth(rs.getInt("month"));
+		activitySheet.setYear(rs.getInt("year"));
 
 		return activitySheet;
 
