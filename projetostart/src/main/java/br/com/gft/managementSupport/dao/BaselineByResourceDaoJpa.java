@@ -10,9 +10,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gft.managementSupport.entity.BaselineByResource;
+import br.com.gft.managementSupport.entity.Resource;
 
 public class BaselineByResourceDaoJpa implements BaselineByResourceDao{
 
@@ -54,16 +56,18 @@ public class BaselineByResourceDaoJpa implements BaselineByResourceDao{
 	
 	@Override
 	@Transactional
-	public BaselineByResource findByBaselineByResourceCode(String baselinebyresourceCode) {
+	public BaselineByResource findByBaselineByResourceCode(Long baselinebyresourceCode) {
+		
+	//	Resource res = this.getEntityManager().find(Resource.class, baselinebyresourceCode);
 		
 		final CriteriaBuilder builder = this.getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<BaselineByResource> criteriaQuery = builder.createQuery(BaselineByResource.class);
 
 		Root<BaselineByResource> root = criteriaQuery.from(BaselineByResource.class);
 		
-		criteriaQuery.where(builder.equal(root.get("baselinebyresourceCode"), builder.parameter(String.class, "baselinebyresourceCode")));
+		criteriaQuery.where(builder.equal(root.get("resource"), builder.parameter(Integer.class, "idBaselineResource")));
 		TypedQuery<BaselineByResource> q = entityManager.createQuery(criteriaQuery);
-		q.setParameter("baselinebyresourceCode", baselinebyresourceCode);
+		q.setParameter("idBaselineResource", baselinebyresourceCode);
 		
 		try {
 			return (BaselineByResource) q.getSingleResult();
@@ -82,7 +86,7 @@ public class BaselineByResourceDaoJpa implements BaselineByResourceDao{
 */
 
 	@Override
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	public BaselineByResource save(BaselineByResource obj) {
 		return this.getEntityManager().merge(obj);
 	}

@@ -8,7 +8,7 @@ public interface BaselineByResourceDao {
 
 	List<BaselineByResource> findAll();
 	BaselineByResource find(Long id);
-	BaselineByResource findByBaselineByResourceCode(String baselineCode);
+	BaselineByResource findByBaselineByResourceCode(Long baselineByResourceCode);
 	BaselineByResource save(BaselineByResource obj);
 	void delete(Long id);
 }

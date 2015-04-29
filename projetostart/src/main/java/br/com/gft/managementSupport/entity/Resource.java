@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -66,6 +67,11 @@ public class Resource implements Serializable{
 	/*@JsonIgnore
 	@OneToMany(mappedBy = "resource")		//FK TIRADA POIS DADOS SAO INSERIDOS ATRAVEZ DE COMBO BOX, EVITANDO ERROS DE INSERÇÃO
     private List<AbsenceByResource> absence;*/
+	
+	
+	//AMANDA 29/04/2015
+	@OneToMany(mappedBy = "resource")
+	private List<BaselineByResource> baselineByResource;
 	
 	
 	public Resource() {
@@ -134,6 +140,14 @@ public class Resource implements Serializable{
 	}
 
 	
+
+	public List<BaselineByResource> getBaselineByResource() {
+		return baselineByResource;
+	}
+
+	public void setBaselineByResource(List<BaselineByResource> baselineByResource) {
+		this.baselineByResource = baselineByResource;
+	}
 
 	@Override
 	public int hashCode() {

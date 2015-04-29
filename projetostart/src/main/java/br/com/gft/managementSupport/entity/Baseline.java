@@ -55,21 +55,26 @@ public class Baseline implements Serializable{
 	private List<Location> locations;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-	@JoinTable(name="baseline_resources", joinColumns=@JoinColumn(name="id_baseline"), inverseJoinColumns=@JoinColumn(name="id_resources"))
+	@JoinTable(name="baseline_resources", joinColumns=@JoinColumn(name="id_baseline"), inverseJoinColumns=@JoinColumn(name="id_resource"))
 	private List<Resource> resources;
 	
+	//AMANDA 29/04/2015
+/*	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinTable(name="baseline_baselineByResource", joinColumns=@JoinColumn(name="id_baseline"), inverseJoinColumns=@JoinColumn(name="id_baseline_resource"))
+	private List<BaselineByResource> baselineByResource;*/
+	
 	@OneToMany(mappedBy = "baseline")
-    private List<BaselineByResource> resource;   //ADICIONADO CONTROLE DE DATA E/S PROJETO
+    private List<BaselineByResource> baselineByResource;   //ADICIONADO CONTROLE DE DATA E/S PROJETO
 	
 	
 	
 
 	public List<BaselineByResource> getResource() {
-		return resource;
+		return baselineByResource;
 	}
 
 	public void setResource(List<BaselineByResource> resource) {
-		this.resource = resource;
+		this.baselineByResource = resource;
 	}
 
 	public Long getIdBaseline() {
@@ -160,6 +165,14 @@ public class Baseline implements Serializable{
 		this.resources = resources;
 	}
 
+	public List<BaselineByResource> getBaselineByResource() {
+		return baselineByResource;
+	}
+
+	public void setBaselineByResource(List<BaselineByResource> baselineByResource) {
+		this.baselineByResource = baselineByResource;
+	}
+
 	@Override
 	public String toString() {
 		return "Baseline [idBaseline=" + idBaseline + ", project=" + project
@@ -168,5 +181,7 @@ public class Baseline implements Serializable{
 				+ actualCost + ", eac=" + eac + ", eacCost=" + eacCost
 				+ ", locations=" + locations + ", resources=" + resources + "]";
 	}
+
+
 		
 }

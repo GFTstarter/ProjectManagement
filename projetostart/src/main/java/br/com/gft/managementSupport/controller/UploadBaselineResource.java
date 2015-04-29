@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.gft.managementSupport.dao.BaselineByResourceDao;
 import br.com.gft.managementSupport.dao.BaselineDao;
 import br.com.gft.managementSupport.dao.ConceptByLegalEntityDao;
 import br.com.gft.managementSupport.dao.ConceptDao;
@@ -27,6 +28,7 @@ import br.com.gft.managementSupport.dao.LocationDao;
 import br.com.gft.managementSupport.dao.ProjectDao;
 import br.com.gft.managementSupport.dao.ResourceDao;
 import br.com.gft.managementSupport.entity.Baseline;
+import br.com.gft.managementSupport.entity.BaselineByResource;
 import br.com.gft.managementSupport.entity.Concept;
 import br.com.gft.managementSupport.entity.ConceptByLegalEntity;
 import br.com.gft.managementSupport.entity.LegalEntity;
@@ -44,6 +46,10 @@ public class UploadBaselineResource {
 	
 	@Autowired
 	private BaselineDao baselineDao;
+	
+	//AMANDA 28/04/2015
+	@Autowired
+	private BaselineByResourceDao baselineByResourceDao;
 	
 	@Autowired
 	private ProjectDao projectDao;
@@ -64,6 +70,8 @@ public class UploadBaselineResource {
 	private ConceptByLegalEntityDao conceptByLegalEntityDao;
 		
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	private Long baselineByResourceCode;//AMANDA 29/04/2015
 	
 		
 	@POST
@@ -123,6 +131,13 @@ public class UploadBaselineResource {
 					Concept objConcept = conceptDao.findByConceptName(conceptName);
 					Location objLocation = locationDao.findByLocationName(locationName);
 					Resource objResource = resourceDao.findByResourceName(resourceName);
+					BaselineByResource objBaselineByResource = baselineByResourceDao.findByBaselineByResourceCode(baselineByResourceCode); //AMANDA 29/04/2015
+
+					Baseline objBaseline = new Baseline();					
+					List<Baseline> baselineList = new ArrayList<Baseline>();
+					List<Location> locationList = new ArrayList<Location>();
+					List<Resource> resourceList = new ArrayList<Resource>();
+					List<BaselineByResource> baselineByResourceList = new ArrayList<BaselineByResource>(); //AMANDA
 
 					if (objProject == null) {
 						return "0|Project not found!";
@@ -133,25 +148,6 @@ public class UploadBaselineResource {
 					} else if (objLocation == null) {
 						return "0|Location not found!";
 					}					
-					
-					if (objResource == null) {
-						
-						Resource objInsertResource = new Resource();
-						objInsertResource.setResource(resourceName);
-						objInsertResource.setConcept(objConcept);
-						objInsertResource.setLocation(objLocation);
-						resourceDao.save(objInsertResource);
-
-					} else if (objResource.getConcept().getIdConcept() != objConcept.getIdConcept() ||
-							   objResource.getLocation().getIdLocation() != objLocation.getIdLocation()) {								
-								return "0|Resource concept or location invalid!";
-					} 
-					
-					
-					Baseline objBaseline = new Baseline();					
-					List<Baseline> baselineList = new ArrayList<Baseline>();
-					List<Location> locationList = new ArrayList<Location>();
-					List<Resource> resourceList = new ArrayList<Resource>();
 					
 					
 					objBaseline.setProject(objProject);
@@ -168,10 +164,38 @@ public class UploadBaselineResource {
 					locationList.add(objLocation);
 					resourceList.add(objResource);
 					
+					baselineByResourceList.add(objBaselineByResource);//AMANDA 29/04/2015
+					
+					if (objResource == null) {
+						Resource objInsertResource = new Resource();
+						
+						objInsertResource.setResource(resourceName);
+						objInsertResource.setConcept(objConcept);
+						objInsertResource.setLocation(objLocation);
+						objInsertResource.setBaselineByResource(baselineByResourceList);
+						
+						resourceDao.save(objInsertResource);
+					} else if (objResource.getConcept().getIdConcept() != objConcept.getIdConcept() ||
+							   objResource.getLocation().getIdLocation() != objLocation.getIdLocation()) {								
+								return "0|Resource concept or location invalid!";
+					} 
+					
 					objBaseline.setLocations(locationList);
 					objBaseline.setResources(resourceList);
+					objBaseline.setBaselineByResource(baselineByResourceList); //AMANDA 29/04/2015
 					
 					baselineDao.save(objBaseline);
+					
+					
+					
+					
+					
+					BaselineByResource baselineByResource = new BaselineByResource();
+					
+					baselineByResource.setBaseline(baselineDao.findAll().get(baselineDao.findAll().size() - 1));
+					baselineByResource.setResource(resourceDao.findAll().get(resourceDao.findAll().size() - 1));
+					
+					baselineByResourceDao.save(baselineByResource);
 					
 					
 					ConceptByLegalEntity objConceptByLegEnt = conceptByLegalEntityDao.findByConcept(objConcept, objLegalEntity);

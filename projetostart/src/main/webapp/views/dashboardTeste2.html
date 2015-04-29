@@ -48,7 +48,7 @@ var dataSource = new kendo.data.DataSource({
 	$.get("rest/activitySheet", { }, function(response){
 		
 		for (i = 0; i < response.length; i++){
-			eixox[i] = nomeMeses(response[i].month-1);
+			eixox[i] = nomeMeses(response[i].month-1) + "/" + (response[i].year + "").substr(2, 2);
 			eixoy[i] = response[i].hours;
 		}
 		

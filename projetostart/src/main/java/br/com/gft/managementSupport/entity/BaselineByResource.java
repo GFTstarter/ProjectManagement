@@ -33,11 +33,11 @@ public class BaselineByResource implements Serializable {
     @JoinColumn(name="id_resource")
     private Resource resource;
         
-    @Column (name = "dt_beginOnProject", nullable = false)
+    @Column (name = "dt_beginOnProject", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date beginOnProjectDate;
         
-    @Column (name = "dt_endOnProject", nullable = false)
+    @Column (name = "dt_endOnProject", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date endOnProjectDate;
 
