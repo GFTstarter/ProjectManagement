@@ -2,8 +2,8 @@
 	.gridProperties {
 		width: 850px;
 		float:right;
-		clear:both;
-		
+		clear:right;
+		margin: 0 0 30px;
 	}
 </style>
 
@@ -14,9 +14,8 @@
 		Properties...
 	</legend>
 		
-	    <ul kendo-panel-bar k-options="panelBarOptions" style="display: inline-block; min-width: 250px;"
-	        k-on-select="onSelect(kendoEvent)">	        
-          	<li id="project">
+	    <ul kendo-panel-bar k-options="panelBarOptions" style="display: inline-block; min-width: 250px; float: left;" k-on-select="onSelect(kendoEvent)">	        
+          	<li id="project" >
 			    <span class="k-link k-state-selected">Project</span>
 		 	</li>
 			<li id="people">
@@ -33,13 +32,15 @@
         <div id="AgridExpenses" kendo-grid k-data-source="gridExpenses" k-selectable="'inline'"
 			 k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 	  		 k-filterable="true" k-sortable="true" k-resizable = "true" k-editable = "'incell'"
-           	 class="gridProperties hidden" k-toolbar="['save','cancel']"
+           	 class="gridProperties" k-toolbar="['save','cancel']"  k-on-select="onSelect(kendoEvent)"
            	 k-columns= '[{ field: "idResource", title: "RESOURCE"},
 		    			  { field: "legalEntity", title: "LEGAL ENTITY"},
 		    			  { field: "beginExpensesDate", title: "START DATE"},
 		    			  { field: "endExpensesDate", title: "END DATE"},
 		    			  { field: "costRate", format: "{0:c}", title: "COST"},
-		    			  { field: "description", title: "DESCRIPTION"}]'>
+		    			  { field: "description", title: "DESCRIPTION"},
+		    			    { command: ["destroy"], title: "&nbsp;", width: "100px" }]'
+		    style="display:none;">
 		</div>
 			
    		<div id="gridProjects" kendo-grid k-data-source="gridProjects" k-selectable="'inline'"
@@ -74,11 +75,8 @@
 					"width": "60px",
 					"template": "<button class=\"btn\" ng-click=\"addExpenses.open().center()\" kendo-tooltip k-content=\"Click here to add a new expenses!\" k-position=\"top\"><i class=\"icon-edit\"></i></button>"
 				}]'
-				
+			style="display:none;">
 			
-				
-				
-		style="display:none;">
 		</div>
 
 		<div kendo-window="addAbsence" k-title="'Add Absence'" k-visible="false" k-content="{ url: 'views/addAbsence.html' }" k-modal="'true'"></div>
@@ -87,7 +85,7 @@
 			
 		<div id="gridCalendar" kendo-grid k-data-source="gridCalendar" 
       		 k-selectable="'row'" k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
-		  	 k-filterable="true" k-editable="'incell'" k-sortable="true"
+		  	 k-filterable="true" k-editable="'incell'" k-sortable="true" k-on-change="change()"
              k-resizable = "true" class="gridProperties" k-toolbar="['save','cancel']"           	            
 		  	 k-columns='[{ "field": "description", "title": "DESCRIPTION"},
 			    		 { "field": "date", "title": "DATE"},
@@ -114,48 +112,96 @@
 
 <script>
 
+var carregaProjects = function($scope) {
+	$scope.gridProjects = new kendo.data.DataSource({ 
+		autoSync: true, 
+		batch: false,
+   		page: 1,
+		pageSize: 10,
+		transport: {
+			read: {
+				url: "rest/project",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json"
+			}, 	
+			 	           
+			update: {
+				url: "rest/project",
+				contentType: "application/json; charset=utf-8",
+				type: "PUT",
+				dataType: "json"
+			},
+		},
+		   	 
+		schema: {
+			model: {
+				id: "idProject",
+				fields: {
+					projectCode: {editable: false},
+					name: {editable: false},
+					startDate: {editable: false}
+				}
+			}
+		},
+		
+	});
+}
 
 function PropertiesController ($scope, $location) {
 	
 	$("#seegridex").click(function(){
-	    $("#AgridExpenses").toggleClass('hidden');
+	    $("#AgridExpenses").slideToggle(500);
 	});
+	
+	 $scope.change = function(e){
+		 var item = e.sender.dataItem(e.sender.select());  //METODOS DO KENDO QUE ACESSAO OS DADOS DA LINHA SELECIONADA
+		 console.log(item.idActivity);
+	 }
 
+	carregaProjects($scope);
+	
+	$scope.gridExpenses = new kendo.data.DataSource({ 
+		autoSync: true, 
+		batch: false,
+   		page: 1,
+		pageSize: 10,
+		transport: {
+			read: {
+				url: "rest/expenses",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json"
+			}, 	
+			 	           
+			update: {
+				url: "rest/expenses",
+				contentType: "application/json; charset=utf-8",
+				type: "PUT",
+				dataType: "json"
+			},
+			destroy:{
+	       		url: "rest/expenses",
+	           dataType: "json",
+	           type: "DELETE"
+	       	}
+		},
+		schema: {
+			model: {
+				id: "idExpenses",
+				fields: {
+					idResource: {editable: false},
+					legalEntity: {editable: false}
+				}
+			}
+		},
+		
+		});
+	
+	
 	$scope.onSelect = function(e) {  
     	
 		var id = $(e.item).attr('id');
+		console.log("AQUI")
 		
-		$scope.gridExpenses = new kendo.data.DataSource({ 
-			autoSync: true, 
-			batch: false,
-       		page: 1,
-    		pageSize: 10,
-			transport: {
-				read: {
-					url: "rest/expenses",
-					contentType: "application/json; charset=utf-8",
-					dataType: "json"
-				}, 	
-				 	           
-				update: {
-					url: "rest/expenses",
-					contentType: "application/json; charset=utf-8",
-					type: "PUT",
-					dataType: "json"
-				},
-			},
-			schema: {
-				model: {
-					id: "idExpenses",
-					fields: {
-						idResource: {editable: false},
-						legalEntity: {editable: false}
-					}
-				}
-			},
-			
-   		});
-	    
 		if (id == 'project') {
 			
 			$("#gridProjects").css("display", "");
@@ -163,38 +209,7 @@ function PropertiesController ($scope, $location) {
 			$("#gridCalendar").css("display", "none");
 			$("#gridProfile").css("display", "none");
 	    		
-    		$scope.gridProjects = new kendo.data.DataSource({ 
-    			autoSync: true, 
-    			batch: false,
-           		page: 1,
-        		pageSize: 10,
-				transport: {
-					read: {
-						url: "rest/project",
-						contentType: "application/json; charset=utf-8",
-						dataType: "json"
-					}, 	
-					 	           
-					update: {
-						url: "rest/project",
-						contentType: "application/json; charset=utf-8",
-						type: "PUT",
-						dataType: "json"
-					},
-				},
-      		   	 
-				schema: {
-					model: {
-						id: "idProject",
-						fields: {
-							projectCode: {editable: false},
-							name: {editable: false},
-							startDate: {editable: false}
-						}
-					}
-				},
-				
-       		});
+			carregaProjects($scope);
     	}
 	
     	if (id == 'people') {
@@ -323,5 +338,9 @@ function PropertiesController ($scope, $location) {
     	} 
     	    	
   	};
+
+	$('span', '#project').on('click', function(){
+		alert('click');
+	}).click();
 }
 </script>

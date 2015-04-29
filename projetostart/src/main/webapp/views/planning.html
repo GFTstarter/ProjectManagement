@@ -2,7 +2,7 @@
 <div id="example" ng-app="KendoDemos"  class="k-content">
     <div ng-controller="MyCtrl">
     
-	    <kendo-grid options="mainGridOptions" k-toolbar="['save','cancel']" >
+	    <kendo-grid options="mainGridOptions" k-toolbar="['save','cancel']"  >
 	    </kendo-grid>
 	    
 	 <span class="hidden">  <kendo-grid options="gridSimulation" k-toolbar="['save','cancel']" >
@@ -38,6 +38,7 @@ function MyCtrl ($scope, $location) {
 
 	 var columns = [];
 	 
+	 	 
 	 var date1 = new Date();
 	 var addDays1 = kendo.date.addDays;
 	 
@@ -58,7 +59,7 @@ function MyCtrl ($scope, $location) {
          title: "DATE",
          locked: true,
          lockable: false,
-         width: "150px"
+         width: "100px"
          }
      );
 	 
@@ -66,7 +67,7 @@ function MyCtrl ($scope, $location) {
     	columns.push({
             field: "hours",
             title: "" + kendo.toString(kendo.date.addDays(date1, i), "d"),
-            width: "100px"
+            width: "110px"
         });	    
     }
 	
@@ -85,7 +86,12 @@ function MyCtrl ($scope, $location) {
 	     	   contentType: "application/json; charset=utf-8",
 	           dataType: "json",
 	           type: "PUT"
-	        }
+	        },
+	       	destroy:{
+	       		url: "rest/planning",
+	           dataType: "json",
+	           type: "DELETE"
+	       	}
 		},
 	/*	group: { 
 			field: "resource"
@@ -105,28 +111,23 @@ function MyCtrl ($scope, $location) {
 		      console.log(response);
 		      return response;
 	    	},*/
-		    model: {id: "idActivitySheet"},
+		    model: {id: "idActivity"},
 	   	 	type: "json"
 		},
 		 page: 1,
 		 pageSize: 10
-    });
-   
-   /*	dataSource.fetch(function(){
-	   var data = this.data();
-	   console.log(data.length);
-	});
-   
-   	var observable = new kendo.data.ObservableObject(data);
-	var json = observable.toJSON();
-	
-	//console.log(JSON.stringify(json));*/
+    }); 
     
 	$scope.mainGridOptions = {
 		dataSource: dataSource,
 		sortable: true,
 		editable: true,
 		resizable: true,
+		selectable: true,
+		change: function(e){          //ATRIBUTO CHANGE: EXECUTA QUANDO UMA LINHA DO GRID É SELECIONADA
+			var item = e.sender.dataItem(e.sender.select());  //METODOS DO KENDO QUE ACESSAO OS DADOS DA LINHA SELECIONADA
+			console.log(item.idActivity);
+		},	
 		scrollable: {
 	        virtual: true
 	    },
@@ -154,7 +155,7 @@ function MyCtrl ($scope, $location) {
 	        }
 		},
 		schema: {
-		    model: {id: "idActivitySheet"},
+		    model: {id: "idActivity"},
 	   	 	type: "json"
 		},
 		 page: 1,
