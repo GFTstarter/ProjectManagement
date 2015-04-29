@@ -32,6 +32,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import br.com.gft.managementSupport.JsonViews;
+import br.com.gft.managementSupport.dao.ActivitySheetDao;
 import br.com.gft.managementSupport.dao.BaselineByResourceDao;
 import br.com.gft.managementSupport.entity.ActivitySheet;
 import br.com.gft.managementSupport.entity.BaselineByResource;
@@ -47,6 +48,9 @@ public class PlanningResource {
 	
 	@Autowired
 	private PlanningDao planningDao;
+	
+	@Autowired
+	private ActivitySheetDao activitySheetDao;
 	
 	@Autowired
 	private ObjectMapper mapper;
@@ -128,14 +132,14 @@ public class PlanningResource {
 //	}
 //
 //
-//	@DELETE
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public void delete(@FormParam("idBaselineResource") Long id) {
-//
-//		this.logger.info("deleteEntry(id)");
-//
-//		this.baselineByResourceDao.delete(id);
-//	}
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(@FormParam("idActivitySheet") Long idActivitySheet) {
+
+		this.logger.info("deleteEntry(id)");
+
+		this.activitySheetDao.delete(idActivitySheet);
+	}
 	
 	
 	private boolean isAdmin() {

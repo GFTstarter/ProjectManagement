@@ -140,9 +140,5 @@ public class CalendarResource {
 		this.logger.info("update(): " + update);
 		return this.holidayDao.save(update);
 				
-		
-		
 	}
-	
-	
 }
