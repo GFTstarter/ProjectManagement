@@ -5,7 +5,9 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class DashboardView implements Serializable {
 
-	private Long idBaseline;
+	//private Long idBaseline;
+	private Long idConcept;
+	private String concept;
 	private Double costRate;
 	private Integer blpHours;
 	private Double blptotalcost;
@@ -15,7 +17,9 @@ public class DashboardView implements Serializable {
 		
 	public DashboardView (){}
 	
-	public DashboardView ( Long idBaseline,
+	public DashboardView (// Long idBaseline,
+						   Long idConcept,
+						   String concept,
 						   Double costRate,
 						   Integer blpHours,
 						   Double blptotalcost,
@@ -23,7 +27,9 @@ public class DashboardView implements Serializable {
 						   Double eacCost,
 						   Double costdiff){
 		
-		this.idBaseline = idBaseline;
+		//this.idBaseline = idBaseline;
+		this.idConcept = idConcept;
+		this.concept = concept;
 		this.costRate = costRate;
 		this.blpHours = blpHours;
 		this.blptotalcost = blptotalcost;
@@ -31,13 +37,29 @@ public class DashboardView implements Serializable {
 		this.eacCost = eacCost;
 		this.costdiff = costdiff;
 	}
-
+/*
 	public Long getIdBaseline() {
 		return idBaseline;
 	}
 
 	public void setIdBaseline(Long idBaseline) {
 		this.idBaseline = idBaseline;
+	}*/
+
+	public Long getIdConcept() {
+		return idConcept;
+	}
+
+	public void setIdConcept(Long idConcept) {
+		this.idConcept = idConcept;
+	}
+
+	public String getConcept() {
+		return concept;
+	}
+
+	public void setConcept(String concept) {
+		this.concept = concept;
 	}
 
 	public Double getCostRate() {

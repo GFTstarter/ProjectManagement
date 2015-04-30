@@ -61,16 +61,33 @@ public class DashboardDaoRowMapper  extends JdbcDaoSupport implements DashboardD
 		this.getEntityManager().remove(obj);
 	}
 	
-	
+	//AMANDA 30/04/2015
 	public List<DashboardView> findAll(){
 		
-		String sql = "SELECT * FROM VW_DASHBOARD";
+		String sql = "SELECT * FROM VW_DASHBOARD order by id_concept";
 		
 		List<DashboardView> dashboards = getJdbcTemplate().query(sql, new DashboardParameterizedRowMapper());
 		
 		return dashboards;
 	}
 	
+	
+	
+	/*//AMANDA 30/04/215
+	public List<DashboardView> findAll(){
+		
+		String sql = "select c.id_concept, c.concept, sum(b.actual_cost) as actual_cost , sum(b.actual_hours)," +
+					" ((sum(b.blp_hours)) * (sum(b.cost_rate))) as blptotalcost, sum(b.eac), sum(b.eac_cost)" +
+					" from baseline b JOIN baseline_resources bs ON b.id_baseline = bs.id_baseline" +
+					" JOIN resource r ON bs.id_resource = r.id_resource"+
+					" JOIN concept c ON r.id_concept = c.id_concept" +
+					" group by c.id_concept";
+		
+		List<DashboardView> dashboards = getJdbcTemplate().query(sql, new DashboardParameterizedRowMapper());
+		
+		return dashboards;
+	}*/
+
 	
 	public int findTotalDashboard(){
 		

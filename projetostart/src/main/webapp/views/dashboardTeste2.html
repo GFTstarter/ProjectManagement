@@ -16,7 +16,7 @@
 		k-pageable='{ "pageSize": 10, "refresh": true, "pageSizes": [5,10,20]}'
 		k-filterable="true" k-editable="'incell'" k-sortable="true"
 		k-resizable="true" class="gridDashboards"
-	    k-columns='[	  { field: "idBaseline", title: "ID Baseline", width: 85},
+	    k-columns='[	  { field: "concept", title: "Concept", width: 110},
 		    			  { field: "costRate", format: "{0:c}",title: "Cost Rate", width: 85},
 		    			  { field: "blpHours", title: "BLP Hours", width: 85},
 		    			  { field: "blptotalcost", format: "{0:c}", title: "BLP Total Cost", width: 100},
@@ -24,6 +24,8 @@
 		    			  { field: "eacCost", format: "{0:c}", title: "EAC Cost", width: 85},
 		    			  { field: "costdiff - blptotalcost", format: "{0:c}", title: "Cost Diff", width: 85}]'></div>
 <script>
+
+<!--  -->
 
 //SCRIPT DO CHART
 var dataSource = new kendo.data.DataSource({
