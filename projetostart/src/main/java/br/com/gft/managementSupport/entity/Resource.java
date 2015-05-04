@@ -61,7 +61,7 @@ public class Resource implements Serializable{
 	private List<ActivitySheet> activitySheets;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "resource")
+	@OneToMany(mappedBy = "baseline")
     private List<BaselineByResource> baselines; //ADICIONADO CONTROLE DE DATA E/S PROJETO
 
 	/*@JsonIgnore
@@ -70,6 +70,7 @@ public class Resource implements Serializable{
 	
 	
 	//AMANDA 29/04/2015
+	@JsonIgnore
 	@OneToMany(mappedBy = "resource")
 	private List<BaselineByResource> baselineByResource;
 	
